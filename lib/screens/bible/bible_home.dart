@@ -49,7 +49,7 @@ class BibleHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BibleReaderPage()),
+                              builder: (context) => BibleReaderPage()),
                         );
                       },
                     ),
@@ -59,7 +59,7 @@ class BibleHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BibleReaderPage()),
+                              builder: (context) => BibleReaderPage()),
                         );
                       },
                     ),
@@ -69,7 +69,7 @@ class BibleHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const BibleReaderPage()),
+                              builder: (context) => BibleReaderPage()),
                         );
                       },
                     ),
