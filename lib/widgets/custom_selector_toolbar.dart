@@ -1,45 +1,11 @@
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-
-// class CustomTextSelectionControls extends MaterialTextSelectionControls {
-//   @override
-//   Widget buildToolbar(
-//     BuildContext context,
-//     Rect globalEditableRegion,
-//     double textLineHeight,
-//     Offset selectionMidpoint,
-//     List<TextSelectionPoint> endpoints,
-//     TextSelectionDelegate delegate,
-//     ValueListenable<ClipboardStatus>? clipboardStatus,
-//     Offset? lastSecondaryTapDownPosition,
-//   ) {
-//     // Define the custom toolbar button
-//     final toolbarItems = [
-//       TextSelectionToolbarTextButton(
-//         onPressed: () {
-//           // Custom action for "Add to Fav"
-//           print("Added to Favorites");
-//           delegate.hideToolbar(); // Hide the toolbar after the action
-//         },
-//         padding: const EdgeInsets.all(8.0), // Add padding here
-
-//         child: const Text('Add to Fav'),
-//       ),
-//     ];
-
-//     // Return the custom toolbar with required padding
-//     return TextSelectionToolbar(
-//       anchorAbove: selectionMidpoint,
-//       anchorBelow: selectionMidpoint,
-//       children: toolbarItems,
-//     );
-//   }
-// }
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextSelectionControls extends MaterialTextSelectionControls {
+  final Function(String, String) onAddToFavorite;
+
+  CustomTextSelectionControls({required this.onAddToFavorite});
+
   @override
   Widget buildToolbar(
     BuildContext context,
@@ -65,7 +31,13 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
       TextSelectionToolbarTextButton(
         onPressed: () {
           // Custom action for "Add to Fav"
-          print("Added to Favorites");
+
+          String id = DateTime.now().millisecondsSinceEpoch.toString();
+          String title = "Chapter ${id.substring(id.length - 2)}";
+          onAddToFavorite(id, title);
+
+          print(title);
+
           delegate.hideToolbar(); // Hide the toolbar after the action
         },
         padding: const EdgeInsets.all(8.0), // Add padding here

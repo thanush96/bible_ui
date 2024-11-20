@@ -9,27 +9,28 @@ import '../widgets/custom_selector_toolbar.dart';
 final List<String> qualities = ['Low', 'Medium', 'High'];
 
 class BibleReaderPage extends StatefulWidget {
-  final CustomTextSelectionControls _customSelectionControls =
-      CustomTextSelectionControls();
-  BibleReaderPage({Key? key}) : super(key: key);
+  const BibleReaderPage({super.key});
 
   @override
   State<BibleReaderPage> createState() => _BibleReaderPageState();
 }
 
 class _BibleReaderPageState extends State<BibleReaderPage> {
+  List<Map<String, String>> chapters = [
+    {"id": "1", "title": "Chapter 1"},
+  ];
+
+  void addToFavorites(String id, String title) {
+    setState(() {
+      chapters.add({"id": id, "title": title}); // Add new content
+    });
+  }
+
   bool isPlaying = false;
   bool showVerses = false;
   bool isPlayerExpanded = false;
   double audioProgress = 0.3;
   String _currentSection = 'chapters';
-
-  void _changeSection(String section) {
-    print('Changing section to $section');
-    setState(() {
-      _currentSection = section;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,14 +113,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Text(
-                          //   '${mockChapter.chapterNumber}',
-                          //   style: TextStyle(
-                          //     fontSize: 120,
-                          //     fontWeight: FontWeight.bold,
-                          //     color: Colors.grey.withOpacity(0.3),
-                          //   ),
-                          // ),
                           const SizedBox(width: 20),
                           Expanded(
                             child: Column(
@@ -160,17 +153,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                   } else {
                                     return Padding(
                                       padding: const EdgeInsets.only(top: 20),
-                                      // child: SelectableText.rich(
-                                      //   TextSpan(text: "Hello World"),
-                                      //   selectionControls:
-                                      //       CustomTextSelectionControls(
-                                      //           customButton: (start, end) {
-                                      //     print(
-                                      //       "Hello World".substring(start, end),
-                                      //     );
-                                      //   }),
-                                      // ),
-
                                       child: SelectableText.rich(
                                         TextSpan(
                                           style: const TextStyle(
@@ -184,14 +166,19 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                               style: const TextStyle(
                                                   // fontWeight: FontWeight.bold,
                                                   color: Color.fromARGB(
-                                                      255, 0, 0, 0),
+                                                      255, 145, 3, 3),
                                                   fontFamily: 'Times'),
                                             ),
                                             TextSpan(text: verse.content),
                                           ],
                                         ),
                                         selectionControls:
-                                            CustomTextSelectionControls(),
+                                            CustomTextSelectionControls(
+                                          onAddToFavorite: (id, title) {
+                                            addToFavorites(id,
+                                                title); // Trigger add to favorite
+                                          },
+                                        ),
                                       ),
                                     );
                                   }
@@ -240,69 +227,53 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            isScrollControlled:
-                true, // Allows for more control over height and margin
-            backgroundColor:
-                Colors.transparent, // Makes the modal background transparent
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
             builder: (BuildContext context) {
-              return Container(
-                margin: const EdgeInsets.all(20), // Adds a 20px margin
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+              return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setModalState) {
+                  return Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AppBarIcons(
+                            onSectionChange: (String section) {
+                              print('Previous section: $_currentSection');
+                              print('New section: $section');
 
-                //  decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(20),
-                //   gradient: globalGradient,
-                // ),
-
-                // child: Padding(
-                //   padding: const EdgeInsets.all(16.0),
-                //   child: Column(
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: qualities.map((quality) {
-                //       return ListTile(
-                //         title: Text(quality),
-                //         onTap: () {
-                //           // print('Selected quality: $quality');
-                //           // Navigator.of(context).pop();
-                //         },
-                //       );
-                //     }).toList(),
-                //   ),
-                // ),
-
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Column(
-                    mainAxisSize:
-                        MainAxisSize.min, // Ensures Column takes minimum height
-                    children: [
-                      AppBarIcons(
-                        onSectionChange: (String section) {
-                          print('Previous section: $_currentSection');
-                          print('New section: $section');
-
-                          setState(() {
-                            _currentSection = section;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      Flexible(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height *
-                                0.3, // Limit height
+                              // Update the parent state and modal state
+                              setState(() {
+                                _currentSection = section;
+                              });
+                              setModalState(() {}); // Rebuild the modal content
+                            },
+                            currentSection: _currentSection,
                           ),
-                          child:
-                              ContentSection(currentSection: _currentSection),
-                        ),
+                          const SizedBox(height: 20),
+                          Flexible(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.27,
+                              ),
+                              child: ContentSection(
+                                chapters: chapters, // Pass the chapters list
+                                currentSection: _currentSection,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             },
           );
