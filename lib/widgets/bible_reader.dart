@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/bible_content.dart';
 import 'package:flutter_app/widgets/app_bar_icons.dart';
+import 'package:flutter_app/widgets/build_highlighted_text.dart';
 import 'package:flutter_app/widgets/content_section.dart';
 import '../widgets/reader_header.dart';
-import '../widgets/audio_player.dart';
 import '../widgets/custom_selector_toolbar.dart';
 
-final List<String> qualities = ['Low', 'Medium', 'High'];
+// New list to track highlighted verses
+List<String> highlightedVerses = [];
 
 class BibleReaderPage extends StatefulWidget {
   const BibleReaderPage({super.key});
@@ -21,9 +22,27 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
   ];
 
   void addToFavorites(String id, String title) {
+    print("addToFavorites--");
+
     setState(() {
       chapters.add({"id": id, "title": title}); // Add new content
     });
+  }
+
+  // Function to toggle highlight
+  void toggleHighlight(String verseNumber) {
+    print("verseNumber");
+    print(verseNumber);
+
+    setState(() {
+      if (highlightedVerses.contains(verseNumber)) {
+        highlightedVerses.remove(verseNumber); // Remove highlight
+      } else {
+        highlightedVerses.add(verseNumber); // Add highlight
+      }
+    });
+
+    print(highlightedVerses);
   }
 
   bool isPlaying = false;
@@ -154,31 +173,68 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     return Padding(
                                       padding: const EdgeInsets.only(top: 20),
                                       child: SelectableText.rich(
-                                        TextSpan(
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontFamily: 'Times',
-                                              height: 1.5),
-                                          children: [
-                                            TextSpan(
-                                              text: '${verse.verseNumber}. ',
-                                              style: const TextStyle(
-                                                  // fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      255, 145, 3, 3),
-                                                  fontFamily: 'Times'),
-                                            ),
-                                            TextSpan(text: verse.content),
-                                          ],
-                                        ),
+                                        buildHighlightedText(verse.verseNumber,
+                                            verse.content, highlightedVerses),
                                         selectionControls:
                                             CustomTextSelectionControls(
                                           onAddToFavorite: (id, title) {
-                                            addToFavorites(id,
-                                                title); // Trigger add to favorite
+                                            addToFavorites(
+                                                id, title); // Add to favorites
+                                          },
+                                          onHighlight: (verseNumber) {
+                                            toggleHighlight(verseNumber);
                                           },
                                         ),
+                                        // TextSpan(
+                                        //   style: const TextStyle(
+                                        //     fontSize: 18,
+                                        //     fontFamily: 'Times',
+                                        //     height: 1.5,
+                                        //     color: Colors.black,
+                                        //   ),
+                                        //   children: [
+                                        //     TextSpan(
+                                        //       text: '${verse.verseNumber}. ',
+                                        //       style: const TextStyle(
+                                        //         color: Color.fromARGB(
+                                        //             255, 145, 3, 3),
+                                        //         fontFamily: 'Times',
+                                        //       ),
+                                        //     ),
+                                        //     TextSpan(
+                                        //       text: verse.content,
+                                        //       style: TextStyle(
+                                        //         backgroundColor:
+                                        //             highlightedVerses.contains(
+                                        //                     verse.content)
+                                        //                 ? Colors.yellow.shade200
+                                        //                 : const Color.fromARGB(
+                                        //                     0, 228, 125, 125),
+                                        //       ),
+                                        //     ),
+                                        //     TextSpan(
+                                        //       text:
+                                        //           'though I walk through the valley of the shadow of death,',
+                                        //       style: TextStyle(
+                                        //         backgroundColor:
+                                        //             highlightedVerses.contains(
+                                        //                     'though I walk through the valley of the shadow of death,') // Exact match check
+                                        //                 ? Colors.yellow.shade200
+                                        //                 : Colors.transparent,
+                                        //       ),
+                                        //     )
+                                        //   ],
+                                        // ),
+                                        // selectionControls:
+                                        //     CustomTextSelectionControls(
+                                        //   onAddToFavorite: (id, title) {
+                                        //     addToFavorites(
+                                        //         id, title); // Add to favorites
+                                        //   },
+                                        //   onHighlight: (verseNumber) {
+                                        //     toggleHighlight(verseNumber);
+                                        //   },
+                                        // ),
                                       ),
                                     );
                                   }
@@ -191,33 +247,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                     ),
                   ],
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  isPlayerExpanded = !isPlayerExpanded;
-                });
-              },
-              child: AudioPlayer(
-                isExpanded: isPlayerExpanded,
-                chapterTitle: 'Chapter ${mockChapter.chapterNumber}',
-                verseExcerpt:
-                    mockChapter.verses[0].content.substring(0, 30) + '...',
-                progress: audioProgress,
-                isPlaying: isPlaying,
-                onClose: () {
-                  setState(() {
-                    isPlayerExpanded = false;
-                  });
-                },
-                onPrevious: () {},
-                onNext: () {},
-                onPlayPause: () {
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
-                },
               ),
             ),
           ],

@@ -50,7 +50,7 @@ final mockChapter = BibleChapter(
     BibleVerse(
       verseNumber: 4,
       content:
-          "though I walk through the valley of the shadow of death, I will fear no evil, for You are with me; Your rod and Your staff, they comfort me.",
+          "etrtthough I walk through the valley of the shadow of death, I will fear no evil, for You are with me; Your rod and Your staff, they comfort me.",
     ),
   ],
 );

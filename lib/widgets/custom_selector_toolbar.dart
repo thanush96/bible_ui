@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class CustomTextSelectionControls extends MaterialTextSelectionControls {
   final Function(String, String) onAddToFavorite;
+  final Function(String) onHighlight;
 
-  CustomTextSelectionControls({required this.onAddToFavorite});
+  CustomTextSelectionControls(
+      {required this.onAddToFavorite, required this.onHighlight});
 
   @override
   Widget buildToolbar(
@@ -17,6 +19,10 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
     ValueListenable<ClipboardStatus>? clipboardStatus,
     Offset? lastSecondaryTapDownPosition,
   ) {
+    final String selectedText = delegate.textEditingValue.selection.textInside(
+      delegate.textEditingValue.text,
+    );
+
     // If there is no selection, return an empty toolbar
     if (endpoints.isEmpty) {
       return const SizedBox.shrink();
@@ -54,16 +60,22 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
       TextSelectionToolbarTextButton(
         onPressed: () {
           // Custom action for "Add to Fav"
-          print("hailig to Favorites");
+          print("highlight");
+          print(selectedText);
+
+          if (onHighlight != null && selectedText.isNotEmpty) {
+            onHighlight!(
+                selectedText); // Trigger the callback with selected text
+          }
           delegate.hideToolbar(); // Hide the toolbar after the action
         },
         padding: const EdgeInsets.all(8.0), // Add padding here
         child: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.favorite, color: Colors.red, size: 18), // Add an icon
+            Icon(Icons.colorize, color: Colors.red, size: 18), // Add an icon
             SizedBox(width: 4), // Add spacing between icon and text
-            Text('heilighted',
+            Text('highlight',
                 style: TextStyle(fontSize: 16)), // Add custom text style
           ],
         ),
