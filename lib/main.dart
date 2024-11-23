@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/bible/bible_onboard.dart';
-import 'package:flutter_app/widgets/bible_reader.dart';
+import 'package:flutter_app/screens/bible/bible_reader.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: BibleReaderPage(),
-      // home: const BibleOnboard(),
+      // home: BibleReaderPage(),
+      home: const BibleOnboard(),
     );
   }
 }

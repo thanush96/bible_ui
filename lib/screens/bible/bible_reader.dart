@@ -3,8 +3,9 @@ import 'package:flutter_app/model/bible_content.dart';
 import 'package:flutter_app/widgets/app_bar_icons.dart';
 import 'package:flutter_app/widgets/build_highlighted_text.dart';
 import 'package:flutter_app/widgets/content_section.dart';
-import '../widgets/reader_header.dart';
-import '../widgets/custom_selector_toolbar.dart';
+import '../../constants/constants.dart';
+import '../../widgets/reader_header.dart';
+import '../../widgets/custom_selector_toolbar.dart';
 
 // New list to track highlighted verses
 List<String> highlightedVerses = [];
@@ -185,56 +186,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                             toggleHighlight(verseNumber);
                                           },
                                         ),
-                                        // TextSpan(
-                                        //   style: const TextStyle(
-                                        //     fontSize: 18,
-                                        //     fontFamily: 'Times',
-                                        //     height: 1.5,
-                                        //     color: Colors.black,
-                                        //   ),
-                                        //   children: [
-                                        //     TextSpan(
-                                        //       text: '${verse.verseNumber}. ',
-                                        //       style: const TextStyle(
-                                        //         color: Color.fromARGB(
-                                        //             255, 145, 3, 3),
-                                        //         fontFamily: 'Times',
-                                        //       ),
-                                        //     ),
-                                        //     TextSpan(
-                                        //       text: verse.content,
-                                        //       style: TextStyle(
-                                        //         backgroundColor:
-                                        //             highlightedVerses.contains(
-                                        //                     verse.content)
-                                        //                 ? Colors.yellow.shade200
-                                        //                 : const Color.fromARGB(
-                                        //                     0, 228, 125, 125),
-                                        //       ),
-                                        //     ),
-                                        //     TextSpan(
-                                        //       text:
-                                        //           'though I walk through the valley of the shadow of death,',
-                                        //       style: TextStyle(
-                                        //         backgroundColor:
-                                        //             highlightedVerses.contains(
-                                        //                     'though I walk through the valley of the shadow of death,') // Exact match check
-                                        //                 ? Colors.yellow.shade200
-                                        //                 : Colors.transparent,
-                                        //       ),
-                                        //     )
-                                        //   ],
-                                        // ),
-                                        // selectionControls:
-                                        //     CustomTextSelectionControls(
-                                        //   onAddToFavorite: (id, title) {
-                                        //     addToFavorites(
-                                        //         id, title); // Add to favorites
-                                        //   },
-                                        //   onHighlight: (verseNumber) {
-                                        //     toggleHighlight(verseNumber);
-                                        //   },
-                                        // ),
                                       ),
                                     );
                                   }
@@ -264,9 +215,13 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                   return Container(
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
+                      gradient: globalGradient,
                     ),
+                    // decoration: BoxDecoration(
+                    //   color: const Color.fromARGB(255, 255, 0, 0),
+                    //   borderRadius: BorderRadius.circular(20),
+                    // ),
                     child: Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: Column(

@@ -12,6 +12,8 @@ class ContentSection extends StatelessWidget {
     switch (currentSection) {
       case 'chapters':
         return _buildChaptersList();
+      case 'add':
+        return _buildAddNew();
       case 'bookmarks':
         return _buildBookmarksList();
       case 'notes':
@@ -47,7 +49,25 @@ class ContentSection extends StatelessWidget {
     );
   }
 
-  Widget _buildBookmarksList() => Center(child: Text('Bookmarks Section'));
+  Widget _buildBookmarksList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
+      child: ListView.builder(
+        itemCount: chapters.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(
+              chapters[index]['title']!,
+              style: const TextStyle(color: Colors.red),
+            ),
+            onTap: () {},
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAddNew() => Center(child: Text('add new Section'));
 
   Widget _buildNotesList() => Center(child: Text('Notes Section'));
 

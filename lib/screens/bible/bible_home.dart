@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constants.dart';
-import 'package:flutter_app/widgets/bible_reader.dart';
+import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/verse_slider.dart';
 import 'package:flutter_app/widgets/version_card.dart';
