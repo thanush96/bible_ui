@@ -6,6 +6,7 @@ import 'package:flutter_app/screens/book_full_view/book_full_view.dart';
 import 'package:flutter_app/screens/see_all_book/see_all_books.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
+import 'package:flutter_app/widgets/custom_header.dart';
 
 class BookListView extends StatelessWidget {
   static const routeName = "BookListView";
@@ -14,15 +15,21 @@ class BookListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFECECFF),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Placeholder(
-                fallbackHeight: 60,
-                fallbackWidth: 60,
+              Center(
+                child: Image.asset(
+                  'assets/logo.png',
+                  height: 150,
+                ),
               ),
-              AppSpaces.verticalSpace20,
+              CustomHeader(
+                onBackPressed: () => Navigator.pop(context),
+              ),
+              AppSpaces.verticalSpace10,
               const HeaderDivider(
                 headerCount: "65",
                 headerText: "New Testamwent",

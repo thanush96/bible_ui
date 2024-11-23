@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constants.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
+import 'package:flutter_app/screens/book_list_view/book_list_view.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/verse_slider.dart';
 import 'package:flutter_app/widgets/version_card.dart';
 
 class BibleHomePage extends StatelessWidget {
-  const BibleHomePage({Key? key}) : super(key: key);
+  const BibleHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,9 @@ class BibleHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BibleReaderPage()),
+                              builder: (context) =>
+                                  // BibleReaderPage(),
+                                  const BookListView()),
                         );
                       },
                     ),
@@ -59,7 +62,7 @@ class BibleHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BibleReaderPage()),
+                              builder: (context) => const BookListView()),
                         );
                       },
                     ),
@@ -69,7 +72,7 @@ class BibleHomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BibleReaderPage()),
+                              builder: (context) => const BookListView()),
                         );
                       },
                     ),

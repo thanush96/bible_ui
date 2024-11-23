@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/book_full_view/book_full_view.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
+import 'package:flutter_app/widgets/custom_header.dart';
 
 class SeeAllBooks extends StatelessWidget {
   static const routeName = "SeeAllBooks";
@@ -10,20 +12,21 @@ class SeeAllBooks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 60,
-            child: Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Placeholder(),
+      backgroundColor: const Color(0xFFECECFF),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/logo.png',
+                height: 150,
+              ),
             ),
-          ),
-          AppSpaces.verticalSpace20,
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16.0),
+            CustomHeader(
+              onBackPressed: () => Navigator.pop(context),
+            ),
+
+            Center(
               child: Text(
                 "Old Testament",
                 style: TextStyle(
@@ -33,46 +36,56 @@ class SeeAllBooks extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          Divider(
-            color: AppColors.titleDivider,
-            thickness: 2,
-            indent: 20,
-            endIndent: 20,
-          ),
-          AppSpaces.verticalSpace20,
+            Divider(
+              color: AppColors.titleDivider,
+              thickness: 2,
+              indent: 20,
+              endIndent: 20,
+            ),
+            AppSpaces.verticalSpace20,
 
-          //grid
-          Expanded(
-            child: RawScrollbar(
-              thumbColor: AppColors.white,
-              thickness: 10,
-              trackColor: AppColors.scrollbarTrackColor,
-              trackVisibility: true,
-              trackRadius: const Radius.circular(5),
-              padding: const EdgeInsets.only(right: 05),
-              radius: const Radius.circular(5),
-              thumbVisibility: true,
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 0,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.7,
+            //grid
+            Expanded(
+              child: RawScrollbar(
+                thumbColor: AppColors.white,
+                thickness: 10,
+                trackColor: AppColors.scrollbarTrackColor,
+                trackVisibility: true,
+                trackRadius: const Radius.circular(5),
+                padding: const EdgeInsets.only(right: 05),
+                radius: const Radius.circular(5),
+                thumbVisibility: true,
+                child: GridView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: 12,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BookFullView(),
+                          ),
+                        );
+                      },
+                      child: const BookCard(
+                        title: "Bible Study",
+                        subTitle: "Exodux",
+                        actionText: "30 Days Online Lesson",
+                      ),
+                    );
+                  },
                 ),
-                itemCount: 12,
-                itemBuilder: (context, index) {
-                  return const BookCard(
-                    title: "Bible Study",
-                    subTitle: "Exodux",
-                    actionText: "30 Days Online Lesson",
-                  );
-                },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -177,6 +190,7 @@ class BookCard extends StatelessWidget {
                         ),
                         Text(
                           actionText,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: AppFont.textSize14,
                             color: AppColors.white,
