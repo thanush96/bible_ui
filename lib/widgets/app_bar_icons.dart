@@ -68,7 +68,7 @@ class AppBarIcons extends StatelessWidget {
             ),
           ),
           Container(
-            decoration: currentSection == 'notes'
+            decoration: currentSection == 'Highlights'
                 ? const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -78,9 +78,11 @@ class AppBarIcons extends StatelessWidget {
               icon: Icon(
                 Icons.edit,
                 size: 20,
-                color: currentSection == 'notes' ? Colors.black : Colors.white,
+                color: currentSection == 'Highlights'
+                    ? Colors.black
+                    : Colors.white,
               ),
-              onPressed: () => onSectionChange('notes'),
+              onPressed: () => onSectionChange('Highlights'),
             ),
           ),
           Container(

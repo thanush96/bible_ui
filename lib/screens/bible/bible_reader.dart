@@ -6,9 +6,10 @@ import 'package:flutter_app/widgets/content_section.dart';
 import '../../constants/constants.dart';
 import '../../widgets/reader_header.dart';
 import '../../widgets/custom_selector_toolbar.dart';
+import 'package:intl/intl.dart';
 
 // New list to track highlighted verses
-List<String> highlightedVerses = [];
+List<Map<String, dynamic>> highlightedVerses = [];
 
 class BibleReaderPage extends StatefulWidget {
   const BibleReaderPage({super.key});
@@ -22,6 +23,14 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     {"id": "1", "title": "Chapter 1"},
   ];
 
+  final List<Color> colorsList = [
+    Colors.yellow.shade200,
+    Colors.blue.shade200,
+    Colors.red.shade200,
+  ];
+
+  Color highlight = Colors.red.shade200;
+
   void addToFavorites(String id, String title) {
     print("addToFavorites--");
 
@@ -30,16 +39,36 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     });
   }
 
-  // Function to toggle highlight
-  void toggleHighlight(String verseNumber) {
-    print("verseNumber");
-    print(verseNumber);
+  void selectedHighlighterColor(Color color) {
+    print("highlight--");
+    print(color);
 
     setState(() {
-      if (highlightedVerses.contains(verseNumber)) {
-        highlightedVerses.remove(verseNumber); // Remove highlight
+      highlight = color;
+    });
+  }
+
+  void toggleHighlight(String verse) {
+    print("toggleHighlight");
+    print(verse);
+
+    setState(() {
+      // Check if the verse already exists in the highlightedVerses list
+      bool verseExists =
+          highlightedVerses.any((highlight) => highlight['verse'] == verse);
+
+      if (verseExists) {
+        // Remove the verse from highlightedVerses
+        highlightedVerses
+            .removeWhere((highlight) => highlight['verse'] == verse);
       } else {
-        highlightedVerses.add(verseNumber); // Add highlight
+        // Add the verse to highlightedVerses with the current color
+        highlightedVerses.add({
+          'chapter': '1',
+          'time': DateFormat('dd/mm/yyyy').format(DateTime.now()),
+          'verse': verse,
+          'color': highlight,
+        });
       }
     });
 
@@ -174,8 +203,11 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     return Padding(
                                       padding: const EdgeInsets.only(top: 20),
                                       child: SelectableText.rich(
-                                        buildHighlightedText(verse.verseNumber,
-                                            verse.content, highlightedVerses),
+                                        buildHighlightedText(
+                                          verse.verseNumber,
+                                          verse.content,
+                                          highlightedVerses,
+                                        ),
                                         selectionControls:
                                             CustomTextSelectionControls(
                                           onAddToFavorite: (id, title) {
@@ -240,7 +272,14 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             },
                             currentSection: _currentSection,
                           ),
-                          const SizedBox(height: 20),
+                          const Divider(
+                            thickness: 1, // Line thickness
+                            color: Colors.grey, // Line color
+                            indent:
+                                20, // Optional: add space from the left side
+                            endIndent:
+                                20, // Optional: add space from the right side
+                          ),
                           Flexible(
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
@@ -250,6 +289,12 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               child: ContentSection(
                                 chapters: chapters, // Pass the chapters list
                                 currentSection: _currentSection,
+                                highlight: colorsList,
+                                highlightedList: highlightedVerses,
+                                onSelectedHighlighter: (Color color) {
+                                  selectedHighlighterColor(
+                                      color); // Add to favorites
+                                },
                               ),
                             ),
                           ),
