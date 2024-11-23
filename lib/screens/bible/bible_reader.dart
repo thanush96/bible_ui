@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/bible_content.dart';
-import 'package:flutter_app/widgets/app_bar_icons.dart';
-import 'package:flutter_app/widgets/build_highlighted_text.dart';
-import 'package:flutter_app/widgets/content_section.dart';
 import '../../constants/constants.dart';
+import '../../model/bible_content.dart';
+import '../../widgets/app_bar_icons.dart';
+import '../../widgets/build_highlighted_text.dart';
+import '../../widgets/content_section.dart';
 import '../../widgets/reader_header.dart';
 import '../../widgets/custom_selector_toolbar.dart';
+import 'package:intl/intl.dart';
 
 // New list to track highlighted verses
-List<String> highlightedVerses = [];
+List<Map<String, dynamic>> highlightedVerses = [];
 
 class BibleReaderPage extends StatefulWidget {
-  const BibleReaderPage({super.key});
+  const BibleReaderPage({
+    super.key,
+  });
 
   @override
   State<BibleReaderPage> createState() => _BibleReaderPageState();
@@ -22,24 +25,63 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     {"id": "1", "title": "Chapter 1"},
   ];
 
-  void addToFavorites(String id, String title) {
-    print("addToFavorites--");
+  // Initially selected chapter
+  late int currentChapterIndex = 0;
 
+  final List<Color> colorsList = [
+    Colors.yellow.shade200,
+    Colors.blue.shade200,
+    Colors.red.shade200,
+  ];
+
+  Color highlight = Colors.red.shade200;
+
+  @override
+  void initState() {
+    super.initState();
+    // currentChapterIndex = int.parse(widget.chapter['id'] ?? '0');
+  }
+
+  void loadChapter(int index) {
+    setState(() {
+      currentChapterIndex = index;
+    });
+  }
+
+  void changeChapter(chapter) {
+    print(chapter);
+    setState(() {
+      currentChapterIndex = int.parse(chapter['id'] ?? '0');
+    });
+  }
+
+  void addToFavorites(String id, String title) {
     setState(() {
       chapters.add({"id": id, "title": title}); // Add new content
     });
   }
 
-  // Function to toggle highlight
-  void toggleHighlight(String verseNumber) {
-    print("verseNumber");
-    print(verseNumber);
-
+  void selectedHighlighterColor(Color color) {
     setState(() {
-      if (highlightedVerses.contains(verseNumber)) {
-        highlightedVerses.remove(verseNumber); // Remove highlight
+      highlight = color;
+    });
+  }
+
+  void toggleHighlight(String verse) {
+    setState(() {
+      bool verseExists =
+          highlightedVerses.any((highlight) => highlight['verse'] == verse);
+
+      if (verseExists) {
+        highlightedVerses
+            .removeWhere((highlight) => highlight['verse'] == verse);
       } else {
-        highlightedVerses.add(verseNumber); // Add highlight
+        highlightedVerses.add({
+          'chapter': '1',
+          'time': DateFormat('dd/mm/yyyy').format(DateTime.now()),
+          'verse': verse,
+          'color': highlight,
+        });
       }
     });
 
@@ -139,7 +181,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 20),
-                                ...mockChapter.verses
+                                ...mockChapters[currentChapterIndex]
+                                    .verses
                                     .asMap()
                                     .entries
                                     .map((entry) {
@@ -174,8 +217,11 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     return Padding(
                                       padding: const EdgeInsets.only(top: 20),
                                       child: SelectableText.rich(
-                                        buildHighlightedText(verse.verseNumber,
-                                            verse.content, highlightedVerses),
+                                        buildHighlightedText(
+                                          verse.verseNumber,
+                                          verse.content,
+                                          highlightedVerses,
+                                        ),
                                         selectionControls:
                                             CustomTextSelectionControls(
                                           onAddToFavorite: (id, title) {
@@ -229,8 +275,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                         children: [
                           AppBarIcons(
                             onSectionChange: (String section) {
-                              print('Previous section: $_currentSection');
-                              print('New section: $section');
+                              // print('Previous section: $_currentSection');
+                              // print('New section: $section');
 
                               // Update the parent state and modal state
                               setState(() {
@@ -240,7 +286,14 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             },
                             currentSection: _currentSection,
                           ),
-                          const SizedBox(height: 20),
+                          const Divider(
+                            thickness: 1, // Line thickness
+                            color: Colors.grey, // Line color
+                            indent:
+                                20, // Optional: add space from the left side
+                            endIndent:
+                                20, // Optional: add space from the right side
+                          ),
                           Flexible(
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
@@ -250,6 +303,14 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               child: ContentSection(
                                 chapters: chapters, // Pass the chapters list
                                 currentSection: _currentSection,
+                                highlight: colorsList,
+                                highlightedList: highlightedVerses,
+                                onSelectedHighlighter: (Color color) {
+                                  selectedHighlighterColor(color);
+                                },
+                                onChangeChapter: (chapter) {
+                                  changeChapter(chapter);
+                                },
                               ),
                             ),
                           ),
@@ -262,8 +323,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
             },
           );
         },
-        child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }

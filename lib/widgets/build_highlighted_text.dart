@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-TextSpan buildHighlightedText(
-    int verseNumber, String verseContent, List<String> highlightedVerses) {
+TextSpan buildHighlightedText(int verseNumber, String verseContent,
+    List<Map<String, dynamic>> highlightedVerses) {
   List<TextSpan> spans = [];
 
   // Add the verse number as a separate span
@@ -16,11 +16,15 @@ TextSpan buildHighlightedText(
 
   String remainingText = verseContent;
 
-  for (String highlight in highlightedVerses) {
-    int matchIndex = remainingText.indexOf(highlight);
+  // Iterate over all highlighted verses
+  for (var highlight in highlightedVerses) {
+    String highlightText = highlight['verse']; // The verse text to highlight
+    Color highlightColor = highlight['color']; // The color for the highlight
 
-    if (matchIndex != -1) {
-      // Add text before the highlighted portion
+    // Loop through remainingText to find all occurrences of the highlight text
+    int matchIndex;
+    while ((matchIndex = remainingText.indexOf(highlightText)) != -1) {
+      // Add any text before the highlighted portion
       if (matchIndex > 0) {
         spans.add(TextSpan(
           text: remainingText.substring(0, matchIndex),
@@ -32,23 +36,24 @@ TextSpan buildHighlightedText(
         ));
       }
 
-      // Add the highlighted text
+      // Add the highlighted text portion
       spans.add(TextSpan(
-        text: highlight, // The matched text
+        text: highlightText,
         style: TextStyle(
-          backgroundColor: Colors.yellow.shade200,
+          backgroundColor: highlightColor,
           color: Colors.black,
           fontSize: 18,
           fontFamily: 'Times',
         ),
       ));
 
-      // Remove the matched portion from the remaining text
-      remainingText = remainingText.substring(matchIndex + highlight.length);
+      // Update the remainingText after the highlighted portion
+      remainingText =
+          remainingText.substring(matchIndex + highlightText.length);
     }
   }
 
-  // Add any remaining text
+  // Add any remaining text after all highlights
   if (remainingText.isNotEmpty) {
     spans.add(TextSpan(
       text: remainingText,
