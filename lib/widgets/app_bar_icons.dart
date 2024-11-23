@@ -13,51 +13,125 @@ class AppBarIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(14.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          IconButton(
-            icon: Icon(
-              Icons.menu,
-              color: currentSection == 'chapters' ? Colors.red : Colors.black,
+          Container(
+            decoration: currentSection == 'chapters'
+                ? const BoxDecoration(
+                    color: Colors.white, // White background
+                    shape: BoxShape.circle, // Circular shape
+                  )
+                : null, // No decoration for other sections
+            child: IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 20,
+                color:
+                    currentSection == 'chapters' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('chapters'),
             ),
-            onPressed: () => onSectionChange('chapters'),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.bookmark,
-              color: currentSection == 'bookmarks' ? Colors.red : Colors.black,
+          Container(
+            decoration: currentSection == 'bookmarks'
+                ? const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  )
+                : null,
+            child: IconButton(
+              icon: Icon(
+                Icons.bookmark,
+                size: 20,
+                color:
+                    currentSection == 'bookmarks' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('bookmarks'),
             ),
-            onPressed: () => onSectionChange('bookmarks'),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: currentSection == 'notes' ? Colors.red : Colors.black,
+          Container(
+            decoration: currentSection == 'add'
+                ? const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  )
+                : null,
+            child: IconButton(
+              icon: Icon(
+                Icons.edit_square,
+                size: 20,
+                color: currentSection == 'add' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('add'),
             ),
-            onPressed: () => onSectionChange('notes'),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.nightlight_round,
-              color: currentSection == 'theme' ? Colors.red : Colors.black,
+          Container(
+            decoration: currentSection == 'notes'
+                ? const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  )
+                : null,
+            child: IconButton(
+              icon: Icon(
+                Icons.edit,
+                size: 20,
+                color: currentSection == 'notes' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('notes'),
             ),
-            onPressed: () => onSectionChange('theme'),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.file_upload,
-              color: currentSection == 'download' ? Colors.red : Colors.black,
+          Container(
+            decoration: currentSection == 'theme'
+                ? const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  )
+                : null,
+            child: IconButton(
+              icon: Icon(
+                Icons.nightlight_round,
+                size: 20,
+                color: currentSection == 'theme' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('theme'),
             ),
-            onPressed: () => onSectionChange('download'),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: currentSection == 'settings' ? Colors.red : Colors.black,
+          Container(
+            decoration: currentSection == 'download'
+                ? const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  )
+                : null,
+            child: IconButton(
+              icon: Icon(
+                Icons.file_upload,
+                size: 20,
+                color:
+                    currentSection == 'download' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('download'),
             ),
-            onPressed: () => onSectionChange('settings'),
+          ),
+          Container(
+            decoration: currentSection == 'settings'
+                ? const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  )
+                : null,
+            child: IconButton(
+              icon: Icon(
+                Icons.settings,
+                size: 20,
+                color:
+                    currentSection == 'settings' ? Colors.black : Colors.white,
+              ),
+              onPressed: () => onSectionChange('settings'),
+            ),
           ),
         ],
       ),
