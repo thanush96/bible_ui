@@ -87,13 +87,32 @@ class ContentSection extends StatelessWidget {
       child: ListView.builder(
         itemCount: chapters.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              chapters[index]['title']!,
-              style: const TextStyle(color: Colors.white),
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+            decoration: const BoxDecoration(
+              color:
+                  Color.fromARGB(52, 245, 247, 252), // Set the background color
+              // borderRadius: BorderRadius.circular(5),
             ),
-            onTap: () {},
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Chapter ${index + 1}",
+                  style: const TextStyle(fontSize: 13, color: Colors.white70),
+                ),
+              ],
+            ),
           );
+          // return ListTile(
+          //   title: Text(
+          //     chapters[index]['title']!,
+          //     style: const TextStyle(color: Colors.white),
+          //   ),
+          //   onTap: () {},
+          // );
         },
       ),
     );

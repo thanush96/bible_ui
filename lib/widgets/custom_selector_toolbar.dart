@@ -50,7 +50,7 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
         child: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.favorite, color: Colors.black, size: 18), // Add an icon
+            Icon(Icons.favorite, color: Colors.red, size: 18), // Add an icon
             SizedBox(width: 4), // Add spacing between icon and text
             Text('Add to Fav',
                 style: TextStyle(fontSize: 16)), // Add custom text style
