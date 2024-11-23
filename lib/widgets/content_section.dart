@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/bible_content.dart';
 
 class ContentSection extends StatelessWidget {
   final List<Map<String, String>> chapters;
@@ -6,6 +7,7 @@ class ContentSection extends StatelessWidget {
   final String currentSection;
   final List highlight;
   final Function(Color) onSelectedHighlighter;
+  final Function(Map<String, String>) onChangeChapter;
 
   const ContentSection(
       {super.key,
@@ -13,7 +15,8 @@ class ContentSection extends StatelessWidget {
       required this.highlight,
       required this.currentSection,
       required this.onSelectedHighlighter,
-      required this.highlightedList});
+      required this.highlightedList,
+      required this.onChangeChapter});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +47,34 @@ class ContentSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
       child: ListView.builder(
-        itemCount: chapters.length,
+        itemCount: mockChapters.length, // Use mockChapters for chapter data
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              chapters[index]['title']!,
-              style: const TextStyle(color: Colors.white),
+          final chapter = mockChapters[index]; // Get the current chapter
+          return GestureDetector(
+            onTap: () {
+              onChangeChapter(
+                {'id': '$index', 'title': 'Chapter 2'},
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(
+                    52, 245, 247, 252), // Set the background color
+                // borderRadius: BorderRadius.circular(5),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Chapter ${chapter.chapterNumber}",
+                    style: const TextStyle(fontSize: 13, color: Colors.white70),
+                  ),
+                ],
+              ),
             ),
-            onTap: () {},
           );
         },
       ),

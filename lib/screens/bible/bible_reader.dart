@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/bible_content.dart';
-import 'package:flutter_app/widgets/app_bar_icons.dart';
-import 'package:flutter_app/widgets/build_highlighted_text.dart';
-import 'package:flutter_app/widgets/content_section.dart';
 import '../../constants/constants.dart';
+import '../../model/bible_content.dart';
+import '../../widgets/app_bar_icons.dart';
+import '../../widgets/build_highlighted_text.dart';
+import '../../widgets/content_section.dart';
 import '../../widgets/reader_header.dart';
 import '../../widgets/custom_selector_toolbar.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +12,9 @@ import 'package:intl/intl.dart';
 List<Map<String, dynamic>> highlightedVerses = [];
 
 class BibleReaderPage extends StatefulWidget {
-  const BibleReaderPage({super.key});
+  const BibleReaderPage({
+    super.key,
+  });
 
   @override
   State<BibleReaderPage> createState() => _BibleReaderPageState();
@@ -23,6 +25,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     {"id": "1", "title": "Chapter 1"},
   ];
 
+  // Initially selected chapter
+  late int currentChapterIndex = 0;
+
   final List<Color> colorsList = [
     Colors.yellow.shade200,
     Colors.blue.shade200,
@@ -31,38 +36,46 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
 
   Color highlight = Colors.red.shade200;
 
-  void addToFavorites(String id, String title) {
-    print("addToFavorites--");
+  @override
+  void initState() {
+    super.initState();
+    // currentChapterIndex = int.parse(widget.chapter['id'] ?? '0');
+  }
 
+  void loadChapter(int index) {
+    setState(() {
+      currentChapterIndex = index;
+    });
+  }
+
+  void changeChapter(chapter) {
+    print(chapter);
+    setState(() {
+      currentChapterIndex = int.parse(chapter['id'] ?? '0');
+    });
+  }
+
+  void addToFavorites(String id, String title) {
     setState(() {
       chapters.add({"id": id, "title": title}); // Add new content
     });
   }
 
   void selectedHighlighterColor(Color color) {
-    print("highlight--");
-    print(color);
-
     setState(() {
       highlight = color;
     });
   }
 
   void toggleHighlight(String verse) {
-    print("toggleHighlight");
-    print(verse);
-
     setState(() {
-      // Check if the verse already exists in the highlightedVerses list
       bool verseExists =
           highlightedVerses.any((highlight) => highlight['verse'] == verse);
 
       if (verseExists) {
-        // Remove the verse from highlightedVerses
         highlightedVerses
             .removeWhere((highlight) => highlight['verse'] == verse);
       } else {
-        // Add the verse to highlightedVerses with the current color
         highlightedVerses.add({
           'chapter': '1',
           'time': DateFormat('dd/mm/yyyy').format(DateTime.now()),
@@ -168,7 +181,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 20),
-                                ...mockChapter.verses
+                                ...mockChapters[currentChapterIndex]
+                                    .verses
                                     .asMap()
                                     .entries
                                     .map((entry) {
@@ -261,8 +275,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                         children: [
                           AppBarIcons(
                             onSectionChange: (String section) {
-                              print('Previous section: $_currentSection');
-                              print('New section: $section');
+                              // print('Previous section: $_currentSection');
+                              // print('New section: $section');
 
                               // Update the parent state and modal state
                               setState(() {
@@ -292,8 +306,10 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                 highlight: colorsList,
                                 highlightedList: highlightedVerses,
                                 onSelectedHighlighter: (Color color) {
-                                  selectedHighlighterColor(
-                                      color); // Add to favorites
+                                  selectedHighlighterColor(color);
+                                },
+                                onChangeChapter: (chapter) {
+                                  changeChapter(chapter);
                                 },
                               ),
                             ),
@@ -307,8 +323,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
             },
           );
         },
-        child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }
