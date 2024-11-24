@@ -288,12 +288,23 @@ class BookFullView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    "Readings",
-                                    style: TextStyle(
-                                      fontSize: AppFont.textSize20,
-                                      color: AppColors.greyTitle,
-                                      fontWeight: AppFont.fw400,
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const BibleReaderPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      "Readings",
+                                      style: TextStyle(
+                                        fontSize: AppFont.textSize20,
+                                        color: AppColors.greyTitle,
+                                        fontWeight: AppFont.fw400,
+                                      ),
                                     ),
                                   ),
                                   InkWell(
@@ -306,13 +317,12 @@ class BookFullView extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                const BibleReaderPage()
-                                            //ChapterVerseView(),
-                                            ),
+                                          builder: (context) =>
+                                              const BibleReaderPage(),
+                                        ),
                                       );
                                     },
-                                  ),
+                                  )
                                 ],
                               ),
                             ],
