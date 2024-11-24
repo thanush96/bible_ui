@@ -36,14 +36,11 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
     final toolbarItems = [
       TextSelectionToolbarTextButton(
         onPressed: () {
-          // Custom action for "Add to Fav"
-
           String id = DateTime.now().millisecondsSinceEpoch.toString();
           String title = "Chapter ${id.substring(id.length - 2)}";
           onAddToFavorite(id, title);
 
-          print(title);
-
+          print(id);
           delegate.hideToolbar(); // Hide the toolbar after the action
         },
         padding: const EdgeInsets.all(8.0), // Add padding here
@@ -59,10 +56,6 @@ class CustomTextSelectionControls extends MaterialTextSelectionControls {
       ),
       TextSelectionToolbarTextButton(
         onPressed: () {
-          // Custom action for "Add to Fav"
-          print("highlight");
-          print(selectedText);
-
           if (onHighlight != null && selectedText.isNotEmpty) {
             onHighlight!(
                 selectedText); // Trigger the callback with selected text
