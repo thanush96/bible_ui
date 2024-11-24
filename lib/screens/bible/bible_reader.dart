@@ -21,11 +21,9 @@ class BibleReaderPage extends StatefulWidget {
 }
 
 class _BibleReaderPageState extends State<BibleReaderPage> {
-  List<Map<String, String>> chapters = [
-    {"id": "1", "title": "Chapter 1"},
-  ];
+  List<Map<String, String>> chapters = [];
+  List<Map<String, dynamic>> noteList = [];
 
-  // Initially selected chapter
   late int currentChapterIndex = 0;
 
   final List<Color> colorsList = [
@@ -49,7 +47,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
   }
 
   void changeChapter(chapter) {
-    print(chapter);
     setState(() {
       currentChapterIndex = int.parse(chapter['id'] ?? '0');
     });
@@ -57,8 +54,24 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
 
   void addToFavorites(String id, String title) {
     setState(() {
-      chapters.add({"id": id, "title": title}); // Add new content
+      chapters.add({
+        "id": id,
+        "title": title,
+        'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
+      }); // Add new content
     });
+  }
+
+  void addNewNote(note) {
+    setState(() {
+      noteList.add({
+        'id': note['id'],
+        'note': note['note'],
+        'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
+      }); // Add new content
+    });
+
+    print(noteList);
   }
 
   void selectedHighlighterColor(Color color) {
@@ -78,14 +91,12 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
       } else {
         highlightedVerses.add({
           'chapter': '1',
-          'time': DateFormat('dd/mm/yyyy').format(DateTime.now()),
+          'time': DateFormat('dd/MM/yyyy').format(DateTime.now()),
           'verse': verse,
           'color': highlight,
         });
       }
     });
-
-    print(highlightedVerses);
   }
 
   bool isPlaying = false;
@@ -110,6 +121,46 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                 });
               },
             ),
+            Center(
+              child: Container(
+                constraints:
+                    const BoxConstraints(maxWidth: 150), // Set the max width
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center, // Center the Row
+                  children: [
+                    Text(
+                      'Chapters',
+                      style: TextStyle(
+                        fontFamily: 'Times',
+                        color: !showVerses ? Colors.white : Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 1,
+                      height: 20,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Verse',
+                      style: TextStyle(
+                        fontFamily: 'Times',
+                        color: showVerses ? Colors.white : Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -118,49 +169,19 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           IconButton(
                             icon: const Icon(Icons.chevron_left),
                             onPressed: () {},
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Chapters',
-                                  style: TextStyle(
-                                    fontFamily: 'Times',
-                                    color: !showVerses
-                                        ? Colors.white
-                                        : Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  width: 1,
-                                  height: 20,
-                                  color: Colors.grey,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'Verse',
-                                  style: TextStyle(
-                                    fontFamily: 'Times',
-                                    color:
-                                        showVerses ? Colors.white : Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          Text(
+                            'Chapters ${currentChapterIndex + 1} ',
+                            style: const TextStyle(
+                                fontFamily: 'Times',
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                           IconButton(
                             icon: const Icon(Icons.chevron_right),
@@ -168,6 +189,13 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                           ),
                         ],
                       ),
+                    ),
+
+                    const Divider(
+                      thickness: 1, // Line thickness
+                      color: Colors.grey, // Line color
+                      indent: 40, // Optional: add space from the left side
+                      endIndent: 40, // Optional: add space from the right side
                     ),
                     // const SizedBox(height: 20),
                     Padding(
@@ -302,6 +330,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               ),
                               child: ContentSection(
                                 chapters: chapters, // Pass the chapters list
+                                noteList: noteList, // Pass the chapters list
                                 currentSection: _currentSection,
                                 highlight: colorsList,
                                 highlightedList: highlightedVerses,
@@ -310,6 +339,10 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                 },
                                 onChangeChapter: (chapter) {
                                   changeChapter(chapter);
+                                },
+
+                                onChangeNewNote: (note) {
+                                  addNewNote(note);
                                 },
                               ),
                             ),
