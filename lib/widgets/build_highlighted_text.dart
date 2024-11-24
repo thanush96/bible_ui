@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-TextSpan buildHighlightedText(int verseNumber, String verseContent,
-    List<Map<String, dynamic>> highlightedVerses) {
+TextSpan buildHighlightedText(
+    int verseNumber,
+    String verseContent,
+    List<Map<String, dynamic>> highlightedVerses,
+    Map<String, dynamic> fontStyle) {
   List<TextSpan> spans = [];
 
   // Add the verse number as a separate span
   spans.add(TextSpan(
     text: '$verseNumber. ',
-    style: const TextStyle(
-      color: Color.fromARGB(255, 145, 3, 3),
-      fontFamily: 'Times',
-      fontSize: 18,
-    ),
+    style: TextStyle(
+        color: Color.fromARGB(255, 145, 3, 3),
+        fontFamily: fontStyle["_selectedFont"],
+        fontSize: double.parse(fontStyle["_fontSize"].toString())),
   ));
 
   String remainingText = verseContent;
@@ -28,11 +30,10 @@ TextSpan buildHighlightedText(int verseNumber, String verseContent,
       if (matchIndex > 0) {
         spans.add(TextSpan(
           text: remainingText.substring(0, matchIndex),
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontFamily: 'Times',
-          ),
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: fontStyle["_selectedFont"],
+              fontSize: double.parse(fontStyle["_fontSize"].toString())),
         ));
       }
 
@@ -42,8 +43,8 @@ TextSpan buildHighlightedText(int verseNumber, String verseContent,
         style: TextStyle(
           backgroundColor: highlightColor,
           color: Colors.black,
-          fontSize: 18,
-          fontFamily: 'Times',
+          fontFamily: fontStyle["_selectedFont"],
+          fontSize: double.parse(fontStyle["_fontSize"].toString()),
         ),
       ));
 
@@ -57,10 +58,10 @@ TextSpan buildHighlightedText(int verseNumber, String verseContent,
   if (remainingText.isNotEmpty) {
     spans.add(TextSpan(
       text: remainingText,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.black,
-        fontSize: 18,
-        fontFamily: 'Times',
+        fontFamily: fontStyle["_selectedFont"],
+        fontSize: double.parse(fontStyle["_fontSize"].toString()),
       ),
     ));
   }

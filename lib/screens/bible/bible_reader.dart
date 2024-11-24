@@ -23,8 +23,14 @@ class BibleReaderPage extends StatefulWidget {
 class _BibleReaderPageState extends State<BibleReaderPage> {
   List<Map<String, String>> chapters = [];
   List<Map<String, dynamic>> noteList = [];
+  // List<Map<String, String>> fontStyleData = [];
+  Map<String, dynamic> fontStyle = {
+    "_selectedFont": "Times New Roman",
+    "_fontSize": 16.721590283890844
+  };
 
   late int currentChapterIndex = 0;
+  late Color highlight = Colors.red.shade200;
 
   final List<Color> colorsList = [
     Colors.yellow.shade200,
@@ -32,12 +38,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     Colors.red.shade200,
   ];
 
-  Color highlight = Colors.red.shade200;
-
   @override
   void initState() {
     super.initState();
-    // currentChapterIndex = int.parse(widget.chapter['id'] ?? '0');
   }
 
   void loadChapter(int index) {
@@ -49,6 +52,12 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
   void changeChapter(chapter) {
     setState(() {
       currentChapterIndex = int.parse(chapter['id'] ?? '0');
+    });
+  }
+
+  void changeFontStyle(Map<String, dynamic> newFontStyle) {
+    setState(() {
+      fontStyle = newFontStyle;
     });
   }
 
@@ -70,8 +79,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
         'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
       }); // Add new content
     });
-
-    print(noteList);
   }
 
   void selectedHighlighterColor(Color color) {
@@ -219,17 +226,21 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                   if (index == 0) {
                                     return RichText(
                                       text: TextSpan(
-                                        style: const TextStyle(
-                                            fontSize: 18,
+                                        style: TextStyle(
                                             color: Colors.black,
-                                            fontFamily: 'Times',
+                                            fontFamily:
+                                                fontStyle["_selectedFont"],
+                                            fontSize: double.parse(
+                                                fontStyle["_fontSize"]
+                                                    .toString()),
                                             height: 1.5),
                                         children: [
                                           TextSpan(
                                             text: verse.content[0],
                                             style: TextStyle(
                                               fontSize: 60,
-                                              fontFamily: 'Times',
+                                              fontFamily:
+                                                  fontStyle["_selectedFont"],
                                               fontWeight: FontWeight.bold,
                                               color:
                                                   Colors.black.withOpacity(0.8),
@@ -246,10 +257,10 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                       padding: const EdgeInsets.only(top: 20),
                                       child: SelectableText.rich(
                                         buildHighlightedText(
-                                          verse.verseNumber,
-                                          verse.content,
-                                          highlightedVerses,
-                                        ),
+                                            verse.verseNumber,
+                                            verse.content,
+                                            highlightedVerses,
+                                            fontStyle),
                                         selectionControls:
                                             CustomTextSelectionControls(
                                           onAddToFavorite: (id, title) {
@@ -339,6 +350,10 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                 },
                                 onChangeChapter: (chapter) {
                                   changeChapter(chapter);
+                                },
+
+                                onChangeReadingStyle: (fontStyles) {
+                                  changeFontStyle(fontStyles);
                                 },
 
                                 onChangeNewNote: (note) {
