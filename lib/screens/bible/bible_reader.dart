@@ -4,6 +4,7 @@ import '../../model/bible_content.dart';
 import '../../widgets/app_bar_icons.dart';
 import '../../widgets/build_highlighted_text.dart';
 import '../../widgets/content_section.dart';
+import '../../widgets/music_player.dart';
 import '../../widgets/reader_header.dart';
 import '../../widgets/custom_selector_toolbar.dart';
 import 'package:intl/intl.dart';
@@ -122,10 +123,16 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
             ReaderHeader(
               onBackPressed: () => Navigator.pop(context),
               isPlaying: isPlaying,
-              onPlayPause: () {
-                setState(() {
-                  isPlaying = !isPlaying;
-                });
+              onPlayOpen: () {
+                showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) => const PopupMusicPlayer(),
+                );
+
+                // setState(() {
+                //   isPlaying = !isPlaying;
+                // });
               },
             ),
             Center(
