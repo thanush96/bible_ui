@@ -24,10 +24,16 @@ class _ShareScreenViewState extends State<ShareScreenView> {
               ReaderHeader(
                 onBackPressed: () => Navigator.pop(context),
                 isPlaying: isPlaying,
-                onPlayPause: () {
-                  setState(() {
-                    isPlaying = !isPlaying;
-                  });
+                onPlayOpen: () {
+                  // showModalBottomSheet(
+                  //   backgroundColor: Colors.transparent,
+                  //   context: context,
+                  //   builder: (context) => const PopupMusicPlayer(),
+                  // );
+
+                  // setState(() {
+                  //   isPlaying = !isPlaying;
+                  // });
                 },
               ),
               Divider(

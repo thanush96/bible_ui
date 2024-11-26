@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class ReaderHeader extends StatefulWidget {
   final VoidCallback onBackPressed;
   final bool isPlaying;
-  final VoidCallback onPlayPause;
+  final VoidCallback onPlayOpen;
 
   const ReaderHeader({
     Key? key,
     required this.onBackPressed,
     required this.isPlaying,
-    required this.onPlayPause,
+    required this.onPlayOpen,
   }) : super(key: key);
 
   @override
@@ -30,8 +30,8 @@ class _ReaderHeaderState extends State<ReaderHeader> {
             onPressed: widget.onBackPressed,
           ),
           IconButton(
-            icon: Icon(widget.isPlaying ? Icons.volume_up : Icons.volume_off),
-            onPressed: widget.onPlayPause,
+            icon: const Icon(Icons.volume_up),
+            onPressed: widget.onPlayOpen,
           ),
           Container(
             width: 60,
@@ -80,10 +80,10 @@ class _ReaderHeaderState extends State<ReaderHeader> {
               });
             },
           ),
-          const CircleAvatar(
-            radius: 15,
-            backgroundImage: AssetImage('assets/profile.png'),
-          ),
+          // const CircleAvatar(
+          //   radius: 15,
+          //   backgroundImage: AssetImage('assets/profile.png'),
+          // ),
         ],
       ),
     );

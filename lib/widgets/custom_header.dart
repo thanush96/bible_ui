@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/results/search_results_page.dart';
+
 class CustomHeader extends StatefulWidget {
   final VoidCallback onBackPressed;
 
@@ -14,6 +16,20 @@ class CustomHeader extends StatefulWidget {
 
 class _CustomHeaderState extends State<CustomHeader> {
   bool isSearchVisible = false;
+  final TextEditingController _searchController = TextEditingController();
+
+  void _search() {
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      // Navigate to SearchResultsPage with the search query
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchResultsPage(query: query),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +50,9 @@ class _CustomHeaderState extends State<CustomHeader> {
                       milliseconds: 300), // Adjust duration for the transition
                   child: isSearchVisible
                       ? TextField(
+                          controller: _searchController,
                           key: ValueKey('searchField'),
-                          style: const TextStyle(fontFamily: 'Times'
-                              // fontWeight: FontWeight.w500,
-                              ),
+                          style: const TextStyle(fontFamily: 'Times'),
                           decoration: InputDecoration(
                             hintText: 'Search...',
                             border: OutlineInputBorder(
@@ -57,11 +72,13 @@ class _CustomHeaderState extends State<CustomHeader> {
               ),
               IconButton(
                 icon: const Icon(Icons.search),
-                // icon: Icon(isSearchVisible ? Icons.close : Icons.search),
                 onPressed: () {
                   setState(() {
                     isSearchVisible = !isSearchVisible;
                   });
+                  if (!isSearchVisible) {
+                    _search();
+                  }
                 },
               ),
             ],
