@@ -15,25 +15,45 @@ class BibleOnboard extends StatelessWidget {
             children: [
               Expanded(
                 flex: 3,
-                child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/splashImage.jpg'),
-                      fit: BoxFit.cover,
+                child: Stack(
+                  children: [
+                    // Background Image (Stationary)
+                    Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/photos/vecteezy_woman_pray.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                  // child: Center(
-                  //   child: Image.asset(
-                  //     'assets/logo.png',
-                  //     width: 200,
-                  //   ),
-                  // ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/logo.png',
+                              width: 120,
+                            ),
+                            const SizedBox(height: 10),
+                            Image.asset(
+                              'assets/photos/bible_title.png',
+                              width: 300,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Expanded(flex: 2, child: SizedBox()),
             ],
           ),
+  
           // Bottom Container with Curved Corners
           Positioned(
             bottom: 0,
@@ -42,31 +62,30 @@ class BibleOnboard extends StatelessWidget {
             child: Container(
               height: MediaQuery.of(context).size.height * 0.45,
               decoration: const BoxDecoration(
-                color: Color(0xFFECECFF), // Set the background color to red
+                color: Color(0xFFECECFF), // Background color
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(33),
                   topRight: Radius.circular(33),
                 ),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start, // Align items towards the top
                 children: [
-                  // Music Bible Logo
+                  const SizedBox(height: 20), // Adjust spacing at the top
                   Image.asset(
-                    'assets/logo.png',
-                    width: 60,
+                    'assets/photos/ocean_text_style_effectfull.png',
+                    width: 280,
                   ),
-                  const SizedBox(height: 8),
-                  // Reading & Listening Text
                   const Text(
                     'Reading & Listening',
                     style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF8F96B0), // Text color
-                        letterSpacing: 1.2,
-                        fontFamily: 'Times'),
+                      fontSize: 16,
+                      color: Color(0xFF8F96B0), // Text color
+                      letterSpacing: 1.2,
+                      fontFamily: 'Times',
+                    ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 20), // Space between text and buttons
                   // Language Buttons
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -75,7 +94,6 @@ class BibleOnboard extends StatelessWidget {
                         // English Button
                         Container(
                           width: 200,
-                          // width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             gradient: globalGradient,
@@ -85,13 +103,12 @@ class BibleOnboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BibleHomePage()),
+                                  builder: (context) => const BibleHomePage(),
+                                ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(
-                                  255, 255, 255, 255), // Transparent background
+                              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               shape: RoundedRectangleBorder(
@@ -101,19 +118,18 @@ class BibleOnboard extends StatelessWidget {
                             child: const Text(
                               'English',
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontFamily: 'Times'),
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontFamily: 'Times',
+                              ),
                             ),
                           ),
                         ),
-
-                        const SizedBox(height: 10),
-
+                        const SizedBox(height: 15),
+ 
                         // Tamil Button
                         Container(
                           width: 200,
-                          // width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
                             gradient: globalGradient,
@@ -123,13 +139,12 @@ class BibleOnboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BibleHomePage()),
+                                  builder: (context) => const BibleHomePage(),
+                                ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Colors.transparent, // Transparent background
+                              backgroundColor: Colors.transparent, // Transparent background
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(vertical: 10),
                               shape: RoundedRectangleBorder(
@@ -138,7 +153,9 @@ class BibleOnboard extends StatelessWidget {
                             ),
                             child: const Text(
                               'தமிழ்',
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ),
@@ -148,7 +165,7 @@ class BibleOnboard extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
