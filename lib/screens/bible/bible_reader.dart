@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/chapter_verse_view/chapter_verse_view.dart';
 import 'package:flutter_app/screens/share_screen_view/share_screen_view.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ionicons/ionicons.dart';
 import '../../constants/constants.dart';
 import '../../model/bible_content.dart';
 import '../../widgets/app_bar_icons.dart';
@@ -45,6 +48,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
   @override
   void initState() {
     super.initState();
+    selectedIndices = [];
   }
 
   void loadChapter(int index) {
@@ -124,12 +128,16 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
 
   bool isPlaying = false;
   bool showVerses = false;
+  bool createNewGroup = false;
   bool isPlayerExpanded = false;
   double audioProgress = 0.3;
   String _currentSection = 'chapters';
   bool _isContainerVisible = true;
   bool isBottomSheetOpen = false;
+  bool isBottomSheetOpenFriendGroup = false;
+  bool isBottomSheetOpenCreateNewGroup = false;
   final List<bool> _selectedProfiles = List.filled(items.length, false);
+  late List<Map<String, String>> selectedIndices;
 
   @override
   Widget build(BuildContext context) {
@@ -170,6 +178,15 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChapterVerseView(
+                                  initialIndex: 1,
+                                ),
+                              ),
+                            );
+
                             setState(() {
                               showVerses = false;
                             });
@@ -203,6 +220,14 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                         const SizedBox(width: 8),
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChapterVerseView(
+                                  initialIndex: 2,
+                                ),
+                              ),
+                            );
                             setState(() {
                               showVerses = true;
                             });
@@ -231,6 +256,74 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                     ),
                   ),
                 ),
+                if (createNewGroup && selectedIndices.isNotEmpty) ...[
+                  //Create New Group View
+                  AppSpaces.verticalSpace10,
+                  const HeaderDivider(
+                    headerCount: "52",
+                    headerText: "Participants",
+                  ),
+                  AppSpaces.verticalSpace20,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: SizedBox(
+                      height: 80,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: selectedIndices.length,
+                        itemBuilder: (context, index) {
+                          final isSelected = selectedIndices[index];
+                          final item = items[index];
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                // Toggle the selection state
+                                _selectedProfiles[index] =
+                                    !_selectedProfiles[index];
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 40,
+                                        child:
+                                            SvgPicture.asset(item['imageUrl']!),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        right: 8,
+                                        child: CircleAvatar(
+                                          radius: 12,
+                                          backgroundColor: AppColors.greyTitle,
+                                          child: const Icon(
+                                            Icons.add,
+                                            size: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  item['name']!,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -491,14 +584,23 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
             Positioned(
               bottom: isBottomSheetOpen
                   ? MediaQuery.of(context).size.height * 0.5
-                  : 40,
+                  : isBottomSheetOpenFriendGroup
+                      ? MediaQuery.of(context).size.height * 0.4
+                      : isBottomSheetOpenCreateNewGroup
+                          ? MediaQuery.of(context).size.height * 0.29
+                          : 40,
               right: 20,
               child: FloatingActionButton(
                 onPressed: () {
+                  setState(() {
+                    _isContainerVisible = !_isContainerVisible;
+                    isBottomSheetOpenFriendGroup = !_isContainerVisible;
+                  });
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
                     backgroundColor: Colors.transparent,
+                    barrierColor: Colors.transparent,
                     builder: (BuildContext context) {
                       return StatefulBuilder(
                         builder:
@@ -533,8 +635,163 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                             fontWeight: AppFont.fw400,
                                           ),
                                         ),
+                                        //create new group
                                         GestureDetector(
-                                          onTap: () {},
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              createNewGroup = !createNewGroup;
+                                              _isContainerVisible =
+                                                  !_isContainerVisible;
+                                              isBottomSheetOpen == false;
+                                              isBottomSheetOpenCreateNewGroup =
+                                                  true;
+                                              // isBottomSheetOpenFriendGroup =
+                                              //     true;
+                                            });
+
+                                            showModalBottomSheet(
+                                              barrierColor: Colors.transparent,
+                                              context: context,
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              builder: (BuildContext context) {
+                                                return StatefulBuilder(
+                                                  builder:
+                                                      (BuildContext context,
+                                                          StateSetter
+                                                              setModalState) {
+                                                    return Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              20),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                        gradient:
+                                                            globalGradient,
+                                                      ),
+                                                      // decoration: BoxDecoration(
+                                                      //   color: const Color.fromARGB(255, 255, 0, 0),
+                                                      //   borderRadius: BorderRadius.circular(20),
+                                                      // ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(0.0),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      bottom:
+                                                                          10),
+                                                              child: Divider(
+                                                                thickness: 4,
+                                                                color: AppColors
+                                                                    .white,
+                                                                indent: 60,
+                                                                endIndent: 60,
+                                                              ),
+                                                            ),
+                                                            Flexible(
+                                                              child:
+                                                                  ConstrainedBox(
+                                                                constraints:
+                                                                    BoxConstraints(
+                                                                  maxHeight: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      0.2,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              20,
+                                                                          right:
+                                                                              20),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          _buildIconWithLabel(
+                                                                              'Microphone',
+                                                                              Icons.mic_off_outlined),
+                                                                          _buildIconWithLabel(
+                                                                              'Sound',
+                                                                              Icons.volume_up_sharp),
+                                                                          _buildIconWithLabel(
+                                                                            'Screen Share',
+                                                                            Icons.ios_share_rounded,
+                                                                          ),
+                                                                          _buildIconWithLabel(
+                                                                            'Emoji',
+                                                                            Icons.emoji_emotions_outlined,
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        height:
+                                                                            20,
+                                                                      ),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          _buildIconWithLabel(
+                                                                            'Message',
+                                                                            Icons.messenger_outline_rounded,
+                                                                          ),
+                                                                          _buildIconWithLabel(
+                                                                            'Notebook',
+                                                                            Icons.note_alt_outlined,
+                                                                          ),
+                                                                          _buildIconWithLabel(
+                                                                            'High Lighter',
+                                                                            Ionicons.pencil_outline,
+                                                                          ),
+                                                                          _buildIconWithLabel(
+                                                                            '',
+                                                                            Icons.more_horiz_outlined,
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ).whenComplete(() {
+                                              setState(() {
+                                                _isContainerVisible =
+                                                    !_isContainerVisible;
+                                                isBottomSheetOpen =
+                                                    !_isContainerVisible;
+                                                isBottomSheetOpenCreateNewGroup =
+                                                    !_isContainerVisible;
+                                                isBottomSheetOpenFriendGroup =
+                                                    !_isContainerVisible;
+                                                createNewGroup = false;
+                                              });
+                                            });
+                                          },
                                           child: Container(
                                             padding: const EdgeInsets.only(
                                                 left: 12, right: 12),
@@ -632,9 +889,19 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                               onTap: () {
                                                 print("touched");
                                                 setState(() {
-                                                  // Toggle the selection state
                                                   _selectedProfiles[index] =
                                                       !_selectedProfiles[index];
+                                                  if (_selectedProfiles[
+                                                      index]) {
+                                                    selectedIndices.add(item);
+                                                  } else {
+                                                    selectedIndices.removeWhere(
+                                                      (selectedItem) =>
+                                                          selectedItem == item,
+                                                    );
+                                                  }
+                                                  print(
+                                                      selectedIndices); // Debug: Show current selections
                                                 });
                                                 setModalState(() {});
                                               },
@@ -644,9 +911,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                                     children: [
                                                       CircleAvatar(
                                                         radius: 25,
-                                                        backgroundImage:
-                                                            AssetImage(item[
-                                                                'imageUrl']!),
+                                                        child: SvgPicture.asset(
+                                                            item['imageUrl']!),
                                                       ),
                                                       Positioned(
                                                         bottom: 0,
@@ -655,13 +921,14 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                                           radius: 10,
                                                           backgroundColor:
                                                               isSelected
-                                                                  ? Colors.green
+                                                                  ? AppColors
+                                                                      .greyTitle
                                                                   : AppColors
                                                                       .greyTitle,
                                                           child: Icon(
                                                             isSelected
                                                                 ? Icons.check
-                                                                : Icons.close,
+                                                                : Icons.add,
                                                             size: 12,
                                                             color: Colors.white,
                                                           ),
@@ -694,7 +961,13 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                         },
                       );
                     },
-                  );
+                  ).whenComplete(() {
+                    setState(() {
+                      _isContainerVisible = !_isContainerVisible;
+                      isBottomSheetOpen = false;
+                      isBottomSheetOpenFriendGroup = false;
+                    });
+                  });
                 },
                 elevation: 0,
                 backgroundColor: AppColors.white,
@@ -716,13 +989,30 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
   }
 }
 
+Widget _buildIconWithLabel(String name, IconData icon) {
+  return Column(
+    children: [
+      Icon(
+        icon,
+        size: 26,
+        color: AppColors.white,
+      ),
+      const SizedBox(height: 8),
+      Text(
+        name,
+        style: TextStyle(
+          color: AppColors.white,
+          fontSize: AppFont.textSize10,
+        ),
+      ),
+    ],
+  );
+}
+
 final List<Map<String, String>> items = [
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 1'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 2'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 3'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 4'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 5'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 6'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 7'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 8'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'User 1'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'User 2'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'User 3'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'User 4'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'User 5'},
 ];
