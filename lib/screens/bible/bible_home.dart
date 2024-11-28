@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constants.dart';
-import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/book_list_view/book_list_view.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/verse_slider.dart';
@@ -19,7 +18,7 @@ class BibleHomePage extends StatelessWidget {
             Center(
               child: Image.asset(
                 'assets/logo.png',
-                height: 150,
+                height: 100,
               ),
             ),
             CustomHeader(
@@ -31,10 +30,35 @@ class BibleHomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                    const VerseSlider(),
-                    const SizedBox(height: 24),
-
-                    // Divider after VerseSlider
+                     Stack(
+                      children: [
+                        const VerseSlider(),   
+                        Positioned(
+                          top: 70,  
+                          right: 0,  
+                          child: GestureDetector(
+                            onTap: () {
+                              // Add your navigation action here (e.g., to next page)
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const BookListView()),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(9),
+                              alignment: Alignment.centerRight,
+                              child: const Icon(
+                                Icons.chevron_right,
+                                color: Colors.black,
+                                size: 28,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    
                     const Divider(
                       color: Color.fromARGB(255, 41, 40, 61), // Divider color
                       thickness: 1, // Thickness of the divider line
@@ -83,35 +107,44 @@ class BibleHomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          gradient: globalGradient,
-          borderRadius: BorderRadius.circular(30),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            gradient: globalGradient,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+               Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, 
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(2), // Add padding for icon size balance
+                child: IconButton(
+                  icon: const Icon(Icons.home, color: Colors.black), // Icon color for active tab
+                  onPressed: () {},
+                ),
+              ),
+              // Inactive Tabs
+              IconButton(
+                icon: const Icon(Icons.map, color: Colors.white54),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.favorite, color: Colors.white54),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const Icon(Icons.person, color: Colors.white54),
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.home, color: Colors.white),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.map, color: Colors.white54),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.favorite, color: Colors.white54),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.person, color: Colors.white54),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
+
     );
   }
 }

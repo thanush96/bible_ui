@@ -17,7 +17,7 @@ class _VerseSliderState extends State<VerseSlider> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 16, bottom: 8),
+          padding: EdgeInsets.only(left: 30,),
           child: Text(
             'Today Verses:',
             style: TextStyle(
@@ -38,10 +38,10 @@ class _VerseSliderState extends State<VerseSlider> {
             },
             itemBuilder: (context, index) {
               return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(27),
+                margin: const EdgeInsets.symmetric(horizontal: 30 , vertical: 15),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: const Color(0xFFF5F7FC),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
