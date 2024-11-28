@@ -256,8 +256,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                     ),
                   ),
                 ),
+                //Create New Group View
                 if (createNewGroup && selectedIndices.isNotEmpty) ...[
-                  //Create New Group View
                   AppSpaces.verticalSpace10,
                   const HeaderDivider(
                     headerCount: "52",
@@ -273,7 +273,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                         itemCount: selectedIndices.length,
                         itemBuilder: (context, index) {
                           final isSelected = selectedIndices[index];
-                          final item = items[index];
+                          final item = selectedIndices[index];
                           return GestureDetector(
                             onTap: () {
                               setState(() {
