@@ -139,8 +139,7 @@ class _ShareScreenViewState extends State<ShareScreenView> {
                               children: [
                                 CircleAvatar(
                                   radius: 40,
-                                  backgroundImage:
-                                      AssetImage(item['imageUrl']!),
+                                  child: SvgPicture.asset(item['imageUrl']!),
                                 ),
                                 Positioned(
                                   bottom: 0,
@@ -148,10 +147,10 @@ class _ShareScreenViewState extends State<ShareScreenView> {
                                   child: CircleAvatar(
                                     radius: 12,
                                     backgroundColor: isSelected
-                                        ? Colors.green
+                                        ? AppColors.greyTitle
                                         : AppColors.greyTitle,
                                     child: Icon(
-                                      isSelected ? Icons.check : Icons.close,
+                                      isSelected ? Icons.check : Icons.add,
                                       size: 16,
                                       color: Colors.white,
                                     ),
@@ -208,8 +207,7 @@ class _ShareScreenViewState extends State<ShareScreenView> {
                               children: [
                                 CircleAvatar(
                                   radius: 40,
-                                  backgroundImage:
-                                      AssetImage(item['imageUrl']!),
+                                  child: SvgPicture.asset(item['imageUrl']!),
                                 ),
                                 Positioned(
                                   bottom: 0,
@@ -217,10 +215,10 @@ class _ShareScreenViewState extends State<ShareScreenView> {
                                   child: CircleAvatar(
                                     radius: 12,
                                     backgroundColor: isSelected
-                                        ? Colors.green
+                                        ? AppColors.greyTitle
                                         : AppColors.greyTitle,
                                     child: Icon(
-                                      isSelected ? Icons.check : Icons.close,
+                                      isSelected ? Icons.check : Icons.add,
                                       size: 16,
                                       color: Colors.white,
                                     ),
@@ -298,12 +296,12 @@ class HeaderDivider extends StatelessWidget {
 }
 
 final List<Map<String, String>> items = [
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 1'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 2'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 3'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 4'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 5'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 6'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 7'},
-  {'imageUrl': 'assets/profile.png', 'name': 'Item 8'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 1'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 2'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 3'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 4'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 5'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 6'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 7'},
+  {'imageUrl': 'assets/svg/user.svg', 'name': 'Item 8'},
 ];
