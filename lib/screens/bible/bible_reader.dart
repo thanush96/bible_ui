@@ -142,7 +142,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFECECFF),
       body: SafeArea(
         child: Stack(
           children: [
@@ -166,9 +166,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                 Center(
                   child: Container(
                     constraints: const BoxConstraints(
-                        maxWidth: 200), // Set the max width
+                        maxWidth: 190), // Set the max width
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       gradient: globalGradient,
                       borderRadius: BorderRadius.circular(20),
@@ -477,15 +477,15 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                 //   borderRadius: BorderRadius.circular(20),
                                 // ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
+                                  padding: const EdgeInsets.all(14.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Divider(
                                         thickness: 4,
                                         color: AppColors.white,
-                                        indent: 40,
-                                        endIndent: 40,
+                                        indent: 60,
+                                        endIndent: 60,
                                       ),
                                       AppBarIcons(
                                         onSectionChange: (String section) {
@@ -559,21 +559,24 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                     },
                     borderRadius: BorderRadius.circular(
                         10), // Match the border radius of the container
-                    child: Visibility(
-                      visible: _isContainerVisible,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width *
-                            0.7, // 70% of screen width
-                        height: 20,
-                        decoration: BoxDecoration(
-                          gradient: globalGradient,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Divider(
-                          thickness: 2,
-                          color: AppColors.white,
-                          indent: 40,
-                          endIndent: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Visibility(
+                        visible: _isContainerVisible,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width *
+                              0.7, // 70% of screen width
+                          height: 20,
+                          decoration: BoxDecoration(
+                            gradient: globalGradient,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Divider(
+                            thickness: 4,
+                            color: AppColors.white,
+                            indent: 60,
+                            endIndent: 60,
+                          ),
                         ),
                       ),
                     ),
@@ -680,7 +683,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .all(0.0),
+                                                                .all(10.0),
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.min,
@@ -793,8 +796,8 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                             });
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.only(
-                                                left: 12, right: 12),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -973,7 +976,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                 backgroundColor: AppColors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: BorderSide(color: AppColors.greyTitle, width: 1),
+                  side: const BorderSide(color: Colors.black12, width: 1),
                 ),
                 child: Icon(
                   size: 26,

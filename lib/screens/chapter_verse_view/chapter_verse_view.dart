@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
@@ -19,7 +18,7 @@ class ChapterVerseView extends StatelessWidget {
       length: 3, // Define the number of tabs
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.grey[200],
+          backgroundColor: const Color(0xFFECECFF),
           body: Column(
             children: [
               CustomHeader(

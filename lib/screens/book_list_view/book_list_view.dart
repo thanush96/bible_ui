@@ -1,12 +1,13 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/constants.dart';
 import 'package:flutter_app/screens/book_full_view/book_full_view.dart';
 import 'package:flutter_app/screens/see_all_book/see_all_books.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
+import 'package:flutter_app/widgets/button_nav.dart'; // Assuming you have this widget
 
 class BookListView extends StatelessWidget {
   static const routeName = "BookListView";
@@ -32,71 +33,64 @@ class BookListView extends StatelessWidget {
               AppSpaces.verticalSpace10,
               const HeaderDivider(
                 headerCount: "65",
-                headerText: "New Testamwent",
+                headerText: "New Testament",
               ),
               AppSpaces.verticalSpace20,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: SizedBox(
-                  height: 250,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BookFullView(),
-                            ),
-                          );
-                        },
-                        child: const BookCard(
-                          title: 'Bible Study',
-                          subTitle: 'Exodux',
-                          actionText: '30 Days Online Lesson',
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              _buildBookList(),
               AppSpaces.verticalSpace20,
               const HeaderDivider(
                 headerCount: "69",
-                headerText: "New Testamwent",
+                headerText: "New Testament",
               ),
               AppSpaces.verticalSpace10,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: SizedBox(
-                  height: 250,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BookFullView(),
-                            ),
-                          );
-                        },
-                        child: const BookCard(
-                          title: 'Bible Study',
-                          subTitle: 'Exodux',
-                          actionText: '30 Days Online Lesson',
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              _buildBookList(),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: ButtonNav(
+        onHomePressed: () {
+          // Handle Home button press
+        },
+        onMapPressed: () {
+          // Handle Map button press
+        },
+        onFavoritePressed: () {
+          // Handle Favorite button press
+        },
+        onProfilePressed: () {
+          // Handle Profile button press
+        },
+      ),
+    );
+  }
+
+  // Extracted method to avoid code repetition
+  Widget _buildBookList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: SizedBox(
+        height: 250,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BookFullView(),
+                  ),
+                );
+              },
+              child: const BookCard(
+                title: 'Bible Study',
+                subTitle: 'Exodus',
+                actionText: '30 Days Online Lesson',
+              ),
+            );
+          },
         ),
       ),
     );
@@ -125,9 +119,7 @@ class BookCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               image: const DecorationImage(
-                image: NetworkImage(
-                  'https://m.media-amazon.com/images/I/914pEgyd14L._AC_UF894,1000_QL80_.jpg', // Replace with your image URL
-                ),
+                image: AssetImage('assets/john.webp'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -150,7 +142,7 @@ class BookCard extends StatelessWidget {
                   ),
                   child: Container(
                     padding: const EdgeInsets.all(10),
-                    color: AppColors.white.withOpacity(0.2),
+                    color: AppColors.black.withOpacity(0.2),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -158,24 +150,7 @@ class BookCard extends StatelessWidget {
                         Container(
                           height: 30,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(
-                                  0xFF000000,
-                                ),
-                                Color(
-                                  0xFF3533CD,
-                                ),
-                                Color.fromRGBO(
-                                  53,
-                                  51,
-                                  205,
-                                  0.68,
-                                ),
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
+                            gradient: globalGradient,
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: ElevatedButton(
@@ -190,7 +165,7 @@ class BookCard extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              "Bible Study",
+                              title,
                               style: TextStyle(
                                 fontSize: AppFont.textSize12,
                                 color: AppColors.white,
@@ -201,7 +176,7 @@ class BookCard extends StatelessWidget {
                         ),
                         AppSpaces.verticalSpace06,
                         Text(
-                          "Exodux",
+                          subTitle,
                           style: TextStyle(
                             fontSize: AppFont.textSize12,
                             fontWeight: AppFont.fw400,
@@ -209,7 +184,7 @@ class BookCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "30 Days Online Lesson",
+                          actionText,
                           style: TextStyle(
                             fontWeight: AppFont.fw400,
                             fontSize: AppFont.textSize12,
@@ -233,11 +208,12 @@ class HeaderDivider extends StatelessWidget {
   final String headerText;
   final String headerCount;
   final String actionText;
-  const HeaderDivider(
-      {super.key,
-      required this.headerText,
-      required this.headerCount,
-      this.actionText = "See All"});
+  const HeaderDivider({
+    super.key,
+    required this.headerText,
+    required this.headerCount,
+    this.actionText = "See All",
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -266,11 +242,6 @@ class HeaderDivider extends StatelessWidget {
                     ),
                   );
                 },
-                style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
                 child: Text(
                   actionText,
                   style: TextStyle(

@@ -17,6 +17,7 @@ class _ShareScreenViewState extends State<ShareScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFECECFF),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

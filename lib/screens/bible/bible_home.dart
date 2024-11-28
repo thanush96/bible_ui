@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/constants/constants.dart';
 import 'package:flutter_app/screens/book_list_view/book_list_view.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/verse_slider.dart';
 import 'package:flutter_app/widgets/version_card.dart';
+import 'package:flutter_app/widgets/button_nav.dart'; // Import the ButtonNav widget
 
 class BibleHomePage extends StatelessWidget {
   const BibleHomePage({super.key});
@@ -30,15 +30,14 @@ class BibleHomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                     Stack(
+                    Stack(
                       children: [
-                        const VerseSlider(),   
+                        const VerseSlider(),
                         Positioned(
-                          top: 70,  
-                          right: 0,  
+                          top: 70,
+                          right: 0,
                           child: GestureDetector(
                             onTap: () {
-                              // Add your navigation action here (e.g., to next page)
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -58,25 +57,20 @@ class BibleHomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    
                     const Divider(
                       color: Color.fromARGB(255, 41, 40, 61), // Divider color
                       thickness: 1, // Thickness of the divider line
                       indent: 20, // Space from the left
                       endIndent: 20, // Space from the right
                     ),
-
                     const SizedBox(height: 24),
-
                     VersionCard(
                       title: 'American Version',
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  // BibleReaderPage(),
-                                  const BookListView()),
+                              builder: (context) => const BookListView()),
                         );
                       },
                     ),
@@ -107,44 +101,20 @@ class BibleHomePage extends StatelessWidget {
           ],
         ),
       ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            gradient: globalGradient,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          margin: const EdgeInsets.all(16),
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-               Container(
-                decoration: BoxDecoration(
-                  color: Colors.white, 
-                  shape: BoxShape.circle,
-                ),
-                padding: const EdgeInsets.all(2), // Add padding for icon size balance
-                child: IconButton(
-                  icon: const Icon(Icons.home, color: Colors.black), // Icon color for active tab
-                  onPressed: () {},
-                ),
-              ),
-              // Inactive Tabs
-              IconButton(
-                icon: const Icon(Icons.map, color: Colors.white54),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.favorite, color: Colors.white54),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.person, color: Colors.white54),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-
+      bottomNavigationBar: ButtonNav(
+        onHomePressed: () {
+          // Handle Home button press
+        },
+        onMapPressed: () {
+          // Handle Map button press
+        },
+        onFavoritePressed: () {
+          // Handle Favorite button press
+        },
+        onProfilePressed: () {
+          // Handle Profile button press
+        },
+      ),
     );
   }
 }

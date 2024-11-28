@@ -113,9 +113,7 @@ class BookCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               image: const DecorationImage(
-                image: NetworkImage(
-                  'https://m.media-amazon.com/images/I/914pEgyd14L._AC_UF894,1000_QL80_.jpg', // Replace with your image URL
-                ),
+                image: AssetImage('assets/exodus.webp'),
                 fit: BoxFit.cover,
               ),
             ),

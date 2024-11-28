@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
-import 'package:flutter_app/screens/chapter_verse_view/chapter_verse_view.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
@@ -65,9 +63,7 @@ class BookFullView extends StatelessWidget {
                                   height: 220,
                                   decoration: BoxDecoration(
                                     image: const DecorationImage(
-                                      image: NetworkImage(
-                                        'https://i.ibb.co/SNkhdQp/Twitter-Post-Frame-1-removebg-preview.png',
-                                      ),
+                                      image: AssetImage('assets/book.png'),
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(10),

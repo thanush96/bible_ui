@@ -11,7 +11,7 @@ TextSpan buildHighlightedText(
   spans.add(TextSpan(
     text: '$verseNumber. ',
     style: TextStyle(
-        color: Color.fromARGB(255, 145, 3, 3),
+        color: Color.fromARGB(255, 0, 0, 0),
         fontFamily: fontStyle["_selectedFont"],
         fontSize: double.parse(fontStyle["_fontSize"].toString())),
   ));
