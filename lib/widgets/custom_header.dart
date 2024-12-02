@@ -32,7 +32,9 @@ class _CustomHeaderState extends State<CustomHeader> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchResultsPage(query: query),
+          builder: (context) => SearchResultsPage(
+            initialQuery: query,
+          ),
         ),
       );
     } else {

@@ -38,6 +38,8 @@ dependencies:
   intl: ^0.20.0
   flutter_svg: ^2.0.15
   just_audio: ^0.9.18
+  stacked: ^3.4.3
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
