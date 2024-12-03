@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const BibleReaderPage(),
-      // home: const BibleOnboard(),
+      //home: const BibleReaderPage(),
+      home: const BibleOnboard(),
     );
   }
 }
