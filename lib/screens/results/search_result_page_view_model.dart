@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/search_chparter_model.dart';
+import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/search_services.dart';
 import 'package:stacked/stacked.dart';
 
@@ -25,7 +26,23 @@ class SearchViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  late SearchChapterModel _searchChapterModel;
+  SearchChapterModel _searchChapterModel = SearchChapterModel(
+    data: Data(
+      query: '',
+      limit: 0,
+      offset: 0,
+      total: 0,
+      verseCount: 0,
+      verses: [],
+    ),
+    meta: Meta(
+      fums: '',
+      fumsId: '',
+      fumsJsInclude: '',
+      fumsJs: '',
+      fumsNoScript: '',
+    ),
+  );
   SearchChapterModel get searchChapterModel => _searchChapterModel;
   Future<void> search() async {
     try {
@@ -39,6 +56,22 @@ class SearchViewModel extends BaseViewModel {
     } finally {
       setBusy(false);
     }
+  }
+
+  void handleNavigationSearchToChapReading(
+    BuildContext context,
+    String bibleId,
+    String chapterId,
+  ) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BibleReaderPage(
+          bibleId: bibleId,
+          chapterId: chapterId,
+        ),
+      ),
+    );
   }
 }
 

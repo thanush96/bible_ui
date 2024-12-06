@@ -129,52 +129,59 @@ class BuildResultsList extends ViewModelWidget<SearchViewModel> {
           : searchChapterModel.data.total,
       itemBuilder: (context, index) {
         final result = searchChapterModel.data.verses[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(16),
-            leading: CircleAvatar(
-              backgroundColor: Colors.deepPurpleAccent.withOpacity(0.2),
-              child: const Icon(Icons.book, color: Colors.deepPurpleAccent),
+        return GestureDetector(
+          onTap: () {
+            viewModel.handleNavigationSearchToChapReading(
+                context, result.bibleId, result.chapterId);
+          },
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
-            title: Text(
-              result.text,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(16),
+              leading: CircleAvatar(
+                backgroundColor: Colors.deepPurpleAccent.withOpacity(0.2),
+                child: const Icon(Icons.book, color: Colors.deepPurpleAccent),
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 3,
-            ),
-            subtitle: Text(
-              result.chapterId,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.deepPurpleAccent,
+              title: Text(
+                result.text,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
               ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.bookmark_border,
-                      color: Colors.deepPurpleAccent),
-                  onPressed: () {
-                    // Implement bookmark toggle logic
-                  },
+              subtitle: Text(
+                result.chapterId,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.deepPurpleAccent,
                 ),
-                IconButton(
-                  icon: const Icon(Icons.share, color: Colors.deepPurpleAccent),
-                  onPressed: () {
-                    // Implement share functionality
-                  },
-                ),
-              ],
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.bookmark_border,
+                        color: Colors.deepPurpleAccent),
+                    onPressed: () {
+                      // Implement bookmark toggle logic
+                    },
+                  ),
+                  IconButton(
+                    icon:
+                        const Icon(Icons.share, color: Colors.deepPurpleAccent),
+                    onPressed: () {
+                      // Implement share functionality
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );

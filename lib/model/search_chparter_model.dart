@@ -67,7 +67,7 @@ class Verse {
   String id;
   String orgId;
   String bookId;
-  BibleId bibleId;
+  String bibleId;
   String chapterId;
   String reference;
   String text;
@@ -86,7 +86,7 @@ class Verse {
         id: json["id"],
         orgId: json["orgId"],
         bookId: json["bookId"],
-        bibleId: bibleIdValues.map[json["bibleId"]]!,
+        bibleId: json["bibleId"],
         chapterId: json["chapterId"],
         reference: json["reference"],
         text: json["text"],
@@ -96,17 +96,12 @@ class Verse {
         "id": id,
         "orgId": orgId,
         "bookId": bookId,
-        "bibleId": bibleIdValues.reverse[bibleId],
+        "bibleId": bibleId,
         "chapterId": chapterId,
         "reference": reference,
         "text": text,
       };
 }
-
-enum BibleId { THE_143_E0_E03_CF5_B12_AE_01 }
-
-final bibleIdValues =
-    EnumValues({"143e0e03cf5b12ae-01": BibleId.THE_143_E0_E03_CF5_B12_AE_01});
 
 class Meta {
   String fums;
