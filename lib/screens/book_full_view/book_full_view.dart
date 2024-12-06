@@ -286,13 +286,13 @@ class BookFullView extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const BibleReaderPage(),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         const BibleReaderPage(),
+                                      //   ),
+                                      // );
                                     },
                                     child: Text(
                                       "Readings",
@@ -310,13 +310,13 @@ class BookFullView extends StatelessWidget {
                                       color: AppColors.greyTitle,
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const BibleReaderPage(),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) =>
+                                      //         const BibleReaderPage(),
+                                      //   ),
+                                      // );
                                     },
                                   )
                                 ],
