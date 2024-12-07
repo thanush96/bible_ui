@@ -38,6 +38,14 @@ class BibleReaderViewModel extends BaseViewModel {
   String get ChapterID => _chapterID;
   set setChapterID(String value) => _chapterID = value;
 
+  String _nextChapter = "";
+  String get NextChapter => _nextChapter;
+  set setNextChapter(String value) => _nextChapter = value;
+
+  String _prevChapter = "";
+  String get PrevChapter => _prevChapter;
+  set setPrevChapter(String value) => _prevChapter = value;
+
   void updateInitialParams(String bibleID, String chapterID) {
     setBibleID = bibleID;
     setChapterID = chapterID;
@@ -49,13 +57,15 @@ class BibleReaderViewModel extends BaseViewModel {
 
   late ChapterViewModel chapterViewModel;
 
-  Future<void> chapterFetch() async {
+  Future<void> chapterFetch(String bibleID, String chapterID) async {
     try {
       if (BibleID.isEmpty && ChapterID.isEmpty) return;
 
       setBusy(true);
       chapterViewModel = await ChapterService.chapterContentFetch(
-          bibleID: BibleID, chapterID: ChapterID);
+          bibleID: bibleID, chapterID: chapterID);
+      setPrevChapter = chapterViewModel.data.previous.id;
+      setNextChapter = chapterViewModel.data.next.id;
       if (chapterViewModel.data.content != "") {
         chapterViewModel.data.content =
             formatContent(chapterViewModel.data.content);
@@ -87,12 +97,16 @@ class BibleReaderViewModel extends BaseViewModel {
   }
 
   void changeChapterNext() {
-    currentChapterIndex = (currentChapterIndex + 1) % mockChapters.length;
+    chapterFetch(BibleID, NextChapter);
+    chapterListViewModel.clear();
+    //currentChapterIndex = (currentChapterIndex + 1) % mockChapters.length;
     notifyListeners();
   }
 
   void changeChapterPrev() {
-    currentChapterIndex = (currentChapterIndex - 1) % mockChapters.length;
+    chapterFetch(BibleID, PrevChapter);
+    chapterListViewModel.clear();
+    // currentChapterIndex = (currentChapterIndex - 1) % mockChapters.length;
     notifyListeners();
   }
 
