@@ -35,7 +35,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
         viewModelBuilder: () => BibleReaderViewModel(),
         onViewModelReady: (model) {
           model.updateInitialParams(widget.bibleId, widget.chapterId);
-          model.chapterFetch();
+          model.chapterFetch(widget.bibleId, widget.chapterId);
         },
         builder: (context, model, _) {
           return Scaffold(
