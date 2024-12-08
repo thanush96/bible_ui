@@ -286,13 +286,15 @@ class BookFullView extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         const BibleReaderPage(),
-                                      //   ),
-                                      // );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BibleReaderPage(
+                                            bibleId: 'de4e12af7f28f599-01',
+                                            chapterId: 'JHN.8',
+                                          ),
+                                        ),
+                                      );
                                     },
                                     child: Text(
                                       "Readings",
