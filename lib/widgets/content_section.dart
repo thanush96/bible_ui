@@ -358,6 +358,8 @@ class _ContentSectionState extends State<ContentSection> {
                       _selectedFont = newValue!;
                     });
 
+                    print('_selectedFont $_selectedFont');
+
                     widget.onChangeReadingStyle(
                       {
                         '_selectedFont': '$_selectedFont',

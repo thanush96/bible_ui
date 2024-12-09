@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:stacked/stacked.dart';
 import '../../constants/constants.dart';
-import '../../model/bible_content.dart';
+// import '../../model/bible_content.dart';
 import '../../widgets/app_bar_icons.dart';
 import '../../widgets/build_highlighted_text.dart';
 import '../../widgets/content_section.dart';
@@ -37,6 +37,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
         onViewModelReady: (model) {
           model.updateInitialParams(widget.bibleId, widget.chapterId);
           model.chapterFetch(widget.bibleId, widget.chapterId);
+          model.chapterListFetch(widget.bibleId, widget.chapterId);
         },
         builder: (context, model, _) {
           return Scaffold(
@@ -226,50 +227,49 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                           ),
                         ),
                       ],
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.chevron_left),
+                              onPressed: () {
+                                model.changeChapterPrev();
+                              },
+                            ),
+                            Text(
+                              'Chapters ${model.ChapterID} ',
+                              style: const TextStyle(
+                                  fontFamily: 'Times',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.chevron_right),
+                              onPressed: () {
+                                model.changeChapterNext();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const Divider(
+                        thickness: 1, // Line thickness
+                        color: Colors.grey, // Line color
+                        indent: 40, // Optional: add space from the left side
+                        endIndent:
+                            40, // Optional: add space from the right side
+                      ),
+
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.chevron_left),
-                                      onPressed: () {
-                                        model.changeChapterPrev();
-                                      },
-                                    ),
-                                    Text(
-                                      'Chapters ${model.currentChapterIndex + 1} ',
-                                      style: const TextStyle(
-                                          fontFamily: 'Times',
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.chevron_right),
-                                      onPressed: () {
-                                        model.changeChapterNext();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              const Divider(
-                                thickness: 1, // Line thickness
-                                color: Colors.grey, // Line color
-                                indent:
-                                    40, // Optional: add space from the left side
-                                endIndent:
-                                    40, // Optional: add space from the right side
-                              ),
                               // const SizedBox(height: 20),
                               Padding(
                                 padding:
@@ -283,88 +283,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          // const SizedBox(height: 20),
-                                          // ...mockChapters[model
-                                          //         .currentChapterIndex]
-                                          //     .verses
-                                          //     .asMap()
-                                          //     .entries
-                                          //     .map((entry)
-                                          //      {
-                                          //   final index = entry.key;
-                                          //   final verse = entry.value;
-                                          //   if (index == 0) {
-                                          //     return RichText(
-                                          //       text: TextSpan(
-                                          //         style: TextStyle(
-                                          //             color: Colors.black,
-                                          //             fontFamily: model
-                                          //                     .fontStyle[
-                                          //                 "_selectedFont"],
-                                          //             fontSize: double
-                                          //                 .parse(model
-                                          //                     .fontStyle[
-                                          //                         "_fontSize"]
-                                          //                     .toString()),
-                                          //             height: 1.5),
-                                          //         children: [
-                                          //           TextSpan(
-                                          //             text: verse
-                                          //                 .content[0],
-                                          //             style: TextStyle(
-                                          //               fontSize: 60,
-                                          //               fontFamily: model
-                                          //                       .fontStyle[
-                                          //                   "_selectedFont"],
-                                          //               fontWeight:
-                                          //                   FontWeight
-                                          //                       .bold,
-                                          //               color: Colors
-                                          //                   .black
-                                          //                   .withOpacity(
-                                          //                       0.8),
-                                          //             ),
-                                          //           ),
-                                          //           TextSpan(
-                                          //             text: verse.content
-                                          //                 .substring(1),
-                                          //           ),
-                                          //         ],
-                                          //       ),
-                                          //     );
-                                          //   } else {
-                                          //     return Padding(
-                                          //       padding:
-                                          //           const EdgeInsets.only(
-                                          //               top: 20),
-                                          //       child:
-                                          //           SelectableText.rich(
-                                          //         buildHighlightedText(
-                                          //             verse.verseNumber,
-                                          //             verse.content,
-                                          //             highlightedVerses,
-                                          //             model.fontStyle),
-                                          //         selectionControls:
-                                          //             CustomTextSelectionControls(
-                                          //           onAddToFavorite:
-                                          //               (id, title) {
-                                          //             model.addToFavorites(
-                                          //                 id,
-                                          //                 title); // Add to favorites
-                                          //           },
-                                          //           onHighlight:
-                                          //               (verseNumber) {
-                                          //             model.toggleHighlight(
-                                          //                 verseNumber);
-                                          //           },
-                                          //         ),
-                                          //       ),
-                                          //     );
-                                          //   }
-                                          // }
-                                          // ),
-                                          //!
-
                                           model.isBusy
                                               ? const MySkeletonLoader()
                                               : SelectableText.rich(

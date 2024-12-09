@@ -44,10 +44,10 @@ class _ShimmerEffectState extends State<ShimmerEffect>
             return LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Colors.grey.shade300,
-                Colors.grey.shade100,
-                Colors.grey.shade300,
+              colors: const [
+                Color.fromARGB(255, 188, 203, 253),
+                Color.fromARGB(255, 205, 214, 255),
+                Color.fromARGB(255, 138, 141, 151),
               ],
               stops: [
                 0.0,

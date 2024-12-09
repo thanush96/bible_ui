@@ -12,7 +12,7 @@ class MySkeletonLoader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
-              List.generate(5, (index) => _buildVerseSkeleton(index, context)),
+              List.generate(9, (index) => _buildVerseSkeleton(index, context)),
         ),
       ),
     );

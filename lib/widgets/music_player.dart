@@ -171,36 +171,36 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                // const SizedBox(height: 10),
                 // Time Progress
-                if (isPlaying)
-                  if (_totalDuration.inMilliseconds > 0)
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        activeTrackColor: Colors.white,
-                        inactiveTrackColor: Colors.white.withOpacity(0.3),
-                        thumbColor: Colors.white,
-                        trackHeight: 2.0,
-                      ),
-                      child: Slider(
-                        value: _currentPosition.inMilliseconds.toDouble(),
-                        min: 0,
-                        max: _totalDuration.inMilliseconds.toDouble(),
-                        onChanged: (value) {
-                          setState(() {
-                            _audioPlayer
-                                .seek(Duration(milliseconds: value.toInt()));
-                          });
-                        },
-                      ),
-                    ),
-                if (isLoading)
-                  const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2.0,
-                    ),
-                  ),
+                // if (isPlaying)
+                //   if (_totalDuration.inMilliseconds > 0)
+                //     SliderTheme(
+                //       data: SliderTheme.of(context).copyWith(
+                //         activeTrackColor: Colors.white,
+                //         inactiveTrackColor: Colors.white.withOpacity(0.3),
+                //         thumbColor: Colors.white,
+                //         trackHeight: 2.0,
+                //       ),
+                //       child: Slider(
+                //         value: _currentPosition.inMilliseconds.toDouble(),
+                //         min: 0,
+                //         max: _totalDuration.inMilliseconds.toDouble(),
+                //         onChanged: (value) {
+                //           setState(() {
+                //             _audioPlayer
+                //                 .seek(Duration(milliseconds: value.toInt()));
+                //           });
+                //         },
+                //       ),
+                //     ),
+                // if (isLoading)
+                //   const Center(
+                //     child: CircularProgressIndicator(
+                //       color: Colors.white,
+                //       strokeWidth: 2.0,
+                //     ),
+                //   ),
               ],
             ),
           ),

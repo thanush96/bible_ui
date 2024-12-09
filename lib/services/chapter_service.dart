@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_app/model/chapter_list_model.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'dart:developer' as logging;
 
@@ -18,5 +19,19 @@ class ChapterService {
     logging.log(jsonEncode(chapterViewModel.data));
     printStatement(chapterViewModel.data);
     return chapterViewModel;
+  }
+}
+
+class ChapterListService {
+  static Future<ChapterListDataViewModel> chapterListFetch({
+    required String bibleID,
+    required String bookID,
+  }) async {
+    final response = await get('$bibleID/books/JHN/chapters', token: true);
+    ChapterListDataViewModel chapterListDataViewModel =
+        ChapterListDataViewModel.fromJson(json.decode(response));
+    logging.log(jsonEncode(chapterListDataViewModel.data));
+    printStatement(chapterListDataViewModel.data);
+    return chapterListDataViewModel;
   }
 }

@@ -1,12 +1,13 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/bible_content.dart';
+// import 'package:flutter_app/model/bible_content.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../model/chapter_list_model.dart';
 
 class BibleReaderViewModel extends BaseViewModel {
   List<Map<String, String>> chapters = [];
@@ -14,10 +15,9 @@ class BibleReaderViewModel extends BaseViewModel {
   // List<Map<String, String>> fontStyleData = [];
   Map<String, dynamic> fontStyle = {
     "_selectedFont": "Times New Roman",
-    "_fontSize": 16.721590283890844
+    "_fontSize": 16
   };
-  @override
-  late int currentChapterIndex = 0;
+  late int currentChapterIndex = 1;
   late Color highlight = Colors.red.shade200;
 
   final List<Color> colorsList = [
@@ -52,6 +52,7 @@ class BibleReaderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+//dart fetch spec chapter
   final List<ChapterViewModel> _chapterListViewModel = [];
   List<ChapterViewModel> get chapterListViewModel => _chapterListViewModel;
 
@@ -79,6 +80,41 @@ class BibleReaderViewModel extends BaseViewModel {
     }
   }
 
+// Dart service to fetch chapter list data
+  final List<ChapterListDataViewModel> _chapterListDataViewModel = [];
+  List<ChapterListDataViewModel> get chapterListDataViewModel =>
+      _chapterListDataViewModel;
+
+  late ChapterListDataViewModel chapterListDatasViewModel;
+
+  Future<void> chapterListFetch(String bibleID, String bookID) async {
+    try {
+      if (bibleID.isEmpty || bookID.isEmpty) return;
+
+      setBusy(true);
+
+      // Fetch the chapter list data from the service
+      chapterListDatasViewModel = await ChapterListService.chapterListFetch(
+          bibleID: bibleID, bookID: bookID);
+
+      // Optionally, process the content if needed
+      // for (var chapterData in chapterListDatasViewModel.data) {
+      //   if (chapterData.reference.isNotEmpty) {
+      //     // If you want to format the reference or any other data, do it here
+      //     chapterData.reference = formatReference(chapterData.reference);
+      //   }
+      // }
+
+      // Add the fetched list to the view model
+      _chapterListDataViewModel.add(chapterListDatasViewModel);
+      notifyListeners();
+    } catch (error) {
+      throw Exception('Error fetching chapter list data: $error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   String formatContent(String content) {
     content = content.replaceAll('\n', '');
     final regex = RegExp(r'\[(.*?)\]');
@@ -98,6 +134,7 @@ class BibleReaderViewModel extends BaseViewModel {
 
   void changeChapterNext() {
     chapterFetch(BibleID, NextChapter);
+    setChapterID = NextChapter;
     chapterListViewModel.clear();
     //currentChapterIndex = (currentChapterIndex + 1) % mockChapters.length;
     notifyListeners();
@@ -105,13 +142,16 @@ class BibleReaderViewModel extends BaseViewModel {
 
   void changeChapterPrev() {
     chapterFetch(BibleID, PrevChapter);
+    setChapterID = PrevChapter;
     chapterListViewModel.clear();
     // currentChapterIndex = (currentChapterIndex - 1) % mockChapters.length;
     notifyListeners();
   }
 
   void changeFontStyle(Map<String, dynamic> newFontStyle) {
+    // print('newFontStyle $newFontStyle');
     fontStyle = newFontStyle;
+    notifyListeners();
   }
 
   void addToFavorites(String id, String title) {
@@ -132,6 +172,7 @@ class BibleReaderViewModel extends BaseViewModel {
 
   void selectedHighlighterColor(Color color) {
     highlight = color;
+    notifyListeners();
   }
 
   void toggleHighlight(String verse) {
@@ -148,6 +189,9 @@ class BibleReaderViewModel extends BaseViewModel {
         'color': highlight,
       });
     }
+
+    print(highlightedVerses);
+    notifyListeners();
   }
 
   bool isPlaying = false;
