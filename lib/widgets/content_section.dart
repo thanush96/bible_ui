@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/bible_content.dart';
+import 'package:flutter_app/model/chapter_list_model.dart';
 import 'package:intl/intl.dart';
 
 class ContentSection extends StatefulWidget {
-  final List<Map<String, dynamic>> chapters;
+  final List<ChapterListDataViewModel> chapters;
   final List<Map<String, dynamic>> noteList;
   final List<Map<String, dynamic>> highlightedList;
   final String currentSection;
@@ -72,14 +73,20 @@ class _ContentSectionState extends State<ContentSection> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
       child: ListView.builder(
-        itemCount: mockChapters.length, // Use mockChapters for chapter data
+        itemCount:
+            widget.chapters[0].data.length, // Use mockChapters for chapter data
         itemBuilder: (context, index) {
-          final chapter = mockChapters[index]; // Get the current chapter
+          final chapter =
+              widget.chapters[0].data[index]; // Get the current chapter
           return GestureDetector(
             onTap: () {
               widget.onChangeChapter(
-                {'id': '$index', 'title': 'Chapter 2'},
+                {
+                  'id': '$index',
+                  'chapterId': widget.chapters[0].data[index].id
+                },
               );
+              Navigator.pop(context);
             },
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
@@ -94,7 +101,7 @@ class _ContentSectionState extends State<ContentSection> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Chapter ${chapter.chapterNumber}",
+                    "Chapter ${chapter.id}",
                     style: const TextStyle(fontSize: 13, color: Colors.white70),
                   ),
                 ],
@@ -124,9 +131,10 @@ class _ContentSectionState extends State<ContentSection> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.chapters[index]['time'],
-                  style: const TextStyle(fontSize: 10, color: Colors.white70),
+                const Text(
+                  "time",
+                  //widget.chapters[index]['time'],
+                  style: TextStyle(fontSize: 10, color: Colors.white70),
                 ),
                 Text(
                   'Chapter ${index + 1}',
@@ -141,7 +149,7 @@ class _ContentSectionState extends State<ContentSection> {
   }
 
   Widget _buildAddNew() {
-    final TextEditingController _noteController = TextEditingController();
+    final TextEditingController noteController = TextEditingController();
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -153,7 +161,7 @@ class _ContentSectionState extends State<ContentSection> {
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               child: ElevatedButton(
                 onPressed: () {
-                  final inputText = _noteController.text;
+                  final inputText = noteController.text;
 
                   setState(() {
                     noteList.add({
@@ -167,7 +175,7 @@ class _ContentSectionState extends State<ContentSection> {
                     'id': '01',
                     'note': inputText,
                   });
-                  _noteController.clear();
+                  noteController.clear();
 
                   // print('Inputted text: $noteList');
                 },
@@ -192,7 +200,7 @@ class _ContentSectionState extends State<ContentSection> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 10),
                         child: TextField(
-                          controller: _noteController,
+                          controller: noteController,
                           decoration: const InputDecoration(
                             hintText: 'Enter your note here',
                             hintStyle: TextStyle(
@@ -324,9 +332,10 @@ class _ContentSectionState extends State<ContentSection> {
     );
   }
 
-  Widget _buildThemeSettings() => Center(child: Text('Theme Settings'));
+  Widget _buildThemeSettings() => const Center(child: Text('Theme Settings'));
 
-  Widget _buildDownloadSection() => Center(child: Text('Download Section'));
+  Widget _buildDownloadSection() =>
+      const Center(child: Text('Download Section'));
 
   Widget _buildSettingsPanel() {
     return Container(
@@ -362,7 +371,7 @@ class _ContentSectionState extends State<ContentSection> {
 
                     widget.onChangeReadingStyle(
                       {
-                        '_selectedFont': '$_selectedFont',
+                        '_selectedFont': _selectedFont,
                         '_fontSize': '$_fontSize'
                       },
                     );
@@ -382,7 +391,8 @@ class _ContentSectionState extends State<ContentSection> {
                     Icons.arrow_drop_down,
                     color: Colors.grey.shade300,
                   ),
-                  underline: SizedBox(), // Remove the underline from dropdown
+                  underline:
+                      const SizedBox(), // Remove the underline from dropdown
                 ),
               ],
             ),
@@ -432,10 +442,7 @@ class _ContentSectionState extends State<ContentSection> {
                 });
 
                 widget.onChangeReadingStyle(
-                  {
-                    '_selectedFont': '$_selectedFont',
-                    '_fontSize': '$_fontSize'
-                  },
+                  {'_selectedFont': _selectedFont, '_fontSize': '$_fontSize'},
                 );
 
                 // print('Font Size: $_fontSize'); // Print the font size

@@ -3,7 +3,7 @@ import 'package:flutter_app/constants/constants.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PopupMusicPlayer extends StatefulWidget {
-  const PopupMusicPlayer({Key? key}) : super(key: key);
+  const PopupMusicPlayer({super.key});
 
   @override
   _PopupMusicPlayerState createState() => _PopupMusicPlayerState();
@@ -34,44 +34,50 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
 
     // Listen to the duration of the audio
     _audioPlayer.durationStream.listen((duration) {
-      setState(() {
-        _totalDuration = duration ?? Duration.zero;
-      });
+      if (mounted) {
+        setState(() {
+          _totalDuration = duration ?? Duration.zero;
+        });
+      }
     });
 
     // Listen to the current position of the audio
     _audioPlayer.positionStream.listen((position) {
-      setState(() {
-        _currentPosition = position;
-      });
+      if (mounted) {
+        setState(() {
+          _currentPosition = position;
+        });
+      }
     });
 
     // When audio completes, reset and stop
     _audioPlayer.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
-        setState(() {
-          isPlaying = false;
-          _playPauseController.reverse();
-          _currentPosition = Duration.zero;
-        });
+        if (mounted) {
+          setState(() {
+            isPlaying = false;
+            _playPauseController.reverse();
+            _currentPosition = Duration.zero;
+          });
+        }
       }
     });
   }
 
   void _playPauseAudio() async {
-    if (isPlaying) {
-      await _audioPlayer.pause();
-      _playPauseController.reverse();
-    } else {
-      // await _audioPlayer.setUrl(_sampleAudio);
-      await _audioPlayer.setAsset('assets/audio/bible.mp3');
-
-      await _audioPlayer.play();
-      _playPauseController.forward();
+    if (mounted) {
+      setState(() {
+        isPlaying = !isPlaying;
+      });
     }
-    setState(() {
-      isPlaying = !isPlaying;
-    });
+    if (isPlaying) {
+      await _audioPlayer.setAsset('assets/audio/bible.mp3');
+      _playPauseController.forward();
+      await _audioPlayer.play();
+    } else {
+      _playPauseController.reverse();
+      await _audioPlayer.pause();
+    }
   }
 
   @override

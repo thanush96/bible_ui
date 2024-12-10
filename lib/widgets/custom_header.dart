@@ -62,18 +62,18 @@ class _CustomHeaderState extends State<CustomHeader> {
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 width: isSearchVisible
-                    ? MediaQuery.of(context).size.width * 0.7
+                    ? MediaQuery.of(context).size.width * 0.6
                     : 0,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 15.0),
+                      vertical: 0.0, horizontal: 10.0),
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxHeight: 30),
                     child: Opacity(
                       opacity: isSearchVisible ? 1.0 : 0.0,
                       child: TextField(
                         controller: _searchController,
-                        key: ValueKey('searchField'),
+                        key: const ValueKey('searchField'),
                         decoration: InputDecoration(
                           hintText: 'Search...',
                           border: OutlineInputBorder(

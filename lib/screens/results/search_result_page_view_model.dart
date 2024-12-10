@@ -17,6 +17,7 @@ class SearchViewModel extends BaseViewModel {
 
   void updateQuery(String query) {
     _query = query;
+    queryController.text = query;
     notifyListeners();
   }
 
@@ -62,6 +63,7 @@ class SearchViewModel extends BaseViewModel {
     BuildContext context,
     String bibleId,
     String chapterId,
+    String bookId,
   ) {
     Navigator.push(
       context,
@@ -69,6 +71,7 @@ class SearchViewModel extends BaseViewModel {
         builder: (context) => BibleReaderPage(
           bibleId: bibleId,
           chapterId: chapterId,
+          bookId: bookId,
         ),
       ),
     );

@@ -17,7 +17,6 @@ class ChapterService {
     ChapterViewModel chapterViewModel =
         ChapterViewModel.fromJson(json.decode(response));
     logging.log(jsonEncode(chapterViewModel.data));
-    printStatement(chapterViewModel.data);
     return chapterViewModel;
   }
 }
@@ -27,11 +26,11 @@ class ChapterListService {
     required String bibleID,
     required String bookID,
   }) async {
-    final response = await get('$bibleID/books/JHN/chapters', token: true);
+    final response = await get('$bibleID/books/$bookID/chapters', token: true);
     ChapterListDataViewModel chapterListDataViewModel =
         ChapterListDataViewModel.fromJson(json.decode(response));
     logging.log(jsonEncode(chapterListDataViewModel.data));
-    printStatement(chapterListDataViewModel.data);
+    // printStatement(chapterListDataViewModel.data);
     return chapterListDataViewModel;
   }
 }
