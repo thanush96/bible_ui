@@ -292,6 +292,7 @@ class BookFullView extends StatelessWidget {
                                           builder: (context) => BibleReaderPage(
                                             bibleId: 'de4e12af7f28f599-01',
                                             chapterId: 'JHN.8',
+                                            bookId: 'JHN',
                                           ),
                                         ),
                                       );

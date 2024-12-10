@@ -132,7 +132,11 @@ class BuildResultsList extends ViewModelWidget<SearchViewModel> {
         return GestureDetector(
           onTap: () {
             viewModel.handleNavigationSearchToChapReading(
-                context, result.bibleId, result.chapterId);
+              context,
+              result.bibleId,
+              result.chapterId,
+              result.bookId,
+            );
           },
           child: Card(
             margin: const EdgeInsets.symmetric(vertical: 8),

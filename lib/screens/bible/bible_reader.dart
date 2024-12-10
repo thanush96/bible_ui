@@ -23,7 +23,12 @@ List<Map<String, dynamic>> highlightedVerses = [];
 class BibleReaderPage extends StatefulWidget {
   String bibleId;
   String chapterId;
-  BibleReaderPage({super.key, required this.bibleId, required this.chapterId});
+  String bookId;
+  BibleReaderPage(
+      {super.key,
+      required this.bibleId,
+      required this.chapterId,
+      required this.bookId});
 
   @override
   State<BibleReaderPage> createState() => _BibleReaderPageState();
@@ -35,9 +40,11 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     return ViewModelBuilder<BibleReaderViewModel>.reactive(
         viewModelBuilder: () => BibleReaderViewModel(),
         onViewModelReady: (model) {
-          model.updateInitialParams(widget.bibleId, widget.chapterId);
+          model.setBusyForLoad();
+          model.updateInitialParams(
+              widget.bibleId, widget.chapterId, widget.bookId);
           model.chapterFetch(widget.bibleId, widget.chapterId);
-          model.chapterListFetch(widget.bibleId, widget.chapterId);
+          model.chapterListFetch(widget.bibleId, widget.bookId);
         },
         builder: (context, model, _) {
           return Scaffold(
@@ -283,7 +290,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          model.isBusy
+                                          (model.isBusy)
                                               ? const MySkeletonLoader()
                                               : SelectableText.rich(
                                                   buildHighlightedText(
@@ -320,147 +327,153 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              model.isContainerVisible =
-                                  !model.isContainerVisible;
-                              model.isBottomSheetOpen =
-                                  !model.isContainerVisible;
-                            });
-
-                            showModalBottomSheet(
-                              barrierColor: Colors.transparent,
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (BuildContext context) {
-                                return StatefulBuilder(
-                                  builder: (BuildContext context,
-                                      StateSetter setModalState) {
-                                    return Container(
-                                      margin: const EdgeInsets.all(20),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        gradient: globalGradient,
-                                      ),
-                                      // decoration: BoxDecoration(
-                                      //   color: const Color.fromARGB(255, 255, 0, 0),
-                                      //   borderRadius: BorderRadius.circular(20),
-                                      // ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Divider(
-                                              thickness: 4,
-                                              color: AppColors.white,
-                                              indent: 60,
-                                              endIndent: 60,
-                                            ),
-                                            AppBarIcons(
-                                              onSectionChange:
-                                                  (String section) {
-                                                // print('Previous section: $_currentSection');
-                                                // print('New section: $section');
-
-                                                // Update the parent state and modal state
-                                                setState(() {
-                                                  model.currentSection =
-                                                      section;
-                                                });
-                                                setModalState(
-                                                    () {}); // Rebuild the modal content
-                                              },
-                                              currentSection:
-                                                  model.currentSection,
-                                            ),
-                                            const Divider(
-                                              thickness: 1, // Line thickness
-                                              color: Colors.grey, // Line color
-                                              indent:
-                                                  20, // Optional: add space from the left side
-                                              endIndent:
-                                                  20, // Optional: add space from the right side
-                                            ),
-                                            Flexible(
-                                              child: ConstrainedBox(
-                                                constraints: BoxConstraints(
-                                                  maxHeight:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.27,
-                                                ),
-                                                child: ContentSection(
-                                                  chapters: model
-                                                      .chapters, // Pass the chapters list
-                                                  noteList: model
-                                                      .noteList, // Pass the chapters list
-                                                  currentSection:
-                                                      model.currentSection,
-                                                  highlight: model.colorsList,
-                                                  highlightedList:
-                                                      highlightedVerses,
-                                                  onSelectedHighlighter:
-                                                      (Color color) {
-                                                    model
-                                                        .selectedHighlighterColor(
-                                                            color);
-                                                  },
-                                                  onChangeChapter: (chapter) {
-                                                    model
-                                                        .changeChapter(chapter);
-                                                  },
-
-                                                  onChangeReadingStyle:
-                                                      (fontStyles) {
-                                                    model.changeFontStyle(
-                                                        fontStyles);
-                                                  },
-
-                                                  onChangeNewNote: (note) {
-                                                    model.addNewNote(note);
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                            ).whenComplete(() {
+                        child: AbsorbPointer(
+                          absorbing: model.isBusy,
+                          child: InkWell(
+                            onTap: () {
                               setState(() {
                                 model.isContainerVisible =
                                     !model.isContainerVisible;
                                 model.isBottomSheetOpen =
                                     !model.isContainerVisible;
                               });
-                            });
-                          },
-                          borderRadius: BorderRadius.circular(
-                              10), // Match the border radius of the container
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Visibility(
-                              visible: model.isContainerVisible,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width *
-                                    0.7, // 70% of screen width
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  gradient: globalGradient,
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                child: Divider(
-                                  thickness: 4,
-                                  color: AppColors.white,
-                                  indent: 60,
-                                  endIndent: 60,
+
+                              showModalBottomSheet(
+                                barrierColor: Colors.transparent,
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(
+                                    builder: (BuildContext context,
+                                        StateSetter setModalState) {
+                                      return Container(
+                                        margin: const EdgeInsets.all(20),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          gradient: globalGradient,
+                                        ),
+                                        // decoration: BoxDecoration(
+                                        //   color: const Color.fromARGB(255, 255, 0, 0),
+                                        //   borderRadius: BorderRadius.circular(20),
+                                        // ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(14.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Divider(
+                                                thickness: 4,
+                                                color: AppColors.white,
+                                                indent: 60,
+                                                endIndent: 60,
+                                              ),
+                                              AppBarIcons(
+                                                onSectionChange:
+                                                    (String section) {
+                                                  // print('Previous section: $_currentSection');
+                                                  // print('New section: $section');
+
+                                                  // Update the parent state and modal state
+                                                  setState(() {
+                                                    model.currentSection =
+                                                        section;
+                                                  });
+                                                  setModalState(
+                                                      () {}); // Rebuild the modal content
+                                                },
+                                                currentSection:
+                                                    model.currentSection,
+                                              ),
+                                              const Divider(
+                                                thickness: 1, // Line thickness
+                                                color:
+                                                    Colors.grey, // Line color
+                                                indent:
+                                                    20, // Optional: add space from the left side
+                                                endIndent:
+                                                    20, // Optional: add space from the right side
+                                              ),
+                                              Flexible(
+                                                child: ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                    maxHeight:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.27,
+                                                  ),
+                                                  child: ContentSection(
+                                                    chapters: model
+                                                        .chapterListDataViewModel, // Pass the chapters list
+                                                    noteList: model
+                                                        .noteList, // Pass the chapters list
+                                                    currentSection:
+                                                        model.currentSection,
+                                                    highlight: model.colorsList,
+                                                    highlightedList:
+                                                        highlightedVerses,
+                                                    onSelectedHighlighter:
+                                                        (Color color) {
+                                                      model
+                                                          .selectedHighlighterColor(
+                                                              color);
+                                                    },
+                                                    onChangeChapter:
+                                                        (chapterId) {
+                                                      model.changeChapter(
+                                                          chapterId);
+                                                    },
+
+                                                    onChangeReadingStyle:
+                                                        (fontStyles) {
+                                                      model.changeFontStyle(
+                                                          fontStyles);
+                                                    },
+
+                                                    onChangeNewNote: (note) {
+                                                      model.addNewNote(note);
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ).whenComplete(() {
+                                setState(() {
+                                  model.isContainerVisible =
+                                      !model.isContainerVisible;
+                                  model.isBottomSheetOpen =
+                                      !model.isContainerVisible;
+                                });
+                              });
+                            },
+                            borderRadius: BorderRadius.circular(
+                                10), // Match the border radius of the container
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Visibility(
+                                visible: model.isContainerVisible,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width *
+                                      0.7, // 70% of screen width
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    gradient: globalGradient,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Divider(
+                                    thickness: 4,
+                                    color: AppColors.white,
+                                    indent: 60,
+                                    endIndent: 60,
+                                  ),
                                 ),
                               ),
                             ),

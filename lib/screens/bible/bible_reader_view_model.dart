@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
+import 'package:flutter_app/services/http_service.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
@@ -34,6 +35,18 @@ class BibleReaderViewModel extends BaseViewModel {
   String get BibleID => _bibleID;
   set setBibleID(String value) => _bibleID = value;
 
+  String _bookInitialID = "";
+  String get BookInitialID => _bookInitialID;
+  set setBookInitialID(String value) => _bookInitialID = value;
+
+  String _nextBookID = "";
+  String get NextBookID => _nextBookID;
+  set setNextBookID(String value) => _nextBookID = value;
+
+  String _preBookID = "";
+  String get PreBookID => _preBookID;
+  set setPreBookID(String value) => _preBookID = value;
+
   String _chapterID = "";
   String get ChapterID => _chapterID;
   set setChapterID(String value) => _chapterID = value;
@@ -46,13 +59,18 @@ class BibleReaderViewModel extends BaseViewModel {
   String get PrevChapter => _prevChapter;
   set setPrevChapter(String value) => _prevChapter = value;
 
-  void updateInitialParams(String bibleID, String chapterID) {
+  void updateInitialParams(String bibleID, String chapterID, String bookID) {
     setBibleID = bibleID;
     setChapterID = chapterID;
+    setBookInitialID = bookID;
     notifyListeners();
   }
 
-//dart fetch spec chapter
+  void setBusyForLoad() {
+    setBusy(true);
+  }
+
+  //dart fetch spec chapter
   final List<ChapterViewModel> _chapterListViewModel = [];
   List<ChapterViewModel> get chapterListViewModel => _chapterListViewModel;
 
@@ -62,11 +80,12 @@ class BibleReaderViewModel extends BaseViewModel {
     try {
       if (BibleID.isEmpty && ChapterID.isEmpty) return;
 
-      setBusy(true);
       chapterViewModel = await ChapterService.chapterContentFetch(
           bibleID: bibleID, chapterID: chapterID);
       setPrevChapter = chapterViewModel.data.previous.id;
       setNextChapter = chapterViewModel.data.next.id;
+      setNextBookID = chapterViewModel.data.next.bookId;
+      setPreBookID = chapterViewModel.data.previous.bookId;
       if (chapterViewModel.data.content != "") {
         chapterViewModel.data.content =
             formatContent(chapterViewModel.data.content);
@@ -80,7 +99,7 @@ class BibleReaderViewModel extends BaseViewModel {
     }
   }
 
-// Dart service to fetch chapter list data
+  // Dart service to fetch chapter list data
   final List<ChapterListDataViewModel> _chapterListDataViewModel = [];
   List<ChapterListDataViewModel> get chapterListDataViewModel =>
       _chapterListDataViewModel;
@@ -90,29 +109,14 @@ class BibleReaderViewModel extends BaseViewModel {
   Future<void> chapterListFetch(String bibleID, String bookID) async {
     try {
       if (bibleID.isEmpty || bookID.isEmpty) return;
-
-      setBusy(true);
-
       // Fetch the chapter list data from the service
       chapterListDatasViewModel = await ChapterListService.chapterListFetch(
           bibleID: bibleID, bookID: bookID);
-
-      // Optionally, process the content if needed
-      // for (var chapterData in chapterListDatasViewModel.data) {
-      //   if (chapterData.reference.isNotEmpty) {
-      //     // If you want to format the reference or any other data, do it here
-      //     chapterData.reference = formatReference(chapterData.reference);
-      //   }
-      // }
-
-      // Add the fetched list to the view model
       _chapterListDataViewModel.add(chapterListDatasViewModel);
       notifyListeners();
     } catch (error) {
       throw Exception('Error fetching chapter list data: $error');
-    } finally {
-      setBusy(false);
-    }
+    } finally {}
   }
 
   String formatContent(String content) {
@@ -127,23 +131,37 @@ class BibleReaderViewModel extends BaseViewModel {
     currentChapterIndex = index;
   }
 
-  void changeChapter(chapter) {
-    currentChapterIndex = int.parse(chapter['id'] ?? '0');
+  void changeChapter(Map<String, String> chapter) {
+    setChapterID = chapter['chapterId'] ?? "";
+    setBusy(true);
+    chapterFetch(BibleID, ChapterID);
     notifyListeners();
   }
 
   void changeChapterNext() {
+    setBusy(true);
     chapterFetch(BibleID, NextChapter);
     setChapterID = NextChapter;
     chapterListViewModel.clear();
+    if (BookInitialID != NextBookID) {
+      setBookInitialID = NextBookID;
+      chapterListDataViewModel.clear();
+      chapterListFetch(BibleID, BookInitialID);
+    }
     //currentChapterIndex = (currentChapterIndex + 1) % mockChapters.length;
     notifyListeners();
   }
 
   void changeChapterPrev() {
+    setBusy(true);
     chapterFetch(BibleID, PrevChapter);
     setChapterID = PrevChapter;
     chapterListViewModel.clear();
+    if (BookInitialID != PreBookID) {
+      setBookInitialID = PreBookID;
+      chapterListDataViewModel.clear();
+      chapterListFetch(BibleID, BookInitialID);
+    }
     // currentChapterIndex = (currentChapterIndex - 1) % mockChapters.length;
     notifyListeners();
   }
