@@ -426,6 +426,7 @@ class ChapterVerseView extends StatelessWidget {
   }
 }
 
+//Chapter
 class _buildTabContent extends ViewModelWidget<ChapterVerseViewModel> {
   _buildTabContent({
     required this.scrollController,
@@ -446,79 +447,82 @@ class _buildTabContent extends ViewModelWidget<ChapterVerseViewModel> {
       padding: const EdgeInsets.only(right: 05),
       radius: const Radius.circular(5),
       thumbVisibility: true,
-      child: viewModel.isBusyChapterLoad
-          ? ChapVerseLoader(
-              scrollController: scrollController,
-              count: 5,
-            )
-          : GridView.builder(
-              padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
-              controller: scrollController,
-              // physics: NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: chapterData?.length,
-              itemBuilder: (context, index) {
-                final number = index + 1;
-                final chapterDetails = chapterData;
-                return GestureDetector(
-                  onTap: () {
-                    viewModel.bookVerseFetch(
-                        viewModel.BibleID, chapterDetails?[index].id ?? "");
-                    DefaultTabController.of(context).animateTo(2);
-                    printStatement(chapterDetails?[index].id);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(
-                            0xFF000000,
-                          ),
-                          Color(
-                            0xFF3533CD,
-                          ),
-                          Color.fromRGBO(
-                            53,
-                            51,
-                            205,
-                            0.68,
-                          ),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+      child:
+          // viewModel.isBusyChapterLoad
+          //     ? ChapVerseLoader(
+          //         scrollController: scrollController,
+          //         count: 5,
+          //       )
+          //     :
+          GridView.builder(
+        padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
+        controller: scrollController,
+        // physics: NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+        ),
+        itemCount: chapterData?.length,
+        itemBuilder: (context, index) {
+          final number = index + 1;
+          final chapterDetails = chapterData;
+          return GestureDetector(
+            onTap: () {
+              viewModel.bookVerseFetch(
+                  viewModel.BibleID, chapterDetails?[index].id ?? "");
+              DefaultTabController.of(context).animateTo(2);
+              printStatement(chapterDetails?[index].id);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(
+                      0xFF000000,
                     ),
-                    child: Center(
-                      child: Text(
-                        '$number',
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: AppFont.textSize18,
-                          fontWeight: AppFont.fw400,
-                          fontFamily: 'Times-New-Roman',
-                        ),
-                      ),
+                    Color(
+                      0xFF3533CD,
                     ),
+                    Color.fromRGBO(
+                      53,
+                      51,
+                      205,
+                      0.68,
+                    ),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
                   ),
-                );
-              },
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  '$number',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: AppFont.textSize18,
+                    fontWeight: AppFont.fw400,
+                    fontFamily: 'Times-New-Roman',
+                  ),
+                ),
+              ),
             ),
+          );
+        },
+      ),
     );
   }
 }
 
+//Verse
 class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
   _buildTabContentForVerses({
     required this.scrollController,
@@ -558,24 +562,10 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
                 final number = index + 1;
                 final chapterDetails = chapterVersesData;
                 return GestureDetector(
-                  onTap: () async {
+                  onTap: () {
                     printStatement(chapterDetails?[index].id);
-                    await viewModel.versesContentFetch(
-                        viewModel.BibleID, chapterDetails?[index].orgId ?? "");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BibleReaderPage(
-                          bibleId: viewModel.BibleID,
-                          chapterId: chapterDetails?[index].chapterId ?? "",
-                          bookId: chapterDetails?[index].bookId ?? "",
-                          verseFind: viewModel.VersesFind,
-                        ),
-                      ),
-                    ).then((_) {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    });
+                    viewModel.versesContentFetch(viewModel.BibleID,
+                        chapterDetails?[index].orgId ?? "", context);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -625,6 +615,7 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
   }
 }
 
+//Books
 class _buildTabContentBooks extends ViewModelWidget<ChapterVerseViewModel> {
   const _buildTabContentBooks({
     required this.books,
@@ -654,8 +645,11 @@ class _buildTabContentBooks extends ViewModelWidget<ChapterVerseViewModel> {
           final book = books[index];
           return GestureDetector(
             onTap: () {
+              viewModel.setBusyForLoad();
               DefaultTabController.of(context).animateTo(1);
-              viewModel.setIsBusyChapterLoad = true;
+              viewModel.bookDetailFetch(
+                  book['bibleId'] ?? "", book['id'] ?? "");
+              //  viewModel.setIsBusyChapterLoad = true;
               viewModel.chapterListDataViewModel.clear();
               viewModel.chapterListFetch(
                   book['bibleId'] ?? "", book['id'] ?? "");

@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/model/book_detail_model.dart';
 import 'package:flutter_app/model/chapter_list_model.dart';
 import 'package:flutter_app/model/chapter_verses_model.dart';
 import 'package:flutter_app/model/verses_content_model.dart';
+import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
 import 'package:stacked/stacked.dart';
 
@@ -40,6 +43,7 @@ class ChapterVerseViewModel extends BaseViewModel {
 
   void setBusyForLoad() {
     setIsBusyBook = true;
+    notifyListeners();
   }
 
   void setBusyForLoadConcatinate() {
@@ -109,7 +113,8 @@ class ChapterVerseViewModel extends BaseViewModel {
   }
 
   VersesContentModal? versesContentModal;
-  Future<void> versesContentFetch(String bibleID, String VersesID) async {
+  Future<void> versesContentFetch(
+      String bibleID, String VersesID, BuildContext context) async {
     try {
       setIsBusyChapterLoad = true;
       if (bibleID.isEmpty || VersesID.isEmpty) return;
@@ -118,6 +123,20 @@ class ChapterVerseViewModel extends BaseViewModel {
           bibleID: bibleID, verseID: VersesID);
       String versesFind = versesContentModal?.data.content.trim() ?? '';
       setVersesFind = versesFind;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BibleReaderPage(
+            bibleId: bibleID,
+            chapterId: versesContentModal?.data.chapterId ?? "",
+            bookId: versesContentModal?.data.bookId ?? "",
+            verseFind: VersesFind,
+          ),
+        ),
+      ).then((_) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
       notifyListeners();
     } catch (error) {
       throw Exception('Error fetching book verse list data: $error');

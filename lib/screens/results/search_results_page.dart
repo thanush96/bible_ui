@@ -13,6 +13,7 @@ class SearchResultsPage extends StatelessWidget {
     return ViewModelBuilder<SearchViewModel>.reactive(
         viewModelBuilder: () => SearchViewModel(),
         onViewModelReady: (model) {
+          FocusManager.instance.primaryFocus?.unfocus();
           model.updateQuery(initialQuery);
           model.search(context);
         },
@@ -25,7 +26,7 @@ class SearchResultsPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 26.0),
                   child: TextField(
                     controller: viewModel.queryController,
-                    autofocus: true,
+                    autofocus: false,
                     onChanged: viewModel.updateQuery,
                     onSubmitted: (_) => viewModel.search(context),
                     decoration: InputDecoration(
@@ -52,6 +53,7 @@ class SearchResultsPage extends StatelessWidget {
                             icon: const Icon(Icons.search,
                                 color: Colors.deepPurpleAccent),
                             onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               viewModel.search(context);
                             },
                           ),

@@ -96,6 +96,7 @@ class _CustomHeaderState extends State<CustomHeader> {
               IconButton(
                 icon: const Icon(Icons.search),
                 onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   setState(() {
                     isSearchVisible = !isSearchVisible;
                   });

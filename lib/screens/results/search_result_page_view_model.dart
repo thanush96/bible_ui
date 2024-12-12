@@ -23,6 +23,7 @@ class SearchViewModel extends BaseViewModel {
 
   void clearQuery() {
     _query = '';
+    queryController.text = "";
     _results = [];
     notifyListeners();
   }
