@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/services/chapter_service.dart';
 import 'package:stacked/stacked.dart';
@@ -29,12 +30,16 @@ class BookFullViewModel extends BaseViewModel {
 
   late ChapterViewModel chapterViewModel;
 
-  Future<void> chapterFetch(String bibleID, String chapterID) async {
+  Future<void> chapterFetch(
+    String bibleID,
+    String chapterID,
+    BuildContext context,
+  ) async {
     try {
       if (BibleID.isEmpty && ChapterID.isEmpty) return;
 
       chapterViewModel = await ChapterService.chapterContentFetch(
-          bibleID: bibleID, chapterID: "$chapterID.intro");
+          bibleID: bibleID, chapterID: "$chapterID.intro", context: context);
       _chapterListViewModel.add(chapterViewModel);
       notifyListeners();
     } catch (error) {

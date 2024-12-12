@@ -1,6 +1,7 @@
 import 'package:flutter_app/model/book_detail_model.dart';
 import 'package:flutter_app/model/chapter_list_model.dart';
 import 'package:flutter_app/model/chapter_verses_model.dart';
+import 'package:flutter_app/model/verses_content_model.dart';
 import 'package:flutter_app/services/chapter_service.dart';
 import 'package:stacked/stacked.dart';
 
@@ -26,6 +27,10 @@ class ChapterVerseViewModel extends BaseViewModel {
   String _bibleID = "";
   String get BibleID => _bibleID;
   set setBibleID(String value) => _bibleID = value;
+
+  String _versesFind = "";
+  String get VersesFind => _versesFind;
+  set setVersesFind(String value) => _versesFind = value;
 
   void updateInitialParams(
     String bibleID,
@@ -95,6 +100,24 @@ class ChapterVerseViewModel extends BaseViewModel {
       chapterVersesModel = await ChapterService.BookVerseFetch(
           bibleID: bibleID, chapterID: ChapterID);
 
+      notifyListeners();
+    } catch (error) {
+      throw Exception('Error fetching book verse list data: $error');
+    } finally {
+      setIsBusyChapterLoad = false;
+    }
+  }
+
+  VersesContentModal? versesContentModal;
+  Future<void> versesContentFetch(String bibleID, String VersesID) async {
+    try {
+      setIsBusyChapterLoad = true;
+      if (bibleID.isEmpty || VersesID.isEmpty) return;
+      // Fetch the chapter list data from the service
+      versesContentModal = await ChapterService.BookVerseContent(
+          bibleID: bibleID, verseID: VersesID);
+      String versesFind = versesContentModal?.data.content.trim() ?? '';
+      setVersesFind = versesFind;
       notifyListeners();
     } catch (error) {
       throw Exception('Error fetching book verse list data: $error');

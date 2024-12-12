@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/book_data.dart';
 import 'package:flutter_app/model/chapter_list_model.dart';
 import 'package:flutter_app/model/chapter_verses_model.dart';
+import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/chapter_verse_view/chapter_verse_view_model.dart';
 import 'package:flutter_app/services/http_service.dart';
+import 'package:flutter_app/tools/chap_verse_loader.dart';
+import 'package:flutter_app/tools/skeleton_loader.dart';
+import 'package:flutter_app/tools/skeleton_loader_books.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
@@ -39,6 +43,7 @@ class ChapterVerseView extends StatelessWidget {
           model.updateInitialParams(bibleId);
           model.chapterListFetch(bibleId, bookId);
           model.bookDetailFetch(bibleId, bookId);
+          model.bookVerseFetch(bibleId, chapterId);
         },
         builder: (context, model, _) {
           return DefaultTabController(
@@ -47,14 +52,14 @@ class ChapterVerseView extends StatelessWidget {
             child: SafeArea(
               child: Scaffold(
                 backgroundColor: const Color(0xFFECECFF),
-                body: (model.isBusyBook)
-                    ? const Center(child: CircularProgressIndicator())
-                    : Column(
-                        children: [
-                          CustomHeader(
-                            onBackPressed: () => Navigator.pop(context),
-                          ),
-                          Expanded(
+                body: Column(
+                  children: [
+                    CustomHeader(
+                      onBackPressed: () => Navigator.pop(context),
+                    ),
+                    (model.isBusyBook)
+                        ? const SkeletonLoaderBooks()
+                        : Expanded(
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
@@ -369,6 +374,7 @@ class ChapterVerseView extends StatelessWidget {
                                           Expanded(
                                             child: TabBarView(
                                               children: [
+                                                //Books
                                                 _buildTabContentBooks(
                                                   scrollController:
                                                       _booksScrollController,
@@ -384,6 +390,7 @@ class ChapterVerseView extends StatelessWidget {
                                                   //   ),
                                                   // ],
                                                 ),
+                                                //Chapter
                                                 _buildTabContent(
                                                   chapterData: model
                                                       .chapterListDataViewModel[
@@ -392,6 +399,7 @@ class ChapterVerseView extends StatelessWidget {
                                                   scrollController:
                                                       _numbersScrollController1,
                                                 ),
+                                                //Verses
                                                 _buildTabContentForVerses(
                                                   chapterVersesData: model
                                                       .chapterVersesModel?.data,
@@ -409,8 +417,8 @@ class ChapterVerseView extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                  ],
+                ),
               ),
             ),
           );
@@ -438,22 +446,25 @@ class _buildTabContent extends ViewModelWidget<ChapterVerseViewModel> {
       padding: const EdgeInsets.only(right: 05),
       radius: const Radius.circular(5),
       thumbVisibility: true,
-      child: GridView.builder(
-        padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
-        controller: scrollController,
-        // physics: NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemCount: chapterData?.length,
-        itemBuilder: (context, index) {
-          final number = index + 1;
-          final chapterDetails = chapterData;
-          return viewModel.isBusyChapterLoad
-              ? const CircularProgressIndicator()
-              : GestureDetector(
+      child: viewModel.isBusyChapterLoad
+          ? ChapVerseLoader(
+              scrollController: scrollController,
+              count: 5,
+            )
+          : GridView.builder(
+              padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
+              controller: scrollController,
+              // physics: NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemCount: chapterData?.length,
+              itemBuilder: (context, index) {
+                final number = index + 1;
+                final chapterDetails = chapterData;
+                return GestureDetector(
                   onTap: () {
                     viewModel.bookVerseFetch(
                         viewModel.BibleID, chapterDetails?[index].id ?? "");
@@ -502,8 +513,8 @@ class _buildTabContent extends ViewModelWidget<ChapterVerseViewModel> {
                     ),
                   ),
                 );
-        },
-      ),
+              },
+            ),
     );
   }
 }
@@ -528,24 +539,43 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
       padding: const EdgeInsets.only(right: 05),
       radius: const Radius.circular(5),
       thumbVisibility: true,
-      child: GridView.builder(
-        padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
-        controller: scrollController,
-        // physics: NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemCount: chapterVersesData?.length,
-        itemBuilder: (context, index) {
-          final number = index + 1;
-          final chapterDetails = chapterVersesData;
-          return viewModel.isBusyChapterLoad
-              ? const CircularProgressIndicator()
-              : GestureDetector(
-                  onTap: () {
+      child: viewModel.isBusyChapterLoad
+          ? ChapVerseLoader(
+              scrollController: scrollController,
+              count: 5,
+            )
+          : GridView.builder(
+              padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
+              controller: scrollController,
+              // physics: NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemCount: chapterVersesData?.length,
+              itemBuilder: (context, index) {
+                final number = index + 1;
+                final chapterDetails = chapterVersesData;
+                return GestureDetector(
+                  onTap: () async {
                     printStatement(chapterDetails?[index].id);
+                    await viewModel.versesContentFetch(
+                        viewModel.BibleID, chapterDetails?[index].orgId ?? "");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BibleReaderPage(
+                          bibleId: viewModel.BibleID,
+                          chapterId: chapterDetails?[index].chapterId ?? "",
+                          bookId: chapterDetails?[index].bookId ?? "",
+                          verseFind: viewModel.VersesFind,
+                        ),
+                      ),
+                    ).then((_) {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    });
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -589,8 +619,8 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
                     ),
                   ),
                 );
-        },
-      ),
+              },
+            ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/book_full_view/book_full_view_model.dart';
 import 'package:flutter_app/tools/skeleton_loader.dart';
+import 'package:flutter_app/tools/skeleton_loader_books.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
@@ -34,22 +35,22 @@ class BookFullView extends StatelessWidget {
         onViewModelReady: (model) {
           model.setBusyForLoad();
           model.updateInitialParams(bibleId, id);
-          model.chapterFetch(bibleId, id);
+          model.chapterFetch(bibleId, id, context);
         },
         builder: (context, viewModel, child) {
           return SafeArea(
             child: Scaffold(
               backgroundColor: const Color(0xFFECECFF),
-              body: (viewModel.isBusy)
-                  ? const Center(child: CircularProgressIndicator())
-                  : Column(
-                      children: [
-                        CustomHeader(
-                          onBackPressed: () => Navigator.pop(context),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
+              body: Column(
+                children: [
+                  CustomHeader(
+                    onBackPressed: () => Navigator.pop(context),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: (viewModel.isBusy)
+                          ? const SkeletonLoaderBooks()
+                          : Column(
                               children: [
                                 Container(
                                   width: MediaQuery.of(context).size.width - 20,
@@ -521,14 +522,15 @@ class BookFullView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                      ],
                     ),
+                  ),
+                ],
+              ),
             ),
           );
         });
   }
 }
+
 
 // Helper method to build tab content

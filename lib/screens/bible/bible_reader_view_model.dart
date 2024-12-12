@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
-import 'package:flutter_app/services/http_service.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
-
 import '../../model/chapter_list_model.dart';
 
 class BibleReaderViewModel extends BaseViewModel {
@@ -76,12 +74,16 @@ class BibleReaderViewModel extends BaseViewModel {
 
   late ChapterViewModel chapterViewModel;
 
-  Future<void> chapterFetch(String bibleID, String chapterID) async {
+  Future<void> chapterFetch(
+      String bibleID, String chapterID, BuildContext context) async {
     try {
       if (BibleID.isEmpty && ChapterID.isEmpty) return;
 
       chapterViewModel = await ChapterService.chapterContentFetch(
-          bibleID: bibleID, chapterID: chapterID);
+        bibleID: bibleID,
+        chapterID: chapterID,
+        context: context,
+      );
       setPrevChapter = chapterViewModel.data.previous?.id ?? "";
       setNextChapter = chapterViewModel.data.next?.id ?? "";
       setNextBookID = chapterViewModel.data.next?.bookId ?? "";
@@ -131,16 +133,16 @@ class BibleReaderViewModel extends BaseViewModel {
     currentChapterIndex = index;
   }
 
-  void changeChapter(Map<String, String> chapter) {
+  void changeChapter(Map<String, String> chapter, BuildContext context) {
     setChapterID = chapter['chapterId'] ?? "";
     setBusy(true);
-    chapterFetch(BibleID, ChapterID);
+    chapterFetch(BibleID, ChapterID, context);
     notifyListeners();
   }
 
-  void changeChapterNext() {
+  void changeChapterNext(BuildContext context) {
     setBusy(true);
-    chapterFetch(BibleID, NextChapter);
+    chapterFetch(BibleID, NextChapter, context);
     setChapterID = NextChapter;
     chapterListViewModel.clear();
     if (BookInitialID != NextBookID) {
@@ -152,9 +154,9 @@ class BibleReaderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void changeChapterPrev() {
+  void changeChapterPrev(BuildContext context) {
     setBusy(true);
-    chapterFetch(BibleID, PrevChapter);
+    chapterFetch(BibleID, PrevChapter, context);
     setChapterID = PrevChapter;
     chapterListViewModel.clear();
     if (BookInitialID != PreBookID) {

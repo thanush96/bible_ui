@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/search_chparter_model.dart';
 import 'package:flutter_app/screens/results/search_result_page_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 
 class SearchResultsPage extends StatelessWidget {
@@ -15,7 +14,7 @@ class SearchResultsPage extends StatelessWidget {
         viewModelBuilder: () => SearchViewModel(),
         onViewModelReady: (model) {
           model.updateQuery(initialQuery);
-          model.search();
+          model.search(context);
         },
         builder: (context, viewModel, child) {
           return Scaffold(
@@ -28,7 +27,7 @@ class SearchResultsPage extends StatelessWidget {
                     controller: viewModel.queryController,
                     autofocus: true,
                     onChanged: viewModel.updateQuery,
-                    onSubmitted: (_) => viewModel.search(),
+                    onSubmitted: (_) => viewModel.search(context),
                     decoration: InputDecoration(
                       hintText: 'Search for verses, books, or keywords...',
                       border: OutlineInputBorder(
@@ -52,7 +51,9 @@ class SearchResultsPage extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.search,
                                 color: Colors.deepPurpleAccent),
-                            onPressed: viewModel.search,
+                            onPressed: () {
+                              viewModel.search(context);
+                            },
                           ),
                         ],
                       ),
@@ -105,7 +106,7 @@ class BuildInitialContent extends ViewModelWidget<SearchViewModel> {
                     label: Text(search),
                     onPressed: () {
                       viewModel.updateQuery(search);
-                      viewModel.search();
+                      viewModel.search(context);
                     },
                   ))
               .toList(),

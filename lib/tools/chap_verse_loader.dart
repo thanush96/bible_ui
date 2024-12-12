@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import 'shimmer_effect.dart';
 
-class MySkeletonLoader extends StatelessWidget {
+class ChapVerseLoader extends StatelessWidget {
   final int count;
-  const MySkeletonLoader({super.key, this.count = 9});
+  final ScrollController? scrollController; // Optional ScrollController
+
+  const ChapVerseLoader({
+    super.key,
+    this.count = 9,
+    this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ShimmerEffect(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-              count, (index) => _buildVerseSkeleton(index, context)),
+        child: SingleChildScrollView(
+          controller: scrollController, // Attach ScrollController here
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+              count,
+              (index) => _buildVerseSkeleton(index, context),
+            ),
+          ),
         ),
       ),
     );

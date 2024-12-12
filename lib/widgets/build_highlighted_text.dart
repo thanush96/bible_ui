@@ -78,6 +78,7 @@ TextSpan buildHighlightedText(
   String verseContent,
   List<Map<String, dynamic>> highlightedVerses,
   Map<String, dynamic> fontStyle,
+  String findVerse,
 ) {
   List<TextSpan> spans = [];
 
@@ -95,26 +96,65 @@ TextSpan buildHighlightedText(
 
   String remainingText = verseContent;
 
-  // Sort highlights by position to ensure correct ordering
+  int lastIndex = 0;
+
+  // Combine regex matches and highlighted verses
+  List<Map<String, dynamic>> combinedHighlights = [];
+
+  // Regex to find "findVerse" in the verse content (matching exactly with spaces and punctuation)
+  if (findVerse.isNotEmpty) {
+    // Construct a regular expression that matches the findVerse exactly
+    RegExp regExp = RegExp(
+      RegExp.escape(findVerse), // Escaping only the necessary parts
+      caseSensitive: false,
+    );
+
+    // Get matches from verseContent
+    Iterable<Match> regexMatches = regExp.allMatches(verseContent);
+
+    // Add regex matches to combined highlights
+    for (var match in regexMatches) {
+      combinedHighlights.add({
+        'verse': match.group(0),
+        'color': Colors.blue, // Blue for regex matches
+        'type': 'regex',
+        'index': match.start
+      });
+    }
+  }
+
+  // Sort highlighted verses by their position in the verseContent
   highlightedVerses.sort((a, b) => remainingText
       .indexOf(a['verse'])
       .compareTo(remainingText.indexOf(b['verse'])));
 
-  int lastIndex = 0;
-
-  // Iterate through all highlighted verses
+  // Add highlighted verses to combined highlights
   for (var highlight in highlightedVerses) {
-    String highlightText = highlight['verse'];
-    Color highlightColor = highlight['color'];
+    int index = remainingText.indexOf(highlight['verse']);
+    if (index != -1) {
+      combinedHighlights.add({
+        'verse': highlight['verse'],
+        'color': highlight['color'], // Highlight color
+        'type': 'highlight',
+        'index': index
+      });
+    }
+  }
 
-    int matchIndex = remainingText.indexOf(highlightText, lastIndex);
+  // Sort combined highlights by position
+  combinedHighlights.sort((a, b) => a['index'].compareTo(b['index']));
+
+  // Process combined highlights
+  for (var item in combinedHighlights) {
+    String text = item['verse'];
+    Color color = item['color'];
+    int matchIndex = remainingText.indexOf(text, lastIndex);
 
     if (matchIndex == -1) {
-      // If the highlight text is not found, skip this highlight
       continue;
     }
 
-    // Add text before the highlighted portion
+    // Add any text before the current match
     if (matchIndex > lastIndex) {
       spans.add(TextSpan(
         text: remainingText.substring(lastIndex, matchIndex),
@@ -126,22 +166,22 @@ TextSpan buildHighlightedText(
       ));
     }
 
-    // Add the highlighted text portion
+    // Add the matched text with appropriate color
     spans.add(TextSpan(
-      text: highlightText,
+      text: text,
       style: TextStyle(
-        backgroundColor: highlightColor,
-        color: Colors.black,
+        color: item['type'] == 'regex' ? color : Colors.black,
+        backgroundColor: item['type'] == 'highlight' ? color : null,
         fontFamily: fontStyle["_selectedFont"],
         fontSize: double.parse(fontStyle["_fontSize"].toString()),
       ),
     ));
 
-    // Update lastIndex to the end of the current match
-    lastIndex = matchIndex + highlightText.length;
+    // Update lastIndex
+    lastIndex = matchIndex + text.length;
   }
 
-  // Add any remaining text after all highlights
+  // Add any remaining text after all matches
   if (lastIndex < remainingText.length) {
     spans.add(TextSpan(
       text: remainingText.substring(lastIndex),
