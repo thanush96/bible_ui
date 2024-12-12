@@ -180,7 +180,7 @@ class BookCard extends StatelessWidget {
 
   Future<String> _loadImage(String url) async {
     // Simulate network delay for testing
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 0));
     return url;
   }
 }

@@ -45,12 +45,13 @@ class SearchViewModel extends BaseViewModel {
     ),
   );
   SearchChapterModel get searchChapterModel => _searchChapterModel;
-  Future<void> search() async {
+  Future<void> search(BuildContext context) async {
     try {
       if (_query.isEmpty) return;
       recentSearches.add(_query);
       setBusy(true);
-      _searchChapterModel = await SearchServices.searchChapter(query: query);
+      _searchChapterModel =
+          await SearchServices.searchChapter(query: query, context: context);
       notifyListeners();
     } catch (error) {
       throw Exception('Error parsing JSON : $error');

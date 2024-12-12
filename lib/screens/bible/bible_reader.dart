@@ -8,7 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:stacked/stacked.dart';
 import '../../constants/constants.dart';
-// import '../../model/bible_content.dart';
 import '../../widgets/app_bar_icons.dart';
 import '../../widgets/build_highlighted_text.dart';
 import '../../widgets/content_section.dart';
@@ -20,6 +19,7 @@ import './../../tools/skeleton_loader.dart';
 // New list to track highlighted verses
 List<Map<String, dynamic>> highlightedVerses = [];
 
+// ignore: must_be_immutable
 class BibleReaderPage extends StatefulWidget {
   String bibleId;
   String chapterId;
@@ -43,7 +43,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
           model.setBusyForLoad();
           model.updateInitialParams(
               widget.bibleId, widget.chapterId, widget.bookId);
-          model.chapterFetch(widget.bibleId, widget.chapterId);
+          model.chapterFetch(widget.bibleId, widget.chapterId, context);
           model.chapterListFetch(widget.bibleId, widget.bookId);
         },
         builder: (context, model, _) {
@@ -181,7 +181,6 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               scrollDirection: Axis.horizontal,
                               itemCount: model.selectedIndices.length,
                               itemBuilder: (context, index) {
-                                final isSelected = model.selectedIndices[index];
                                 final item = model.selectedIndices[index];
                                 return GestureDetector(
                                   onTap: () {
@@ -243,7 +242,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             IconButton(
                               icon: const Icon(Icons.chevron_left),
                               onPressed: () {
-                                model.changeChapterPrev();
+                                model.changeChapterPrev(context);
                               },
                             ),
                             Text(
@@ -257,7 +256,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             IconButton(
                               icon: const Icon(Icons.chevron_right),
                               onPressed: () {
-                                model.changeChapterNext();
+                                model.changeChapterNext(context);
                               },
                             ),
                           ],
@@ -423,7 +422,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                                     onChangeChapter:
                                                         (chapterId) {
                                                       model.changeChapter(
-                                                          chapterId);
+                                                          chapterId, context);
                                                     },
 
                                                     onChangeReadingStyle:

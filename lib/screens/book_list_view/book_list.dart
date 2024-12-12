@@ -9,7 +9,8 @@ class BookList extends StatelessWidget {
       "abbreviation": "Gen",
       "name": "Genesis",
       "nameLong": "The First Book of Moses, called Genesis",
-      "imageUrl": "https://example.com/images/genesis.jpg"
+      "imageUrl":
+          "https://firebasestorage.googleapis.com/v0/b/amusicbible-b1af1.appspot.com/o/img%2FBible_img%2F1.jpg?alt=media&token=617971d4-f70f-4283-9cdd-57ca27c10428"
     },
     {
       "id": "EXO",
