@@ -1,24 +1,24 @@
 // To parse this JSON data, do
 //
-//     final chapterViewModel = chapterViewModelFromJson(jsonString);
+//     final versesContentModal = versesContentModalFromJson(jsonString);
 
 import 'dart:convert';
 
-ChapterViewModel chapterViewModelFromJson(String str) =>
-    ChapterViewModel.fromJson(json.decode(str));
+VersesContentModal versesContentModalFromJson(String str) =>
+    VersesContentModal.fromJson(json.decode(str));
 
-String chapterViewModelToJson(ChapterViewModel data) =>
+String versesContentModalToJson(VersesContentModal data) =>
     json.encode(data.toJson());
 
-class ChapterViewModel {
+class VersesContentModal {
   Data data;
 
-  ChapterViewModel({
+  VersesContentModal({
     required this.data,
   });
 
-  factory ChapterViewModel.fromJson(Map<String, dynamic> json) =>
-      ChapterViewModel(
+  factory VersesContentModal.fromJson(Map<String, dynamic> json) =>
+      VersesContentModal(
         data: Data.fromJson(json["data"]),
       );
 
@@ -29,52 +29,59 @@ class ChapterViewModel {
 
 class Data {
   String id;
-  String bibleId;
-  String number;
+  String orgId;
   String bookId;
+  String chapterId;
+  String bibleId;
   String reference;
-  String copyright;
-  int verseCount;
   String content;
+  int verseCount;
+  String copyright;
   Next? next;
   Next? previous;
 
   Data({
     required this.id,
-    required this.bibleId,
-    required this.number,
+    required this.orgId,
     required this.bookId,
+    required this.chapterId,
+    required this.bibleId,
     required this.reference,
-    required this.copyright,
-    required this.verseCount,
     required this.content,
+    required this.verseCount,
+    required this.copyright,
     this.next,
     this.previous,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
-        bibleId: json["bibleId"],
-        number: json["number"],
+        orgId: json["orgId"],
         bookId: json["bookId"],
+        chapterId: json["chapterId"],
+        bibleId: json["bibleId"],
         reference: json["reference"],
-        copyright: json["copyright"],
-        verseCount: json["verseCount"],
         content: json["content"],
-        next: json["next"] != null ? Next.fromJson(json["next"]) : null,
-        previous:
-            json["previous"] != null ? Next.fromJson(json["previous"]) : null,
+        next: json["next"] != null && json["next"].isNotEmpty
+            ? Next.fromJson(json["next"])
+            : null,
+        verseCount: json["verseCount"],
+        copyright: json["copyright"],
+        previous: json["previous"] != null && json["previous"].isNotEmpty
+            ? Next.fromJson(json["previous"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "bibleId": bibleId,
-        "number": number,
+        "orgId": orgId,
         "bookId": bookId,
+        "chapterId": chapterId,
+        "bibleId": bibleId,
         "reference": reference,
-        "copyright": copyright,
-        "verseCount": verseCount,
         "content": content,
+        "verseCount": verseCount,
+        "copyright": copyright,
         "next": next?.toJson(),
         "previous": previous?.toJson(),
       };
@@ -83,23 +90,19 @@ class Data {
 class Next {
   String id;
   String number;
-  String bookId;
 
   Next({
     required this.id,
     required this.number,
-    required this.bookId,
   });
 
   factory Next.fromJson(Map<String, dynamic> json) => Next(
         id: json["id"],
         number: json["number"],
-        bookId: json["bookId"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "number": number,
-        "bookId": bookId,
       };
 }

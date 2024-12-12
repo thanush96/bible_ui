@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'shimmer_effect.dart';
 
-class MySkeletonLoader extends StatelessWidget {
-  final int count;
-  const MySkeletonLoader({super.key, this.count = 9});
+class SkeletonLoaderBooks extends StatelessWidget {
+  const SkeletonLoaderBooks({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +10,20 @@ class MySkeletonLoader extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-              count, (index) => _buildVerseSkeleton(index, context)),
+          children: [
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.grey,
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                  8, (index) => _buildVerseSkeleton(index, context)),
+            ),
+          ],
         ),
       ),
     );
@@ -25,12 +35,6 @@ class MySkeletonLoader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 20,
-            height: 16,
-            color: Colors.white,
-          ),
-          const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -24,11 +24,13 @@ class BibleReaderPage extends StatefulWidget {
   String bibleId;
   String chapterId;
   String bookId;
+  String verseFind;
   BibleReaderPage(
       {super.key,
       required this.bibleId,
       required this.chapterId,
-      required this.bookId});
+      required this.bookId,
+      this.verseFind = ''});
 
   @override
   State<BibleReaderPage> createState() => _BibleReaderPageState();
@@ -89,6 +91,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     MaterialPageRoute(
                                       builder: (context) => ChapterVerseView(
                                         initialIndex: 1,
+                                        bibleId: widget.bibleId,
+                                        bookId: widget.bookId,
+                                        chapterId: widget.chapterId,
                                       ),
                                     ),
                                   );
@@ -132,6 +137,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     MaterialPageRoute(
                                       builder: (context) => ChapterVerseView(
                                         initialIndex: 2,
+                                        bibleId: widget.bibleId,
+                                        bookId: widget.bookId,
+                                        chapterId: widget.chapterId,
                                       ),
                                     ),
                                   );
@@ -293,14 +301,15 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                               ? const MySkeletonLoader()
                                               : SelectableText.rich(
                                                   buildHighlightedText(
-                                                      null,
-                                                      model
-                                                          .chapterListViewModel[
-                                                              0]
-                                                          .data
-                                                          .content,
-                                                      highlightedVerses,
-                                                      model.fontStyle),
+                                                    null,
+                                                    model
+                                                        .chapterListViewModel[0]
+                                                        .data
+                                                        .content,
+                                                    highlightedVerses,
+                                                    model.fontStyle,
+                                                    widget.verseFind,
+                                                  ),
                                                   selectionControls:
                                                       CustomTextSelectionControls(
                                                     onAddToFavorite:
