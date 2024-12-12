@@ -36,8 +36,8 @@ class Data {
   String copyright;
   int verseCount;
   String content;
-  Next next;
-  Next previous;
+  Next? next;
+  Next? previous;
 
   Data({
     required this.id,
@@ -48,8 +48,8 @@ class Data {
     required this.copyright,
     required this.verseCount,
     required this.content,
-    required this.next,
-    required this.previous,
+    this.next,
+    this.previous,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -61,8 +61,9 @@ class Data {
         copyright: json["copyright"],
         verseCount: json["verseCount"],
         content: json["content"],
-        next: Next.fromJson(json["next"]),
-        previous: Next.fromJson(json["previous"]),
+        next: json["next"] != null ? Next.fromJson(json["next"]) : null,
+        previous:
+            json["previous"] != null ? Next.fromJson(json["previous"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -74,8 +75,8 @@ class Data {
         "copyright": copyright,
         "verseCount": verseCount,
         "content": content,
-        "next": next.toJson(),
-        "previous": previous.toJson(),
+        "next": next?.toJson(),
+        "previous": previous?.toJson(),
       };
 }
 

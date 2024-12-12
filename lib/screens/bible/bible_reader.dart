@@ -89,6 +89,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     MaterialPageRoute(
                                       builder: (context) => ChapterVerseView(
                                         initialIndex: 1,
+                                        bibleId: widget.bibleId,
+                                        bookId: widget.bookId,
+                                        chapterId: widget.chapterId,
                                       ),
                                     ),
                                   );
@@ -132,6 +135,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     MaterialPageRoute(
                                       builder: (context) => ChapterVerseView(
                                         initialIndex: 2,
+                                        bibleId: widget.bibleId,
+                                        bookId: widget.bookId,
+                                        chapterId: widget.chapterId,
                                       ),
                                     ),
                                   );

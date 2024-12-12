@@ -11,13 +11,21 @@ class BookCard extends StatelessWidget {
   final String title;
   final String subTitle;
   final String imageUrl;
+  final String abbreviation;
+  final String bibleId;
+  final String summary;
+  final String id;
 
   const BookCard({
-    Key? key,
+    super.key,
     required this.title,
+    required this.id,
     required this.subTitle,
     required this.imageUrl,
-  }) : super(key: key);
+    required this.abbreviation,
+    required this.bibleId,
+    required this.summary,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +34,15 @@ class BookCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  const BookFullView(), // Navigate to BookFullView
+              builder: (context) => BookFullView(
+                abbreviation: abbreviation,
+                bibleId: bibleId,
+                imageUrl: imageUrl,
+                subTitle: subTitle,
+                summary: summary,
+                title: title,
+                id: id,
+              ),
             ),
           );
         },

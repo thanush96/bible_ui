@@ -70,7 +70,15 @@ class SeeAllBooks extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BookFullView(),
+                            builder: (context) => const BookFullView(
+                              abbreviation: "a",
+                              bibleId: "s",
+                              imageUrl: "s",
+                              subTitle: "",
+                              summary: "",
+                              title: "",
+                              id: "",
+                            ),
                           ),
                         );
                       },

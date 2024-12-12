@@ -9,7 +9,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Gen",
       "name": "Genesis",
       "nameLong": "The First Book of Moses, called Genesis",
-      "imageUrl": "https://example.com/images/genesis.jpg"
+      "imageUrl": "https://example.com/images/genesis.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests.",
     },
     {
       "id": "EXO",
@@ -17,7 +19,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Exo",
       "name": "Exodus",
       "nameLong": "The Second Book of Moses, called Exodus",
-      "imageUrl": "https://example.com/images/exodus.jpg"
+      "imageUrl": "https://example.com/images/exodus.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "LEV",
@@ -25,7 +29,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Lev",
       "name": "Leviticus",
       "nameLong": "The Third Book of Moses, called Leviticus",
-      "imageUrl": "https://example.com/images/leviticus.jpg"
+      "imageUrl": "https://example.com/images/leviticus.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "NUM",
@@ -33,7 +39,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Num",
       "name": "Numbers",
       "nameLong": "The Fourth Book of Moses, called Numbers",
-      "imageUrl": "https://example.com/images/numbers.jpg"
+      "imageUrl": "https://example.com/images/numbers.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "DEU",
@@ -41,7 +49,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Deu",
       "name": "Deuteronomy",
       "nameLong": "The Fifth Book of Moses, called Deuteronomy",
-      "imageUrl": "https://example.com/images/deuteronomy.jpg"
+      "imageUrl": "https://example.com/images/deuteronomy.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JOS",
@@ -49,7 +59,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jos",
       "name": "Joshua",
       "nameLong": "The Book of Joshua",
-      "imageUrl": "https://example.com/images/joshua.jpg"
+      "imageUrl": "https://example.com/images/joshua.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JDG",
@@ -57,7 +69,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jdg",
       "name": "Judges",
       "nameLong": "The Book of Judges",
-      "imageUrl": "https://example.com/images/judges.jpg"
+      "imageUrl": "https://example.com/images/judges.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "RUT",
@@ -65,7 +79,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Rut",
       "name": "Ruth",
       "nameLong": "The Book of Ruth",
-      "imageUrl": "https://example.com/images/ruth.jpg"
+      "imageUrl": "https://example.com/images/ruth.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1SA",
@@ -74,7 +90,9 @@ class BookList extends StatelessWidget {
       "name": "1 Samuel",
       "nameLong":
           "The First Book of Samuel Otherwise Called The First Book of the Kings",
-      "imageUrl": "https://example.com/images/1samuel.jpg"
+      "imageUrl": "https://example.com/images/1samuel.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2SA",
@@ -83,7 +101,9 @@ class BookList extends StatelessWidget {
       "name": "2 Samuel",
       "nameLong":
           "The Second Book of Samuel Otherwise Called The Second Book of the Kings",
-      "imageUrl": "https://example.com/images/2samuel.jpg"
+      "imageUrl": "https://example.com/images/2samuel.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1KI",
@@ -92,7 +112,9 @@ class BookList extends StatelessWidget {
       "name": "1 Kings",
       "nameLong":
           "The First Book of the Kings, Commonly Called the Third Book of the Kings",
-      "imageUrl": "https://example.com/images/1kings.jpg"
+      "imageUrl": "https://example.com/images/1kings.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2KI",
@@ -101,7 +123,9 @@ class BookList extends StatelessWidget {
       "name": "2 Kings",
       "nameLong":
           "The Second Book of the Kings, Commonly Called the Fourth Book of the Kings",
-      "imageUrl": "https://example.com/images/2kings.jpg"
+      "imageUrl": "https://example.com/images/2kings.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1CH",
@@ -109,7 +133,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "1Ch",
       "name": "1 Chronicles",
       "nameLong": "The First Book of the Chronicles",
-      "imageUrl": "https://example.com/images/1chronicles.jpg"
+      "imageUrl": "https://example.com/images/1chronicles.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2CH",
@@ -117,7 +143,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "2Ch",
       "name": "2 Chronicles",
       "nameLong": "The Second Book of the Chronicles",
-      "imageUrl": "https://example.com/images/2chronicles.jpg"
+      "imageUrl": "https://example.com/images/2chronicles.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "EZR",
@@ -125,7 +153,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Ezr",
       "name": "Ezra",
       "nameLong": "Ezra",
-      "imageUrl": "https://example.com/images/ezra.jpg"
+      "imageUrl": "https://example.com/images/ezra.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "NEH",
@@ -133,7 +163,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Neh",
       "name": "Nehemiah",
       "nameLong": "The Book of Nehemiah",
-      "imageUrl": "https://example.com/images/nehemiah.jpg"
+      "imageUrl": "https://example.com/images/nehemiah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "EST",
@@ -141,7 +173,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Est",
       "name": "Esther",
       "nameLong": "The Book of Esther",
-      "imageUrl": "https://example.com/images/esther.jpg"
+      "imageUrl": "https://example.com/images/esther.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JOB",
@@ -149,7 +183,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Job",
       "name": "Job",
       "nameLong": "The Book of Job",
-      "imageUrl": "https://example.com/images/job.jpg"
+      "imageUrl": "https://example.com/images/job.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "PSA",
@@ -157,7 +193,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Psa",
       "name": "Psalms",
       "nameLong": "The Book of Psalms",
-      "imageUrl": "https://example.com/images/psalms.jpg"
+      "imageUrl": "https://example.com/images/psalms.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "PRO",
@@ -165,7 +203,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Pro",
       "name": "Proverbs",
       "nameLong": "The Proverbs",
-      "imageUrl": "https://example.com/images/proverbs.jpg"
+      "imageUrl": "https://example.com/images/proverbs.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "ECC",
@@ -173,7 +213,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Ecc",
       "name": "Ecclesiastes",
       "nameLong": "Ecclesiastes or, the Preacher",
-      "imageUrl": "https://example.com/images/ecclesiastes.jpg"
+      "imageUrl": "https://example.com/images/ecclesiastes.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "SNG",
@@ -181,7 +223,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Sng",
       "name": "Song of Solomon",
       "nameLong": "The Song of Solomon",
-      "imageUrl": "https://example.com/images/songofsolomon.jpg"
+      "imageUrl": "https://example.com/images/songofsolomon.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "ISA",
@@ -189,7 +233,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Isa",
       "name": "Isaiah",
       "nameLong": "The Book of the Prophet Isaiah",
-      "imageUrl": "https://example.com/images/isaiah.jpg"
+      "imageUrl": "https://example.com/images/isaiah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JER",
@@ -197,7 +243,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jer",
       "name": "Jeremiah",
       "nameLong": "The Book of the Prophet Jeremiah",
-      "imageUrl": "https://example.com/images/jeremiah.jpg"
+      "imageUrl": "https://example.com/images/jeremiah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "LAM",
@@ -205,7 +253,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Lam",
       "name": "Lamentations",
       "nameLong": "The Lamentations of Jeremiah",
-      "imageUrl": "https://example.com/images/lamentations.jpg"
+      "imageUrl": "https://example.com/images/lamentations.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "EZK",
@@ -213,7 +263,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Ezk",
       "name": "Ezekiel",
       "nameLong": "The Book of the Prophet Ezekiel",
-      "imageUrl": "https://example.com/images/ezekiel.jpg"
+      "imageUrl": "https://example.com/images/ezekiel.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "DAN",
@@ -221,7 +273,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Dan",
       "name": "Daniel",
       "nameLong": "The Book of Daniel",
-      "imageUrl": "https://example.com/images/daniel.jpg"
+      "imageUrl": "https://example.com/images/daniel.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "HOS",
@@ -229,7 +283,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Hos",
       "name": "Hosea",
       "nameLong": "Hosea",
-      "imageUrl": "https://example.com/images/hosea.jpg"
+      "imageUrl": "https://example.com/images/hosea.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JOL",
@@ -237,7 +293,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jol",
       "name": "Joel",
       "nameLong": "Joel",
-      "imageUrl": "https://example.com/images/joel.jpg"
+      "imageUrl": "https://example.com/images/joel.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "AMO",
@@ -245,7 +303,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Amo",
       "name": "Amos",
       "nameLong": "Amos",
-      "imageUrl": "https://example.com/images/amos.jpg"
+      "imageUrl": "https://example.com/images/amos.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "OBA",
@@ -253,7 +313,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Oba",
       "name": "Obadiah",
       "nameLong": "Obadiah",
-      "imageUrl": "https://example.com/images/obadiah.jpg"
+      "imageUrl": "https://example.com/images/obadiah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JON",
@@ -261,7 +323,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jon",
       "name": "Jonah",
       "nameLong": "Jonah",
-      "imageUrl": "https://example.com/images/jonah.jpg"
+      "imageUrl": "https://example.com/images/jonah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "MIC",
@@ -269,7 +333,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Mic",
       "name": "Micah",
       "nameLong": "Micah",
-      "imageUrl": "https://example.com/images/micah.jpg"
+      "imageUrl": "https://example.com/images/micah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "NAM",
@@ -277,7 +343,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Nam",
       "name": "Nahum",
       "nameLong": "Nahum",
-      "imageUrl": "https://example.com/images/nahum.jpg"
+      "imageUrl": "https://example.com/images/nahum.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "HAB",
@@ -285,7 +353,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Hab",
       "name": "Habakkuk",
       "nameLong": "Habakkuk",
-      "imageUrl": "https://example.com/images/habakkuk.jpg"
+      "imageUrl": "https://example.com/images/habakkuk.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "ZEP",
@@ -293,7 +363,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Zep",
       "name": "Zephaniah",
       "nameLong": "Zephaniah",
-      "imageUrl": "https://example.com/images/zephaniah.jpg"
+      "imageUrl": "https://example.com/images/zephaniah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "HAG",
@@ -301,7 +373,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Hag",
       "name": "Haggai",
       "nameLong": "Haggai",
-      "imageUrl": "https://example.com/images/haggai.jpg"
+      "imageUrl": "https://example.com/images/haggai.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "ZEC",
@@ -309,7 +383,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Zec",
       "name": "Zechariah",
       "nameLong": "Zechariah",
-      "imageUrl": "https://example.com/images/zechariah.jpg"
+      "imageUrl": "https://example.com/images/zechariah.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "MAL",
@@ -317,7 +393,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Mal",
       "name": "Malachi",
       "nameLong": "Malachi",
-      "imageUrl": "https://example.com/images/malachi.jpg"
+      "imageUrl": "https://example.com/images/malachi.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "MAT",
@@ -325,7 +403,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Mat",
       "name": "Matthew",
       "nameLong": "The Gospel According to Matthew",
-      "imageUrl": "https://example.com/images/matthew.jpg"
+      "imageUrl": "https://example.com/images/matthew.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "MRK",
@@ -333,7 +413,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Mrk",
       "name": "Mark",
       "nameLong": "The Gospel According to Mark",
-      "imageUrl": "https://example.com/images/mark.jpg"
+      "imageUrl": "https://example.com/images/mark.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "LUK",
@@ -341,7 +423,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Luk",
       "name": "Luke",
       "nameLong": "The Gospel According to Luke",
-      "imageUrl": "https://example.com/images/luke.jpg"
+      "imageUrl": "https://example.com/images/luke.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JHN",
@@ -349,7 +433,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jhn",
       "name": "John",
       "nameLong": "The Gospel According to John",
-      "imageUrl": "https://example.com/images/john.jpg"
+      "imageUrl": "https://example.com/images/john.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "ACT",
@@ -357,7 +443,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Act",
       "name": "Acts",
       "nameLong": "The Acts of the Apostles",
-      "imageUrl": "https://example.com/images/acts.jpg"
+      "imageUrl": "https://example.com/images/acts.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "ROM",
@@ -365,7 +453,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Rom",
       "name": "Romans",
       "nameLong": "The Epistle of Paul the Apostle to the Romans",
-      "imageUrl": "https://example.com/images/romans.jpg"
+      "imageUrl": "https://example.com/images/romans.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1CO",
@@ -373,7 +463,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "1Co",
       "name": "1 Corinthians",
       "nameLong": "The First Epistle of Paul the Apostle to the Corinthians",
-      "imageUrl": "https://example.com/images/1corinthians.jpg"
+      "imageUrl": "https://example.com/images/1corinthians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2CO",
@@ -381,7 +473,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "2Co",
       "name": "2 Corinthians",
       "nameLong": "The Second Epistle of Paul the Apostle to the Corinthians",
-      "imageUrl": "https://example.com/images/2corinthians.jpg"
+      "imageUrl": "https://example.com/images/2corinthians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "GAL",
@@ -389,7 +483,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Gal",
       "name": "Galatians",
       "nameLong": "The Epistle of Paul the Apostle to the Galatians",
-      "imageUrl": "https://example.com/images/galatians.jpg"
+      "imageUrl": "https://example.com/images/galatians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "EPH",
@@ -397,7 +493,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Eph",
       "name": "Ephesians",
       "nameLong": "The Epistle of Paul the Apostle to the Ephesians",
-      "imageUrl": "https://example.com/images/ephesians.jpg"
+      "imageUrl": "https://example.com/images/ephesians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "PHP",
@@ -405,7 +503,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Php",
       "name": "Philippians",
       "nameLong": "The Epistle of Paul the Apostle to the Philippians",
-      "imageUrl": "https://example.com/images/philippians.jpg"
+      "imageUrl": "https://example.com/images/philippians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "COL",
@@ -413,7 +513,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Col",
       "name": "Colossians",
       "nameLong": "The Epistle of Paul the Apostle to the Colossians",
-      "imageUrl": "https://example.com/images/colossians.jpg"
+      "imageUrl": "https://example.com/images/colossians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1TH",
@@ -421,7 +523,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "1Th",
       "name": "1 Thessalonians",
       "nameLong": "The First Epistle of Paul the Apostle to the Thessalonians",
-      "imageUrl": "https://example.com/images/1thessalonians.jpg"
+      "imageUrl": "https://example.com/images/1thessalonians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2TH",
@@ -429,7 +533,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "2Th",
       "name": "2 Thessalonians",
       "nameLong": "The Second Epistle of Paul the Apostle to the Thessalonians",
-      "imageUrl": "https://example.com/images/2thessalonians.jpg"
+      "imageUrl": "https://example.com/images/2thessalonians.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1TI",
@@ -437,7 +543,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "1Ti",
       "name": "1 Timothy",
       "nameLong": "The First Epistle of Paul the Apostle to Timothy",
-      "imageUrl": "https://example.com/images/1timothy.jpg"
+      "imageUrl": "https://example.com/images/1timothy.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2TI",
@@ -445,7 +553,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "2Ti",
       "name": "2 Timothy",
       "nameLong": "The Second Epistle of Paul the Apostle to Timothy",
-      "imageUrl": "https://example.com/images/2timothy.jpg"
+      "imageUrl": "https://example.com/images/2timothy.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "TIT",
@@ -453,7 +563,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Tit",
       "name": "Titus",
       "nameLong": "The Epistle of Paul the Apostle to Titus",
-      "imageUrl": "https://example.com/images/titus.jpg"
+      "imageUrl": "https://example.com/images/titus.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "PHM",
@@ -461,7 +573,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Phm",
       "name": "Philemon",
       "nameLong": "The Epistle of Paul the Apostle to Philemon",
-      "imageUrl": "https://example.com/images/philemon.jpg"
+      "imageUrl": "https://example.com/images/philemon.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "HEB",
@@ -469,7 +583,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Heb",
       "name": "Hebrews",
       "nameLong": "The Epistle of Paul the Apostle to the Hebrews",
-      "imageUrl": "https://example.com/images/hebrews.jpg"
+      "imageUrl": "https://example.com/images/hebrews.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JAM",
@@ -477,7 +593,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "Jam",
       "name": "James",
       "nameLong": "The Epistle of James",
-      "imageUrl": "https://example.com/images/james.jpg"
+      "imageUrl": "https://example.com/images/james.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1PE",
@@ -485,7 +603,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "1Pe",
       "name": "1 Peter",
       "nameLong": "The First Epistle of Peter",
-      "imageUrl": "https://example.com/images/1peter.jpg"
+      "imageUrl": "https://example.com/images/1peter.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "2PE",
@@ -493,7 +613,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "2Pe",
       "name": "2 Peter",
       "nameLong": "The Second Epistle of Peter",
-      "imageUrl": "https://example.com/images/2peter.jpg"
+      "imageUrl": "https://example.com/images/2peter.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "1JN",
@@ -501,7 +623,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "1Jn",
       "name": "1 John",
       "nameLong": "The First Epistle of John",
-      "imageUrl": "https://example.com/images/1john.jpg"
+      "imageUrl": "https://example.com/images/1john.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "JUD",
@@ -509,7 +633,9 @@ class BookList extends StatelessWidget {
       "abbreviation": "jud",
       "name": "Jud",
       "nameLong": "THE GENERAL EPISTLE OF JUDE",
-      "imageUrl": "https://example.com/images/2john.jpg"
+      "imageUrl": "https://example.com/images/2john.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
     {
       "id": "REV",
@@ -517,9 +643,13 @@ class BookList extends StatelessWidget {
       "abbreviation": "Rev",
       "name": "Revelation",
       "nameLong": "THE REVELATION OF ST. JOHN THE DIVINE",
-      "imageUrl": "https://example.com/images/2john.jpg"
+      "imageUrl": "https://example.com/images/2john.jpg",
+      "summary":
+          "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
     },
   ];
+
+  BookList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -532,8 +662,12 @@ class BookList extends StatelessWidget {
           final book = books[index];
           return BookCard(
             title: book['name']!,
+            id: book['id']!,
             subTitle: book['nameLong']!,
             imageUrl: book['imageUrl']!,
+            abbreviation: book['abbreviation']!,
+            bibleId: book['bibleId']!,
+            summary: book['summary']!,
           );
         },
       ),

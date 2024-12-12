@@ -82,10 +82,10 @@ class BibleReaderViewModel extends BaseViewModel {
 
       chapterViewModel = await ChapterService.chapterContentFetch(
           bibleID: bibleID, chapterID: chapterID);
-      setPrevChapter = chapterViewModel.data.previous.id;
-      setNextChapter = chapterViewModel.data.next.id;
-      setNextBookID = chapterViewModel.data.next.bookId;
-      setPreBookID = chapterViewModel.data.previous.bookId;
+      setPrevChapter = chapterViewModel.data.previous?.id ?? "";
+      setNextChapter = chapterViewModel.data.next?.id ?? "";
+      setNextBookID = chapterViewModel.data.next?.bookId ?? "";
+      setPreBookID = chapterViewModel.data.previous?.bookId ?? "";
       if (chapterViewModel.data.content != "") {
         chapterViewModel.data.content =
             formatContent(chapterViewModel.data.content);
