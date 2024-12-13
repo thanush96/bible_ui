@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'shimmer_effect.dart';
 
 class SkeletonLoaderBooks extends StatelessWidget {
-  const SkeletonLoaderBooks({super.key});
+  final int count;
+  final bool inCludeBook;
+  const SkeletonLoaderBooks(
+      {super.key, this.count = 8, this.inCludeBook = true});
 
   @override
   Widget build(BuildContext context) {
@@ -11,17 +14,20 @@ class SkeletonLoaderBooks extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.grey,
+            Visibility(
+              visible: inCludeBook,
+              child: Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.grey,
+                ),
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
-                  8, (index) => _buildVerseSkeleton(index, context)),
+                  count, (index) => _buildVerseSkeleton(index, context)),
             ),
           ],
         ),
