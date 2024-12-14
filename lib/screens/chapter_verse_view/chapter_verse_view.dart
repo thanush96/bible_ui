@@ -582,8 +582,13 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
     this.chapterVersesData,
     super.key,
   });
-  List<ChapterVersesData>? chapterVersesData;
+
   final ScrollController scrollController;
+  final List<ChapterVersesData>? chapterVersesData;
+
+  // Keep track of loading items
+  final Set<int> _loadingIndices = {};
+
   @override
   Widget build(BuildContext context, ChapterVerseViewModel viewModel) {
     return RawScrollbar(
@@ -603,7 +608,6 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
           : GridView.builder(
               padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
               controller: scrollController,
-              // physics: NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 5,
                 mainAxisSpacing: 10,
@@ -613,52 +617,78 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
               itemBuilder: (context, index) {
                 final number = index + 1;
                 final chapterDetails = chapterVersesData;
+
                 return GestureDetector(
-                  onTap: () {
-                    printStatement(chapterDetails?[index].id);
-                    viewModel.versesContentFetch(viewModel.BibleID,
-                        chapterDetails?[index].orgId ?? "", context);
+                  onTap: () async {
+                    if (_loadingIndices.contains(index)) return;
+
+                    // Mark as loading
+                    _loadingIndices.add(index);
+                    (context as Element).markNeedsBuild();
+
+                    try {
+                      await viewModel.versesContentFetch(
+                        viewModel.BibleID,
+                        chapterDetails?[index].orgId ?? "",
+                        context,
+                      );
+                    } finally {
+                      // Remove loading state after navigation
+                      _loadingIndices.remove(index);
+                      (context as Element).markNeedsBuild();
+                    }
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(
-                            0xFF000000,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Circle Container
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF000000),
+                              Color(0xFF3533CD),
+                              Color.fromRGBO(53, 51, 205, 0.68),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          Color(
-                            0xFF3533CD,
-                          ),
-                          Color.fromRGBO(
-                            53,
-                            51,
-                            205,
-                            0.68,
-                          ),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        '$number',
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: AppFont.textSize18,
-                          fontWeight: AppFont.fw400,
-                          fontFamily: 'Times-New-Roman',
+                        child: Center(
+                          child: Text(
+                            '$number',
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: AppFont.textSize18,
+                              fontWeight: AppFont.fw400,
+                              fontFamily: 'Times-New-Roman',
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+
+                      // Circular progress indicator outside the circle
+                      if (_loadingIndices.contains(index))
+                        const SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color.fromARGB(255, 255, 255, 255)),
+                            strokeWidth: 4,
+                          ),
+                        ),
+                    ],
                   ),
                 );
               },
