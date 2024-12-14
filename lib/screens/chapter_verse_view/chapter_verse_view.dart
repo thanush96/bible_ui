@@ -6,6 +6,7 @@ import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/chapter_verse_view/chapter_verse_view_model.dart';
 import 'package:flutter_app/services/http_service.dart';
 import 'package:flutter_app/tools/chap_verse_loader.dart';
+import 'package:flutter_app/tools/shimmer_effect.dart';
 import 'package:flutter_app/tools/skeleton_loader.dart';
 import 'package:flutter_app/tools/skeleton_loader_books.dart';
 import 'package:flutter_app/values/app-font.dart';
@@ -19,6 +20,8 @@ class ChapterVerseView extends StatelessWidget {
   ChapterVerseView({
     super.key,
     this.initialIndex = 0,
+    required this.title,
+    required this.subTitle,
     required this.bibleId,
     required this.bookId,
     required this.chapterId,
@@ -27,6 +30,8 @@ class ChapterVerseView extends StatelessWidget {
   String bibleId;
   String chapterId;
   String bookId;
+  String title;
+  String subTitle;
 
   final ScrollController _booksScrollController = ScrollController();
 
@@ -46,6 +51,8 @@ class ChapterVerseView extends StatelessWidget {
           model.bookVerseFetch(bibleId, chapterId);
         },
         builder: (context, model, _) {
+          final updatedTitle = model.Title ?? title;
+          final updatedSubTitle = model.SubTitle ?? subTitle;
           return DefaultTabController(
             initialIndex: initialIndex,
             length: 3, // Define the number of tabs
@@ -57,52 +64,64 @@ class ChapterVerseView extends StatelessWidget {
                     CustomHeader(
                       onBackPressed: () => Navigator.pop(context),
                     ),
-                    (model.isBusyBook)
-                        ? const SkeletonLoaderBooks()
-                        : Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width - 20,
+                              height: 260,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
                                 children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width - 20,
-                                    height: 260,
-                                    decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(10),
+                                  //backGrey
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 20,
+                                      right: 10,
                                     ),
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        //backGrey
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 20,
-                                            right: 10,
-                                          ),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                0,
-                                            height: 240,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                          ),
-                                        ),
-                                        // Positioned(
-                                        //   top: 0,
-                                        //   left: 0,
-                                        Row(
-                                          // mainAxisAlignment: MainAxisAlignment.center,
-                                          // crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Flexible(
-                                              flex: 5,
-                                              child: Container(
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width - 0,
+                                      height: 240,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                    ),
+                                  ),
+                                  // Positioned(
+                                  //   top: 0,
+                                  //   left: 0,
+                                  Row(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    // crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                        flex: 5,
+                                        child: model.isBusyTextChapLoad
+                                            ? ShimmerEffect(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    left: 05,
+                                                  ),
+                                                  child: Container(
+                                                    height: 180,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
                                                 // width: (MediaQuery.of(context).size.width / 3)
 
                                                 height: 220,
@@ -117,262 +136,296 @@ class ChapterVerseView extends StatelessWidget {
                                                       BorderRadius.circular(10),
                                                 ),
                                               ),
-                                            ),
-                                            AppSpaces.horizontalSpace10,
-                                            Flexible(
-                                              flex: 8,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  right: 20,
-                                                  top: 10,
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  // mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    AppSpaces.verticalSpace20,
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        InkWell(
-                                                          onTap: () {
-                                                            print(
-                                                                "Volume Icon tapped!");
-                                                          },
-                                                          child: Icon(
-                                                            Ionicons
-                                                                .volume_high,
-                                                            size: 20,
-                                                            color: AppColors
-                                                                .grey500,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 8),
-                                                        InkWell(
-                                                          child: Icon(
-                                                            Ionicons
-                                                                .share_social,
-                                                            size: 20,
-                                                            color: AppColors
-                                                                .grey700,
-                                                          ),
-                                                        ),
-                                                      ],
+                                      ),
+                                      AppSpaces.horizontalSpace10,
+                                      Flexible(
+                                        flex: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 20,
+                                            top: 10,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            // mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              AppSpaces.verticalSpace20,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      print(
+                                                          "Volume Icon tapped!");
+                                                    },
+                                                    child: Icon(
+                                                      Ionicons.volume_high,
+                                                      size: 20,
+                                                      color: AppColors.grey500,
                                                     ),
-                                                    const SizedBox(height: 8),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      // mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        Text(
-                                                          model.bookDetailModel
-                                                                  ?.data.name ??
-                                                              "",
-                                                          style: TextStyle(
-                                                            fontSize: AppFont
-                                                                .textSize18,
-                                                            color: AppColors
-                                                                .greyTitle,
-                                                            fontWeight:
-                                                                AppFont.fw400,
+                                                  ),
+                                                  const SizedBox(width: 8),
+                                                  InkWell(
+                                                    child: Icon(
+                                                      Ionicons.share_social,
+                                                      size: 20,
+                                                      color: AppColors.grey700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                // mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  model.isBusyTextChapLoad
+                                                      ? ShimmerEffect(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.34,
+                                                                height: 20,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 15),
+                                                              Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.7,
+                                                                height: 16,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 5),
+                                                              Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.7,
+                                                                height: 16,
+                                                                color:
+                                                                    Colors.grey,
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ),
-                                                        AppSpaces
-                                                            .verticalSpace06,
-                                                        Text(
-                                                          maxLines: 3,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          model
-                                                                  .bookDetailModel
-                                                                  ?.data
-                                                                  .nameLong ??
-                                                              "",
-                                                          style: TextStyle(
-                                                            fontSize: AppFont
-                                                                .textSize16,
-                                                            color:
-                                                                AppColors.black,
-                                                            fontWeight:
-                                                                AppFont.fw400,
-                                                          ),
-                                                        ),
-
-                                                        AppSpaces
-                                                            .verticalSpace20,
-                                                        const SizedBox(
-                                                            height: 8),
-                                                        // Row with button and favorite icon
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
+                                                        )
+                                                      : Wrap(
                                                           children: [
-                                                            Expanded(
-                                                              child: Container(
-                                                                height: 40,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  gradient:
-                                                                      const LinearGradient(
-                                                                    colors: [
-                                                                      Color(
-                                                                        0xFF000000,
-                                                                      ),
-                                                                      Color(
-                                                                        0xFF3533CD,
-                                                                      ),
-                                                                      Color
-                                                                          .fromRGBO(
-                                                                        53,
-                                                                        51,
-                                                                        205,
-                                                                        0.68,
-                                                                      ),
-                                                                    ],
-                                                                    begin: Alignment
-                                                                        .topLeft,
-                                                                    end: Alignment
-                                                                        .bottomRight,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10),
-                                                                ),
-                                                                child:
-                                                                    ElevatedButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  style: ElevatedButton
-                                                                      .styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    shadowColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .symmetric(
-                                                                      horizontal:
-                                                                          15,
-                                                                      vertical:
-                                                                          0,
-                                                                    ),
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5),
-                                                                    ),
-                                                                  ),
-                                                                  child: Text(
-                                                                    "Add Favourite",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          AppFont
-                                                                              .textSize16,
-                                                                      color: AppColors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          AppFont
-                                                                              .fw400,
-                                                                    ),
-                                                                  ),
-                                                                ),
+                                                            Text(
+                                                              updatedTitle,
+                                                              style: TextStyle(
+                                                                fontSize: AppFont
+                                                                    .textSize18,
+                                                                color: AppColors
+                                                                    .greyTitle,
+                                                                fontWeight:
+                                                                    AppFont
+                                                                        .fw400,
                                                               ),
                                                             ),
-                                                            IconButton(
-                                                              icon: Icon(
-                                                                Ionicons
-                                                                    .heart_outline,
+                                                            AppSpaces
+                                                                .verticalSpace06,
+                                                            Text(
+                                                              maxLines: 3,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              updatedSubTitle,
+                                                              style: TextStyle(
+                                                                fontSize: AppFont
+                                                                    .textSize16,
                                                                 color: AppColors
-                                                                    .grey700,
+                                                                    .black,
+                                                                fontWeight:
+                                                                    AppFont
+                                                                        .fw400,
                                                               ),
-                                                              onPressed: () {},
                                                             ),
                                                           ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  AppSpaces.verticalSpace20,
 
-                                  // Tab Section
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height -
-                                        360,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 10,
-                                        right: 20,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          // TabBar
-                                          TabBar(
-                                            indicatorSize:
-                                                TabBarIndicatorSize.tab,
-                                            dividerColor: Colors.transparent,
-                                            indicator: const BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Color(
-                                                    0xFF000000,
-                                                  ),
-                                                  Color(
-                                                    0xFF3533CD,
-                                                  ),
-                                                  Color.fromRGBO(
-                                                    53,
-                                                    51,
-                                                    205,
-                                                    0.68,
+                                                  AppSpaces.verticalSpace20,
+                                                  const SizedBox(height: 8),
+                                                  // Row with button and favorite icon
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            gradient:
+                                                                const LinearGradient(
+                                                              colors: [
+                                                                Color(
+                                                                  0xFF000000,
+                                                                ),
+                                                                Color(
+                                                                  0xFF3533CD,
+                                                                ),
+                                                                Color.fromRGBO(
+                                                                  53,
+                                                                  51,
+                                                                  205,
+                                                                  0.68,
+                                                                ),
+                                                              ],
+                                                              begin: Alignment
+                                                                  .topLeft,
+                                                              end: Alignment
+                                                                  .bottomRight,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: ElevatedButton(
+                                                            onPressed: () {},
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              shadowColor: Colors
+                                                                  .transparent,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                horizontal: 15,
+                                                                vertical: 0,
+                                                              ),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5),
+                                                              ),
+                                                            ),
+                                                            child: Text(
+                                                              "Add Favourite",
+                                                              style: TextStyle(
+                                                                fontSize: AppFont
+                                                                    .textSize16,
+                                                                color: AppColors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    AppFont
+                                                                        .fw400,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      IconButton(
+                                                        icon: Icon(
+                                                          Ionicons
+                                                              .heart_outline,
+                                                          color:
+                                                              AppColors.grey700,
+                                                        ),
+                                                        onPressed: () {},
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
                                               ),
-                                            ),
-                                            labelStyle: TextStyle(
-                                              fontSize: AppFont.textSize18,
-                                              fontWeight: AppFont.fw400,
-                                              fontFamily: 'Times-New-Roman',
-                                            ),
-                                            labelColor: AppColors.white,
-                                            unselectedLabelColor:
-                                                AppColors.greyTitle,
-                                            tabs: const [
-                                              Tab(
-                                                text: "Book",
-                                              ),
-                                              Tab(text: "Chapters"),
-                                              Tab(text: "Verse"),
                                             ],
                                           ),
-                                          Divider(
-                                            endIndent: 10,
-                                            color: AppColors.titleDivider,
-                                            thickness: 2,
-                                          ),
-                                          // TabBarView
-                                          Expanded(
-                                            child: TabBarView(
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            AppSpaces.verticalSpace20,
+
+                            // Tab Section
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height - 360,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 20,
+                                ),
+                                child: Column(
+                                  children: [
+                                    // TabBar
+                                    TabBar(
+                                      indicatorSize: TabBarIndicatorSize.tab,
+                                      dividerColor: Colors.transparent,
+                                      indicator: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color(
+                                              0xFF000000,
+                                            ),
+                                            Color(
+                                              0xFF3533CD,
+                                            ),
+                                            Color.fromRGBO(
+                                              53,
+                                              51,
+                                              205,
+                                              0.68,
+                                            ),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
+                                      labelStyle: TextStyle(
+                                        fontSize: AppFont.textSize18,
+                                        fontWeight: AppFont.fw400,
+                                        fontFamily: 'Times-New-Roman',
+                                      ),
+                                      labelColor: AppColors.white,
+                                      unselectedLabelColor: AppColors.greyTitle,
+                                      tabs: const [
+                                        Tab(
+                                          text: "Book",
+                                        ),
+                                        Tab(text: "Chapters"),
+                                        Tab(text: "Verse"),
+                                      ],
+                                    ),
+                                    Divider(
+                                      endIndent: 10,
+                                      color: AppColors.titleDivider,
+                                      thickness: 2,
+                                    ),
+                                    // TabBarView
+                                    Expanded(
+                                      child: (model.isBusyBook)
+                                          ? const SkeletonLoaderBooks(
+                                              inCludeBook: false,
+                                              inCludeText: false,
+                                              inCludeRound: true,
+                                            )
+                                          : TabBarView(
                                               children: [
                                                 //Books
                                                 _buildTabContentBooks(
@@ -408,15 +461,15 @@ class ChapterVerseView extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -546,7 +599,6 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
       child: viewModel.isBusyChapterLoad
           ? ChapVerseLoader(
               scrollController: scrollController,
-              count: 5,
             )
           : GridView.builder(
               padding: const EdgeInsets.fromLTRB(20, 20, 30, 20),
@@ -646,6 +698,7 @@ class _buildTabContentBooks extends ViewModelWidget<ChapterVerseViewModel> {
           return GestureDetector(
             onTap: () {
               viewModel.setBusyForLoad();
+              viewModel.setIsBusyTextChapLoad = true;
               DefaultTabController.of(context).animateTo(1);
               viewModel.bookDetailFetch(
                   book['bibleId'] ?? "", book['id'] ?? "");

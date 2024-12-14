@@ -23,9 +23,9 @@ class ChapterVerseViewModel extends BaseViewModel {
   bool get isBusyChapterLoad => _isBusyChapterLoad;
   set setIsBusyChapterLoad(bool value) => _isBusyChapterLoad = value;
 
-  bool _isBusyVerseLoad = false;
-  bool get isBusyVerseLoad => _isBusyVerseLoad;
-  set setIsBusyVerseLoad(bool value) => _isBusyVerseLoad = value;
+  bool _isBusyTextChapLoad = false;
+  bool get isBusyTextChapLoad => _isBusyTextChapLoad;
+  set setIsBusyTextChapLoad(bool value) => _isBusyTextChapLoad = value;
 
   String _bibleID = "";
   String get BibleID => _bibleID;
@@ -34,6 +34,14 @@ class ChapterVerseViewModel extends BaseViewModel {
   String _versesFind = "";
   String get VersesFind => _versesFind;
   set setVersesFind(String value) => _versesFind = value;
+
+  String? _title;
+  String? get Title => _title;
+  set setTitle(String value) => _title = value;
+
+  String? _subTitle;
+  String? get SubTitle => _subTitle;
+  set setSubTitle(String value) => _subTitle = value;
 
   void updateInitialParams(
     String bibleID,
@@ -72,6 +80,7 @@ class ChapterVerseViewModel extends BaseViewModel {
     } finally {
       _isChapterListBusy = true;
       setIsBusyChapterLoad = false;
+      setIsBusyTextChapLoad = false;
       setBusyForLoadConcatinate();
     }
   }
@@ -85,12 +94,13 @@ class ChapterVerseViewModel extends BaseViewModel {
       // Fetch the chapter list data from the service
       bookDetailModel = await ChapterService.BookDetailFetch(
           bibleID: bibleID, bookID: bookID);
-
+      setTitle = bookDetailModel?.data.name ?? "";
       notifyListeners();
     } catch (error) {
       throw Exception('Error fetching book details data: $error');
     } finally {
       _isBookDetailBusy = true;
+      setIsBusyTextChapLoad = false;
       setBusyForLoadConcatinate();
     }
   }

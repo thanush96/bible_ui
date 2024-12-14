@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/book_detail_model.dart';
 // import 'package:flutter_app/model/bible_content.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
@@ -152,6 +153,21 @@ class BibleReaderViewModel extends BaseViewModel {
     }
     //currentChapterIndex = (currentChapterIndex + 1) % mockChapters.length;
     notifyListeners();
+  }
+
+  BookDetailModel? bookDetailModel;
+
+  Future<void> bookDetailFetch(String bibleID, String bookID) async {
+    try {
+      if (bibleID.isEmpty || bookID.isEmpty) return;
+      // Fetch the chapter list data from the service
+      bookDetailModel = await ChapterService.BookDetailFetch(
+          bibleID: bibleID, bookID: bookID);
+
+      notifyListeners();
+    } catch (error) {
+      throw Exception('Error fetching book details data: $error');
+    } finally {}
   }
 
   void changeChapterPrev(BuildContext context) {
