@@ -45,6 +45,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
           model.setBusyForLoad();
           model.updateInitialParams(
               widget.bibleId, widget.chapterId, widget.bookId);
+          model.bookDetailFetch(widget.bibleId, widget.bookId);
           model.chapterFetch(widget.bibleId, widget.chapterId, context);
           model.chapterListFetch(widget.bibleId, widget.bookId);
         },
@@ -94,6 +95,12 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                         bibleId: widget.bibleId,
                                         bookId: widget.bookId,
                                         chapterId: widget.chapterId,
+                                        title:
+                                            model.bookDetailModel?.data.name ??
+                                                "",
+                                        subTitle: model.bookDetailModel?.data
+                                                .nameLong ??
+                                            "",
                                       ),
                                     ),
                                   );
@@ -136,11 +143,16 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ChapterVerseView(
-                                        initialIndex: 2,
-                                        bibleId: widget.bibleId,
-                                        bookId: widget.bookId,
-                                        chapterId: widget.chapterId,
-                                      ),
+                                          initialIndex: 2,
+                                          bibleId: widget.bibleId,
+                                          bookId: widget.bookId,
+                                          chapterId: widget.chapterId,
+                                          title: model
+                                                  .bookDetailModel?.data.name ??
+                                              "",
+                                          subTitle: model.bookDetailModel?.data
+                                                  .nameLong ??
+                                              ""),
                                     ),
                                   );
                                   setState(() {

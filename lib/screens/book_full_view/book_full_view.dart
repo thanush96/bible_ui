@@ -319,43 +319,46 @@ class BookFullView extends StatelessWidget {
                                         fontWeight: AppFont.fw400,
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                BibleReaderPage(
-                                              bibleId: bibleId,
-                                              chapterId: viewModel
-                                                  .chapterListViewModel[0]
-                                                  .data
-                                                  .id,
-                                              bookId: id,
+                                    AbsorbPointer(
+                                      absorbing: (viewModel.isBusy),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BibleReaderPage(
+                                                bibleId: bibleId,
+                                                chapterId: viewModel
+                                                    .chapterListViewModel[0]
+                                                    .data
+                                                    .id,
+                                                bookId: id,
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Readings",
-                                            style: TextStyle(
-                                              fontSize: AppFont.textSize20,
+                                          );
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Readings",
+                                              style: TextStyle(
+                                                fontSize: AppFont.textSize20,
+                                                color: AppColors.greyTitle,
+                                                fontWeight: AppFont.fw400,
+                                              ),
+                                            ),
+                                            Icon(
+                                              size: 28,
+                                              Ionicons.arrow_forward,
                                               color: AppColors.greyTitle,
-                                              fontWeight: AppFont.fw400,
-                                            ),
-                                          ),
-                                          Icon(
-                                            size: 28,
-                                            Ionicons.arrow_forward,
-                                            color: AppColors.greyTitle,
-                                          )
-                                        ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
