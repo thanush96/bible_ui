@@ -19,7 +19,9 @@ class SearchResultsPage extends StatelessWidget {
         },
         builder: (context, viewModel, child) {
           return Scaffold(
+            backgroundColor: const Color(0xFFECECFF),
             appBar: AppBar(
+              backgroundColor: const Color(0xFFECECFF),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(50),
                 child: Padding(
@@ -65,7 +67,7 @@ class SearchResultsPage extends StatelessWidget {
               ),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: viewModel.query.isEmpty
                   ? BuildInitialContent(viewModel.searchChapterModel)
                   : viewModel.isBusy
@@ -142,6 +144,7 @@ class BuildResultsList extends ViewModelWidget<SearchViewModel> {
             );
           },
           child: Card(
+            color: const Color(0xFFECECFF),
             margin: const EdgeInsets.symmetric(vertical: 8),
             elevation: 4,
             shape: RoundedRectangleBorder(
