@@ -125,32 +125,32 @@ class BibleHomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                    Stack(
+                    const Stack(
                       children: [
-                        const VerseSlider(),
-                        Positioned(
-                          top: 70,
-                          right: 0,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => BookListView(
-                              //           books: americanStandardBooks)),
-                              // );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(9),
-                              alignment: Alignment.centerRight,
-                              child: const Icon(
-                                Icons.chevron_right,
-                                color: Colors.black,
-                                size: 28,
-                              ),
-                            ),
-                          ),
-                        ),
+                        VerseSlider(),
+                        // Positioned(
+                        //   top: 70,
+                        //   right: 0,
+                        //   child: GestureDetector(
+                        //     onTap: () {
+                        //       // Navigator.push(
+                        //       //   context,
+                        //       //   MaterialPageRoute(
+                        //       //       builder: (context) => BookListView(
+                        //       //           books: americanStandardBooks)),
+                        //       // );
+                        //     },
+                        //     child: Container(
+                        //       padding: const EdgeInsets.all(9),
+                        //       alignment: Alignment.centerRight,
+                        //       child: const Icon(
+                        //         Icons.chevron_right,
+                        //         color: Colors.black,
+                        //         size: 28,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     const Divider(

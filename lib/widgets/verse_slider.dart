@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../constants/verses/english_verse.dart';
+import '../constants/verses/tamil_verse.dart';
+import '../provider/language_provider.dart';
 
 class VerseSlider extends StatefulWidget {
   const VerseSlider({Key? key}) : super(key: key);
@@ -10,6 +16,48 @@ class VerseSlider extends StatefulWidget {
 class _VerseSliderState extends State<VerseSlider> {
   int currentPage = 0;
   final PageController _pageController = PageController();
+  Timer? _autoSlideTimer;
+  List<Map<String, String>> randomVerses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _pickRandomVerses();
+    _startAutoSlide();
+  }
+
+  @override
+  void dispose() {
+    _autoSlideTimer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _pickRandomVerses() {
+    final random = Random();
+
+    final String selectedLanguage =
+        Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
+
+    randomVerses = List.from(selectedLanguage == 'ta' ? taVerses : enVerses)
+      ..shuffle(random);
+    randomVerses = randomVerses.take(3).toList();
+  }
+
+  void _startAutoSlide() {
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (currentPage < randomVerses.length - 1) {
+        currentPage++;
+      } else {
+        currentPage = 0;
+      }
+      _pageController.animateToPage(
+        currentPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +65,19 @@ class _VerseSliderState extends State<VerseSlider> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 30,),
+          padding: EdgeInsets.only(left: 30),
           child: Text(
-            'Today Verses:',
+            'Today\'s Verses:',
             style: TextStyle(
-                color: Color(0xFF3533CD),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Times'),
+              color: Color(0xFF3533CD),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Times',
+            ),
           ),
         ),
         SizedBox(
-          height: 140,
+          height: 170,
           child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -36,9 +85,12 @@ class _VerseSliderState extends State<VerseSlider> {
                 currentPage = index;
               });
             },
+            itemCount: randomVerses.length,
             itemBuilder: (context, index) {
+              final verse = randomVerses[index];
               return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30 , vertical: 15),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF5F7FC),
@@ -51,24 +103,25 @@ class _VerseSliderState extends State<VerseSlider> {
                     ),
                   ],
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'But The best now in the middle of the sea,by the waves thge wind was contrart.',
-                      style: TextStyle(
-                        fontSize: 16,
+                      verse["content"]!,
+                      style: const TextStyle(
+                        fontSize: 14,
                         height: 1.5,
                         fontFamily: 'Times',
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
-                      'Romans 8:1',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 155, 155, 155),
-                          fontSize: 14,
-                          fontFamily: 'Times'),
+                      verse["reference"]!,
+                      style: const TextStyle(
+                        color: Color.fromARGB(255, 155, 155, 155),
+                        fontSize: 13,
+                        fontFamily: 'Times',
+                      ),
                     ),
                   ],
                 ),
@@ -79,11 +132,12 @@ class _VerseSliderState extends State<VerseSlider> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            3,
-            (index) => Container(
+            randomVerses.length,
+            (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              width: 10,
-              height: 10,
+              width: currentPage == index ? 12 : 10,
+              height: currentPage == index ? 12 : 10,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: currentPage == index
