@@ -432,7 +432,7 @@ class ChapterVerseView extends StatelessWidget {
                                                 _buildTabContentBooks(
                                                   scrollController:
                                                       _booksScrollController,
-                                                  books: books,
+                                                  books: model.Books,
                                                   //  [
 
                                                   //   Book(
