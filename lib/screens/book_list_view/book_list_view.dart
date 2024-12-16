@@ -273,7 +273,9 @@ import 'package:flutter_app/widgets/button_nav.dart'; // Assuming you have this 
 
 class BookListView extends StatelessWidget {
   static const routeName = "BookListView";
-  const BookListView({super.key});
+  final List<Map<String, String>> books;
+
+  const BookListView({super.key, required this.books});
 
   @override
   Widget build(BuildContext context) {
@@ -298,14 +300,18 @@ class BookListView extends StatelessWidget {
                 headerText: "New Testament",
               ),
               AppSpaces.verticalSpace20,
-              BookList(),
+              BookList(
+                books: books,
+              ),
               AppSpaces.verticalSpace20,
               const HeaderDivider(
                 headerCount: "69",
                 headerText: "New Testament",
               ),
               AppSpaces.verticalSpace10,
-              BookList(),
+              BookList(
+                books: books,
+              ),
             ],
           ),
         ),

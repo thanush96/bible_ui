@@ -47,6 +47,7 @@ class ChapterVerseView extends StatelessWidget {
           model.setBusyForLoad();
           model.updateInitialParams(bibleId);
           model.chapterListFetch(bibleId, bookId);
+          model.initiateBooks();
           model.bookDetailFetch(bibleId, bookId);
           model.bookVerseFetch(bibleId, chapterId);
         },
@@ -635,7 +636,7 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
                     } finally {
                       // Remove loading state after navigation
                       _loadingIndices.remove(index);
-                      (context as Element).markNeedsBuild();
+                      (context).markNeedsBuild();
                     }
                   },
                   child: Stack(

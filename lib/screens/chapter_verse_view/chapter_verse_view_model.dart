@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/constants/books/americanStandard.dart';
+import 'package:flutter_app/constants/books/newInternational.dart';
+import 'package:flutter_app/constants/books/newKingJames.dart';
 import 'package:flutter_app/model/book_detail_model.dart';
 import 'package:flutter_app/model/chapter_list_model.dart';
 import 'package:flutter_app/model/chapter_verses_model.dart';
 import 'package:flutter_app/model/verses_content_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
+import 'package:flutter_app/services/http_service.dart';
 import 'package:stacked/stacked.dart';
 
 class ChapterVerseViewModel extends BaseViewModel {
@@ -57,6 +61,18 @@ class ChapterVerseViewModel extends BaseViewModel {
   void setBusyForLoadConcatinate() {
     setIsBusyBook = !(isBookDetailBusy && isChapterListBusy);
     notifyListeners();
+  }
+
+  final List<Map<String, String>> _books = [];
+  List<Map<String, String>> get Books => _books;
+  void initiateBooks() {
+    if (BibleID == newInternationalBooks.first["bibleId"]) {
+      printStatement("newInternationalBooks");
+    } else if (BibleID == americanStandardBooks.first["bibleId"]) {
+      printStatement("americanStandardBooks");
+    } else if (BibleID == newKingJamesBooks.first["bibleId"]) {
+      printStatement("newKingJamesBooks");
+    }
   }
 
 // Dart service to fetch chapter list data

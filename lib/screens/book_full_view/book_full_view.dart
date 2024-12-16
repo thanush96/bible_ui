@@ -290,28 +290,35 @@ class BookFullView extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Summary",
-                                  style: TextStyle(
-                                    fontSize: AppFont.textSize20,
-                                    color: AppColors.greyTitle,
-                                    fontWeight: AppFont.fw400,
+                                Visibility(
+                                  visible: summary != "",
+                                  child: Wrap(
+                                    children: [
+                                      Text(
+                                        "Summary",
+                                        style: TextStyle(
+                                          fontSize: AppFont.textSize20,
+                                          color: AppColors.greyTitle,
+                                          fontWeight: AppFont.fw400,
+                                        ),
+                                      ),
+                                      Divider(
+                                        color: AppColors.titleDivider,
+                                        thickness: 2,
+                                      ),
+                                      AppSpaces.verticalSpace10,
+                                      Text(
+                                        summary,
+                                        style: TextStyle(
+                                          fontSize: AppFont.textSize14,
+                                          color: AppColors.black,
+                                          fontWeight: AppFont.fw400,
+                                        ),
+                                      ),
+                                      AppSpaces.verticalSpace20,
+                                    ],
                                   ),
                                 ),
-                                Divider(
-                                  color: AppColors.titleDivider,
-                                  thickness: 2,
-                                ),
-                                AppSpaces.verticalSpace10,
-                                Text(
-                                  summary,
-                                  style: TextStyle(
-                                    fontSize: AppFont.textSize14,
-                                    color: AppColors.black,
-                                    fontWeight: AppFont.fw400,
-                                  ),
-                                ),
-                                AppSpaces.verticalSpace20,
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -441,7 +448,7 @@ class BookFullView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                 left: 15,
                                                 right: 15,
-                                                bottom: 15,
+                                                bottom: 40,
                                               ),
                                               child: Column(
                                                 crossAxisAlignment:

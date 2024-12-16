@@ -1,4 +1,4 @@
-final List<Map<String, String>> books = [
+final List<Map<String, String>> newInternationalBooks = [
   {
     "id": "GEN",
     "bibleId": "de4e12af7f28f599-01",
@@ -6,7 +6,6 @@ final List<Map<String, String>> books = [
     "name": "Genesis",
     "nameLong": "The First Book of Moses, called Genesis",
     "imageUrl": "https://example.com/images/genesis.jpg",
-    "summary": "."
   },
   {
     "id": "EXO",
@@ -15,7 +14,6 @@ final List<Map<String, String>> books = [
     "name": "Exodus",
     "nameLong": "The Second Book of Moses, called Exodus",
     "imageUrl": "https://example.com/images/exodus.jpg",
-    "summary": "."
   },
   {
     "id": "LEV",
@@ -24,7 +22,6 @@ final List<Map<String, String>> books = [
     "name": "Leviticus",
     "nameLong": "The Third Book of Moses, called Leviticus",
     "imageUrl": "https://example.com/images/leviticus.jpg",
-    "summary": "."
   },
   {
     "id": "NUM",
@@ -33,7 +30,6 @@ final List<Map<String, String>> books = [
     "name": "Numbers",
     "nameLong": "The Fourth Book of Moses, called Numbers",
     "imageUrl": "https://example.com/images/numbers.jpg",
-    "summary": "."
   },
   {
     "id": "DEU",
@@ -42,7 +38,6 @@ final List<Map<String, String>> books = [
     "name": "Deuteronomy",
     "nameLong": "The Fifth Book of Moses, called Deuteronomy",
     "imageUrl": "https://example.com/images/deuteronomy.jpg",
-    "summary": "."
   },
   {
     "id": "JOS",
@@ -51,7 +46,6 @@ final List<Map<String, String>> books = [
     "name": "Joshua",
     "nameLong": "The Book of Joshua",
     "imageUrl": "https://example.com/images/joshua.jpg",
-    "summary": "."
   },
   {
     "id": "JDG",
@@ -60,7 +54,6 @@ final List<Map<String, String>> books = [
     "name": "Judges",
     "nameLong": "The Book of Judges",
     "imageUrl": "https://example.com/images/judges.jpg",
-    "summary": "."
   },
   {
     "id": "RUT",
@@ -69,7 +62,6 @@ final List<Map<String, String>> books = [
     "name": "Ruth",
     "nameLong": "The Book of Ruth",
     "imageUrl": "https://example.com/images/ruth.jpg",
-    "summary": "."
   },
   {
     "id": "1SA",
@@ -78,7 +70,6 @@ final List<Map<String, String>> books = [
     "name": "1 Samuel",
     "nameLong": "The First Book of Samuel",
     "imageUrl": "https://example.com/images/1samuel.jpg",
-    "summary": "."
   },
   {
     "id": "2SA",
@@ -87,7 +78,6 @@ final List<Map<String, String>> books = [
     "name": "2 Samuel",
     "nameLong": "The Second Book of Samuel",
     "imageUrl": "https://example.com/images/2samuel.jpg",
-    "summary": "."
   },
   {
     "id": "1KI",
@@ -96,7 +86,6 @@ final List<Map<String, String>> books = [
     "name": "1 Kings",
     "nameLong": "The First Book of Kings",
     "imageUrl": "https://example.com/images/1kings.jpg",
-    "summary": "."
   },
   {
     "id": "2KI",
@@ -105,6 +94,5 @@ final List<Map<String, String>> books = [
     "name": "2 Kings",
     "nameLong": "The Second Book of Kings",
     "imageUrl": "https://example.com/images/2kings.jpg",
-    "summary": "."
   }
 ];

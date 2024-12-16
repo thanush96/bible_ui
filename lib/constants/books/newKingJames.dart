@@ -1,11 +1,12 @@
-final List<Map<String, String>> books = [
+final List<Map<String, String>> newKingJamesBooks = [
   {
     "id": "GEN",
     "bibleId": "de4e12af7f28f599-01",
     "abbreviation": "Gen",
     "name": "Genesis",
     "nameLong": "The First Book of Moses, called Genesis",
-    "imageUrl": "https://example.com/images/genesis.jpg",
+    "imageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/amusicbible-b1af1.appspot.com/o/img%2FBible_img%2F1.jpg?alt=media&token=617971d4-f70f-4283-9cdd-57ca27c10428",
     "summary":
         "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests.",
   },
@@ -15,7 +16,8 @@ final List<Map<String, String>> books = [
     "abbreviation": "Exo",
     "name": "Exodus",
     "nameLong": "The Second Book of Moses, called Exodus",
-    "imageUrl": "https://example.com/images/exodus.jpg",
+    "imageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/amusicbible-b1af1.appspot.com/o/img%2FBible_img%2F2.jpg?alt=media&token=f5c58cd4-42bc-4bd0-b0f1-9b5e37e23bcb",
     "summary":
         "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
   },
@@ -25,7 +27,8 @@ final List<Map<String, String>> books = [
     "abbreviation": "Lev",
     "name": "Leviticus",
     "nameLong": "The Third Book of Moses, called Leviticus",
-    "imageUrl": "https://example.com/images/leviticus.jpg",
+    "imageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/amusicbible-b1af1.appspot.com/o/img%2FBible_img%2F3.jpg?alt=media&token=6e05e4c0-a2f1-4878-bf45-c8ad6a47b039",
     "summary":
         "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
   },
@@ -35,7 +38,8 @@ final List<Map<String, String>> books = [
     "abbreviation": "Num",
     "name": "Numbers",
     "nameLong": "The Fourth Book of Moses, called Numbers",
-    "imageUrl": "https://example.com/images/numbers.jpg",
+    "imageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/amusicbible-b1af1.appspot.com/o/img%2FBible_img%2F4.jpg?alt=media&token=7c63902d-d99b-4bf4-97cf-d31c110839f0",
     "summary":
         "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
   },
@@ -65,7 +69,8 @@ final List<Map<String, String>> books = [
     "abbreviation": "Jdg",
     "name": "Judges",
     "nameLong": "The Book of Judges",
-    "imageUrl": "https://example.com/images/judges.jpg",
+    "imageUrl":
+        "https://firebasestorage.googleapis.com/v0/b/amusicbible-b1af1.appspot.com/o/img%2FBible_img%2F7.jpg?alt=media&token=cf94760f-b715-43fa-9909-ef276596595d",
     "summary":
         "This section provides a detailed overview of the book content. It gives insights about the major themes, storyline, and key points discussed in the book, helping you decide if it matches your interests."
   },
