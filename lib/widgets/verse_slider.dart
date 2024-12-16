@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../constants/verses/english_verse.dart';
 import '../constants/verses/tamil_verse.dart';
 import '../provider/language_provider.dart';
+import '../screens/bible/bible_reader.dart';
 
 class VerseSlider extends StatefulWidget {
   const VerseSlider({Key? key}) : super(key: key);
@@ -88,44 +89,57 @@ class _VerseSliderState extends State<VerseSlider> {
             itemCount: randomVerses.length,
             itemBuilder: (context, index) {
               final verse = randomVerses[index];
-              return Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F7FC),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      verse["content"]!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.5,
-                        fontFamily: 'Times',
+              return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BibleReaderPage(
+                          bibleId: verse['bibleId']!,
+                          chapterId: verse['chapterId']!,
+                          bookId: verse['bookId']!,
+                        ),
                       ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 10),
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF5F7FC),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
-                    const Spacer(),
-                    Text(
-                      verse["reference"]!,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 155, 155, 155),
-                        fontSize: 13,
-                        fontFamily: 'Times',
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          verse["content"]!,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
+                            fontFamily: 'Times',
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          verse["reference"]!,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 155, 155, 155),
+                            fontSize: 13,
+                            fontFamily: 'Times',
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
+                  ));
             },
           ),
         ),
