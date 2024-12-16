@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/constants/books/americanStandard.dart';
+import 'package:flutter_app/constants/books/bibleIDforTamil.dart';
+import 'package:flutter_app/constants/books/bibleIDforTamil2.dart';
 import 'package:flutter_app/constants/books/newInternational.dart';
 import 'package:flutter_app/constants/books/newKingJames.dart';
 import 'package:flutter_app/model/book_detail_model.dart';
@@ -67,11 +69,20 @@ class ChapterVerseViewModel extends BaseViewModel {
   List<Map<String, String>> get Books => _books;
   void initiateBooks() {
     if (BibleID == newInternationalBooks.first["bibleId"]) {
+      _books.addAll(newInternationalBooks);
       printStatement("newInternationalBooks");
     } else if (BibleID == americanStandardBooks.first["bibleId"]) {
+      _books.addAll(americanStandardBooks);
       printStatement("americanStandardBooks");
     } else if (BibleID == newKingJamesBooks.first["bibleId"]) {
+      _books.addAll(newKingJamesBooks);
       printStatement("newKingJamesBooks");
+    } else if (BibleID == Tamilbooks1.first["bibleId"]) {
+      _books.addAll(Tamilbooks1);
+      printStatement("Tamilbooks1");
+    } else if (BibleID == Tamilbooks2.first["bibleId"]) {
+      _books.addAll(Tamilbooks2);
+      printStatement("Tamilbooks2");
     }
   }
 
