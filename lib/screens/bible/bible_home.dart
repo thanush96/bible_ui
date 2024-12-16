@@ -1,15 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/variables.dart';
+import 'package:flutter_app/provider/bible_id_provider.dart';
 import 'package:flutter_app/screens/book_list_view/book_list_view.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/verse_slider.dart';
 import 'package:flutter_app/widgets/version_card.dart';
-import 'package:flutter_app/widgets/button_nav.dart'; // Import the ButtonNav widget
+import 'package:flutter_app/widgets/button_nav.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/language_provider.dart';
 
 class BibleHomePage extends StatelessWidget {
   const BibleHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final String selectedLanguage =
+        Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
+
+    final List<Widget> languageCards = selectedLanguage == 'ta'
+        ? [
+            VersionCard(
+              title: 'American Version',
+              onTap: () {
+                Provider.of<BibleIDProvider>(context, listen: false)
+                    .setBibleID(bibleIDforTamil);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BookListView(),
+                  ),
+                );
+
+                // Provider.of<BibleIDProvider>(context, listen: false)
+                //     .setBibleID(bibleIDforTamil);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const BookListView()),
+                // );
+              },
+            ),
+            VersionCard(
+              title: 'New International',
+              onTap: () {
+                Provider.of<BibleIDProvider>(context, listen: false)
+                    .setBibleID(bibleIDforTamil2);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BookListView()),
+                );
+              },
+            ),
+          ]
+        : [
+            VersionCard(
+              title: 'American Version',
+              onTap: () {
+                Provider.of<BibleIDProvider>(context, listen: false)
+                    .setBibleID(americanStandard);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BookListView()),
+                );
+              },
+            ),
+            VersionCard(
+              title: 'New International',
+              onTap: () {
+                Provider.of<BibleIDProvider>(context, listen: false)
+                    .setBibleID(newInternational);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BookListView()),
+                );
+              },
+            ),
+            VersionCard(
+              title: 'New King James',
+              onTap: () {
+                Provider.of<BibleIDProvider>(context, listen: false)
+                    .setBibleID(newKingJames);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BookListView()),
+                );
+              },
+            ),
+          ];
+
     return Scaffold(
       backgroundColor: const Color(0xFFECECFF),
       body: SafeArea(
@@ -58,41 +136,15 @@ class BibleHomePage extends StatelessWidget {
                       ],
                     ),
                     const Divider(
-                      color: Color.fromARGB(255, 41, 40, 61), // Divider color
-                      thickness: 1, // Thickness of the divider line
-                      indent: 20, // Space from the left
-                      endIndent: 20, // Space from the right
+                      color: Color.fromARGB(255, 41, 40, 61),
+                      thickness: 1,
+                      indent: 20,
+                      endIndent: 20,
                     ),
                     const SizedBox(height: 24),
-                    VersionCard(
-                      title: 'American Version',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BookListView()),
-                        );
-                      },
-                    ),
-                    VersionCard(
-                      title: 'New International',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BookListView()),
-                        );
-                      },
-                    ),
-                    VersionCard(
-                      title: 'New King James',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BookListView()),
-                        );
-                      },
+                    // Dynamically render language cards
+                    Column(
+                      children: languageCards,
                     ),
                   ],
                 ),

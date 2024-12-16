@@ -4,10 +4,16 @@ import 'package:flutter_app/screens/bible/bible_onboard.dart';
 // import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/bible_id_provider.dart';
+
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => LanguageProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ChangeNotifierProvider(
+            create: (_) => BibleIDProvider()), // Add BibleIDProvider
+      ],
       child: const MyApp(),
     ),
   );

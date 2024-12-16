@@ -6,6 +6,7 @@ import 'package:flutter_app/model/search_chparter_model.dart';
 import 'package:flutter_app/services/http_service.dart';
 import 'package:provider/provider.dart';
 
+import '../provider/bible_id_provider.dart';
 import '../provider/language_provider.dart';
 
 class SearchServices {
@@ -18,12 +19,16 @@ class SearchServices {
     //   return RegExp(r'[\u0B80-\u0BFF]').hasMatch(char);
     // });
 
-    String language =
-        Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
+    // String language =
+    //     Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
 
-    final bibleID = language == "ta" ? bibleIDforTamil : bibleIDforEnglish;
+    String globalBibleID =
+        Provider.of<BibleIDProvider>(context, listen: false).selectedBible;
 
-    final response = await get('$bibleID/search?query=$query', token: true);
+    // final bibleID = language == "ta" ? bibleIDforTamil : bibleIDforEnglish;
+
+    final response =
+        await get('$globalBibleID/search?query=$query', token: true);
     printStatement(response);
     SearchChapterModel searchChapterModel =
         SearchChapterModel.fromJson(json.decode(response));

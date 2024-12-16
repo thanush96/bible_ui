@@ -7,7 +7,10 @@ import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../provider/bible_id_provider.dart';
 
 class BookFullView extends StatelessWidget {
   final String title;
@@ -30,12 +33,15 @@ class BookFullView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String globalBibleID =
+        Provider.of<BibleIDProvider>(context, listen: false).selectedBible;
+
     return ViewModelBuilder<BookFullViewModel>.reactive(
         viewModelBuilder: () => BookFullViewModel(),
         onViewModelReady: (model) {
           model.setBusyForLoad();
-          model.updateInitialParams(bibleId, id);
-          model.chapterFetch(bibleId, id, context);
+          model.updateInitialParams(globalBibleID, id);
+          model.chapterFetch(globalBibleID, id, context);
         },
         builder: (context, viewModel, child) {
           return SafeArea(
