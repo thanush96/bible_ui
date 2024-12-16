@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/constants/books/americanStandard.dart';
+import 'package:flutter_app/constants/books/bibleIDforTamil.dart';
+import 'package:flutter_app/constants/books/bibleIDforTamil2.dart';
+import 'package:flutter_app/constants/books/newInternational.dart';
+import 'package:flutter_app/constants/books/newKingJames.dart';
 import 'package:flutter_app/constants/variables.dart';
 import 'package:flutter_app/provider/bible_id_provider.dart';
 import 'package:flutter_app/screens/book_list_view/book_list_view.dart';
@@ -28,7 +33,9 @@ class BibleHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BookListView(),
+                    builder: (context) => BookListView(
+                      books: Tamilbooks1,
+                    ),
                   ),
                 );
 
@@ -47,7 +54,8 @@ class BibleHomePage extends StatelessWidget {
                     .setBibleID(bibleIDforTamil2);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const BookListView()),
+                  MaterialPageRoute(
+                      builder: (context) => BookListView(books: Tamilbooks2)),
                 );
               },
             ),
@@ -60,7 +68,10 @@ class BibleHomePage extends StatelessWidget {
                     .setBibleID(americanStandard);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const BookListView()),
+                  MaterialPageRoute(
+                      builder: (context) => BookListView(
+                            books: americanStandardBooks,
+                          )),
                 );
               },
             ),
@@ -71,7 +82,10 @@ class BibleHomePage extends StatelessWidget {
                     .setBibleID(newInternational);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const BookListView()),
+                  MaterialPageRoute(
+                      builder: (context) => BookListView(
+                            books: newInternationalBooks,
+                          )),
                 );
               },
             ),
@@ -82,7 +96,10 @@ class BibleHomePage extends StatelessWidget {
                     .setBibleID(newKingJames);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const BookListView()),
+                  MaterialPageRoute(
+                      builder: (context) => BookListView(
+                            books: newKingJamesBooks,
+                          )),
                 );
               },
             ),
@@ -116,11 +133,12 @@ class BibleHomePage extends StatelessWidget {
                           right: 0,
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const BookListView()),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => BookListView(
+                              //           books: americanStandardBooks)),
+                              // );
                             },
                             child: Container(
                               padding: const EdgeInsets.all(9),

@@ -53,7 +53,9 @@ class BookCard extends StatelessWidget {
             child: Stack(
               children: [
                 FutureBuilder(
-                  future: _loadImage(imageUrl),
+                  future: _loadImage(imageUrl != ""
+                      ? imageUrl
+                      : "https://i.ibb.co/hMLKdqL/john.webp"),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return _buildSkeletonLoader();
@@ -70,8 +72,10 @@ class BookCard extends StatelessWidget {
                           //   fit: BoxFit.cover,
                           // )
 
-                          image: const DecorationImage(
-                            image: AssetImage('assets/john.webp'),
+                          image: DecorationImage(
+                            image: NetworkImage(imageUrl != ""
+                                ? imageUrl
+                                : "https://i.ibb.co/hMLKdqL/john.webp"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -195,7 +199,7 @@ class BookCard extends StatelessWidget {
 
   Future<String> _loadImage(String url) async {
     // Simulate network delay for testing
-    await Future.delayed(const Duration(seconds: 0));
+    await Future.delayed(const Duration(seconds: 2));
     return url;
   }
 }

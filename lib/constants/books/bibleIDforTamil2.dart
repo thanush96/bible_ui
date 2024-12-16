@@ -1,4 +1,4 @@
-final List<Map<String, String>> books = [
+final List<Map<String, String>> Tamilbooks2 = [
   {
     "id": "GEN",
     "bibleId": "03a021185023710b-01",
