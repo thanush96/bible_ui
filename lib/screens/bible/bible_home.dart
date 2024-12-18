@@ -6,6 +6,7 @@ import 'package:flutter_app/constants/books/newInternational.dart';
 import 'package:flutter_app/constants/books/newKingJames.dart';
 import 'package:flutter_app/constants/variables.dart';
 import 'package:flutter_app/provider/bible_id_provider.dart';
+import 'package:flutter_app/screens/book_history/book_history_view.dart';
 import 'package:flutter_app/screens/book_list_view/book_list_view.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/verse_slider.dart';
@@ -176,7 +177,12 @@ class BibleHomePage extends StatelessWidget {
           // Handle Home button press
         },
         onMapPressed: () {
-          // Handle Map button press
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BookHistoryView(),
+            ),
+          );
         },
         onFavoritePressed: () {
           // Handle Favorite button press

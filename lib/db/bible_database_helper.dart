@@ -117,4 +117,20 @@ class BibleDatabaseHelper {
 
     return null;
   }
+
+  Future<List<Map<String, String>>> fetchAllChapterIdsAndBookIds() async {
+    final db = await database;
+
+    final result = await db.query(
+      'chapters',
+      columns: ['id', 'bookId'],
+    );
+
+    return result
+        .map((row) => {
+              'id': row['id'] as String,
+              'bookId': row['bookId'] as String,
+            })
+        .toList();
+  }
 }
