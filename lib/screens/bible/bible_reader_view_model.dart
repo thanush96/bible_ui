@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/book_detail_model.dart';
 // import 'package:flutter_app/model/bible_content.dart';
@@ -8,8 +7,10 @@ import 'package:flutter_app/services/chapter_service.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import '../../model/chapter_list_model.dart';
+import '../../services/firestore_service.dart';
 
 class BibleReaderViewModel extends BaseViewModel {
+  final FirestoreService _firestoreService = FirestoreService();
   List<Map<String, String>> chapters = [];
   List<Map<String, dynamic>> noteList = [];
   // List<Map<String, String>> fontStyleData = [];
@@ -190,20 +191,60 @@ class BibleReaderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void addToFavorites(String id, String title) {
+  void addToFavorites(String id, String title) async {
     chapters.add({
+      'userID': 'userID', //put user id here
+      'bibleID': BibleID,
+      'bookID': BookInitialID,
+      'chapterID': ChapterID,
       "id": id,
       "title": title,
       'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
     }); // Add new content
+
+    try {
+      setBusy(true);
+      await _firestoreService.saveFavorite(
+        userId: 'user-id', // Replace with actual user ID
+        bibleId: BibleID,
+        bookId: BookInitialID,
+        chapterId: ChapterID,
+        id: id,
+        title: title,
+      );
+    } catch (e) {
+      print('Error adding to favorites: $e');
+    } finally {
+      setBusy(false);
+    }
   }
 
-  void addNewNote(note) {
+  void addNewNote(note) async {
     noteList.add({
+      'userID': 'userID', //put user id here
+      'bibleID': BibleID,
+      'bookID': BookInitialID,
+      'chapterID': ChapterID,
       'id': note['id'],
       'note': note['note'],
       'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
     }); // Add new content
+
+    try {
+      setBusy(true);
+      await _firestoreService.saveNote(
+        userId: 'user-id', // Replace with actual user ID
+        bibleId: BibleID,
+        bookId: BookInitialID,
+        chapterId: ChapterID,
+        id: note['id'],
+        note: note['note'],
+      );
+    } catch (e) {
+      print('Error saving note: $e');
+    } finally {
+      setBusy(false);
+    }
   }
 
   void selectedHighlighterColor(Color color) {
@@ -211,7 +252,7 @@ class BibleReaderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void toggleHighlight(String verse) {
+  void toggleHighlight(String verse, {String color = 'yellow'}) async {
     bool verseExists =
         highlightedVerses.any((highlight) => highlight['verse'] == verse);
 
@@ -219,11 +260,30 @@ class BibleReaderViewModel extends BaseViewModel {
       highlightedVerses.removeWhere((highlight) => highlight['verse'] == verse);
     } else {
       highlightedVerses.add({
-        'chapter': '1',
+        'userID': 'userID', //put user id here
+        'bibleID': BibleID,
+        'bookID': BookInitialID,
+        'chapterID': ChapterID,
         'time': DateFormat('dd/MM/yyyy').format(DateTime.now()),
         'verse': verse,
         'color': highlight,
       });
+
+      try {
+        setBusy(true);
+        await _firestoreService.saveHighlight(
+          userId: 'user-id', // Replace with actual user ID
+          bibleId: BibleID,
+          bookId: BookInitialID,
+          chapterId: ChapterID,
+          verse: verse,
+          color: highlight,
+        );
+      } catch (e) {
+        print('Error saving highlight: $e');
+      } finally {
+        setBusy(false);
+      }
     }
 
     print(highlightedVerses);
