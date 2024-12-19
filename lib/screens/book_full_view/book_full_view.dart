@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/book_full_view/book_full_view_model.dart';
-import 'package:flutter_app/tools/skeleton_loader.dart';
 import 'package:flutter_app/tools/skeleton_loader_books.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
@@ -221,7 +220,19 @@ class BookFullView extends StatelessWidget {
                                                                   .circular(10),
                                                         ),
                                                         child: ElevatedButton(
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            //firebase api call to add fav
+                                                            viewModel
+                                                                .addToFavouriteBook(
+                                                              abbreviation,
+                                                              bibleId,
+                                                              imageUrl,
+                                                              subTitle,
+                                                              summary,
+                                                              title,
+                                                              id,
+                                                            );
+                                                          },
                                                           style: ElevatedButton
                                                               .styleFrom(
                                                             backgroundColor:

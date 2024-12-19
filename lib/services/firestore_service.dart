@@ -167,4 +167,59 @@ class FirestoreService {
       throw Exception('Error fetching highlights: $e');
     }
   }
+
+  //=====================================================================
+  //=====================================================================
+  //===========firebase store favourite book  functions==================
+  //=====================================================================
+  //=====================================================================
+
+  Future<void> addToFavouriteBookService({
+    required String userId,
+    required String abbreviation,
+    required String bibleId,
+    required String imageUrl,
+    required String subTitle,
+    required String summary,
+    required String title,
+    required String id,
+  }) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favourite_Books')
+          .doc(id)
+          .set({
+        'abbreviation': abbreviation,
+        'bibleId': bibleId,
+        'imageUrl': imageUrl,
+        'subTitle': subTitle,
+        'summary': summary,
+        'title': title,
+        'id': id,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Error saving favorite: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchFavouriteBooks({
+    required String userId,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favourite_Books')
+          .orderBy('timestamp', descending: true)
+          .get();
+
+      // Convert the documents into a list of maps
+      return querySnapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      throw Exception('Error fetching favorite books: $e');
+    }
+  }
 }
