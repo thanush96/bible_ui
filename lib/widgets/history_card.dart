@@ -4,11 +4,13 @@ import 'package:flutter_app/constants/constants.dart';
 class HistoryCard extends StatelessWidget {
   final String title;
   final String subTitle;
+  final VoidCallback onTap;
 
   const HistoryCard({
     super.key,
     required this.title,
     required this.subTitle,
+    required this.onTap,
   });
 
   @override
@@ -19,6 +21,7 @@ class HistoryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         color: Colors.transparent,
         child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(16),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -42,6 +45,20 @@ class HistoryCard extends StatelessWidget {
                       color: Colors.white, fontSize: 14, fontFamily: 'Times'
                       // fontWeight: FontWeight.w500,
                       ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.all(5), // Adjust padding for circle size
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle, // Makes the container circular
+                  ),
+                  child: const Icon(
+                    Icons.arrow_forward,
+                    color: Color(0xFF8F96B0),
+
+                    // Arrow color inside the circle
+                  ),
                 ),
               ],
             ),

@@ -123,13 +123,14 @@ class BibleDatabaseHelper {
 
     final result = await db.query(
       'chapters',
-      columns: ['id', 'bookId'],
+      columns: ['id', 'bookId', 'bibleId'],
     );
 
     return result
         .map((row) => {
               'id': row['id'] as String,
               'bookId': row['bookId'] as String,
+              'bibleId': row['bibleId'] as String,
             })
         .toList();
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/book_history/Book_history_view_model.dart';
 import 'package:flutter_app/tools/shimmer_effect.dart';
+import 'package:flutter_app/widgets/button_nav.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 import 'package:flutter_app/widgets/history_card.dart';
 import 'package:stacked/stacked.dart';
@@ -17,6 +19,9 @@ class BookHistoryView extends StatelessWidget {
         },
         builder: (context, viewModel, child) {
           return Scaffold(
+            bottomNavigationBar: ButtonNav(
+              selectedIndex: 1,
+            ),
             backgroundColor: const Color(0xFFECECFF),
             body: SafeArea(
               child: Column(
@@ -70,6 +75,18 @@ class BookHistoryView extends StatelessWidget {
                                   return HistoryCard(
                                     title: item["id"] ?? "",
                                     subTitle: item["bookId"] ?? "",
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BibleReaderPage(
+                                            bibleId: item["bibleId"] ?? "",
+                                            chapterId: item["id"] ?? "",
+                                            bookId: item["bookId"] ?? "",
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   );
                                 },
                               ),
