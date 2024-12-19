@@ -6,10 +6,10 @@ import 'package:flutter_app/services/chapter_service.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import '../../model/chapter_list_model.dart';
-// import '../../services/firestore_service.dart';
+import '../../services/firestore_service.dart';
 
 class BibleReaderViewModel extends BaseViewModel {
-  // final FirestoreService _firestoreService = FirestoreService();
+  final FirestoreService _firestoreService = FirestoreService();
   List<Map<String, dynamic>> chapters = [];
   List<Map<String, dynamic>> noteList = [];
   Map<String, dynamic> fontStyle = {
@@ -97,6 +97,9 @@ class BibleReaderViewModel extends BaseViewModel {
     } catch (error) {
       throw Exception('Error parsing JSON : $error');
     } finally {
+      fetchFavorites();
+      fetchHighlights();
+      fetchNotes();
       setBusy(false);
     }
   }
@@ -294,58 +297,58 @@ class BibleReaderViewModel extends BaseViewModel {
   //=====================================================================
   //=====================================================================
   // Fetch notes from Firestore
-  // Future<void> fetchNotes() async {
-  //   try {
-  //     // setBusy(true);
-  //     noteList = await _firestoreService.fetchNotes(
-  //       userId: 'userId',
-  //       bibleId: BibleID,
-  //       bookId: BookInitialID,
-  //       chapterId: ChapterID,
-  //     );
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print('Error fetching notes: $e');
-  //   } finally {
-  //     // setBusy(false);
-  //   }
-  // }
+  Future<void> fetchNotes() async {
+    try {
+      // setBusy(true);
+      noteList = await _firestoreService.fetchNotes(
+        userId: 'userId',
+        bibleId: BibleID,
+        bookId: BookInitialID,
+        chapterId: ChapterID,
+      );
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching notes: $e');
+    } finally {
+      // setBusy(false);
+    }
+  }
 
-  // // Fetch favorites from Firestore
-  // Future<void> fetchFavorites() async {
-  //   try {
-  //     // setBusy(true);
-  //     chapters = await _firestoreService.fetchFavorites(
-  //       userId: 'userId',
-  //       bibleId: BibleID,
-  //       bookId: BookInitialID,
-  //       chapterId: ChapterID,
-  //     );
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print('Error fetching favorites: $e');
-  //   } finally {
-  //     // setBusy(false);
-  //   }
-  // }
+  // Fetch favorites from Firestore
+  Future<void> fetchFavorites() async {
+    try {
+      // setBusy(true);
+      chapters = await _firestoreService.fetchFavorites(
+        userId: 'userId',
+        bibleId: BibleID,
+        bookId: BookInitialID,
+        chapterId: ChapterID,
+      );
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching favorites: $e');
+    } finally {
+      // setBusy(false);
+    }
+  }
 
-  // // Fetch highlights from Firestore
-  // Future<void> fetchHighlights() async {
-  //   try {
-  //     setBusy(true);
-  //     highlightedVerses = await _firestoreService.fetchHighlights(
-  //       userId: 'userId',
-  //       bibleId: BibleID,
-  //       bookId: BookInitialID,
-  //       chapterId: ChapterID,
-  //     );
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print('Error fetching highlights: $e');
-  //   } finally {
-  //     setBusy(false);
-  //   }
-  // }
+  // Fetch highlights from Firestore
+  Future<void> fetchHighlights() async {
+    try {
+      setBusy(true);
+      highlightedVerses = await _firestoreService.fetchHighlights(
+        userId: 'userId',
+        bibleId: BibleID,
+        bookId: BookInitialID,
+        chapterId: ChapterID,
+      );
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching highlights: $e');
+    } finally {
+      setBusy(false);
+    }
+  }
 
   bool isPlaying = false;
   bool showVerses = false;
