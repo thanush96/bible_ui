@@ -87,4 +87,84 @@ class FirestoreService {
       throw Exception('Error saving highlight: $e');
     }
   }
+
+  //=====================================================================
+  //=====================================================================
+  //==============firebase fetch functions===============================
+  //=====================================================================
+  //=====================================================================
+// Fetch notes filtered by bibleId, bookId, and chapterId
+  Future<List<Map<String, dynamic>>> fetchNotes({
+    required String userId,
+    required String bibleId,
+    required String bookId,
+    required String chapterId,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('notes')
+          .where('bibleId', isEqualTo: bibleId)
+          .where('bookId', isEqualTo: bookId)
+          .where('chapterId', isEqualTo: chapterId)
+          .get();
+
+      return snapshot.docs
+          .map((doc) => {"id": doc.id, ...doc.data() as Map<String, dynamic>})
+          .toList();
+    } catch (e) {
+      throw Exception('Error fetching notes: $e');
+    }
+  }
+
+// Fetch favorites filtered by bibleId, bookId, and chapterId
+  Future<List<Map<String, dynamic>>> fetchFavorites({
+    required String userId,
+    required String bibleId,
+    required String bookId,
+    required String chapterId,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('favorites')
+          .where('bibleId', isEqualTo: bibleId)
+          .where('bookId', isEqualTo: bookId)
+          .where('chapterId', isEqualTo: chapterId)
+          .get();
+
+      return snapshot.docs
+          .map((doc) => {"id": doc.id, ...doc.data() as Map<String, dynamic>})
+          .toList();
+    } catch (e) {
+      throw Exception('Error fetching favorites: $e');
+    }
+  }
+
+// Fetch highlights filtered by bibleId, bookId, and chapterId
+  Future<List<Map<String, dynamic>>> fetchHighlights({
+    required String userId,
+    required String bibleId,
+    required String bookId,
+    required String chapterId,
+  }) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('highlights')
+          .where('bibleId', isEqualTo: bibleId)
+          .where('bookId', isEqualTo: bookId)
+          .where('chapterId', isEqualTo: chapterId)
+          .get();
+
+      return snapshot.docs
+          .map((doc) => {"id": doc.id, ...doc.data() as Map<String, dynamic>})
+          .toList();
+    } catch (e) {
+      throw Exception('Error fetching highlights: $e');
+    }
+  }
 }

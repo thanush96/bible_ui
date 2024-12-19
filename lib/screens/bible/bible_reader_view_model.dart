@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/book_detail_model.dart';
-// import 'package:flutter_app/model/bible_content.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import '../../model/chapter_list_model.dart';
-import '../../services/firestore_service.dart';
+// import '../../services/firestore_service.dart';
 
 class BibleReaderViewModel extends BaseViewModel {
-  final FirestoreService _firestoreService = FirestoreService();
-  List<Map<String, String>> chapters = [];
+  // final FirestoreService _firestoreService = FirestoreService();
+  List<Map<String, dynamic>> chapters = [];
   List<Map<String, dynamic>> noteList = [];
-  // List<Map<String, String>> fontStyleData = [];
   Map<String, dynamic> fontStyle = {
     "_selectedFont": "Times New Roman",
     "_fontSize": 16
@@ -202,21 +200,21 @@ class BibleReaderViewModel extends BaseViewModel {
       'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
     }); // Add new content
 
-    try {
-      setBusy(true);
-      await _firestoreService.saveFavorite(
-        userId: 'user-id', // Replace with actual user ID
-        bibleId: BibleID,
-        bookId: BookInitialID,
-        chapterId: ChapterID,
-        id: id,
-        title: title,
-      );
-    } catch (e) {
-      print('Error adding to favorites: $e');
-    } finally {
-      setBusy(false);
-    }
+    // try {
+    //   setBusy(true);
+    //   await _firestoreService.saveFavorite(
+    //     userId: 'user-id', // Replace with actual user ID
+    //     bibleId: BibleID,
+    //     bookId: BookInitialID,
+    //     chapterId: ChapterID,
+    //     id: id,
+    //     title: title,
+    //   );
+    // } catch (e) {
+    //   print('Error adding to favorites: $e');
+    // } finally {
+    //   setBusy(false);
+    // }
   }
 
   void addNewNote(note) async {
@@ -230,21 +228,21 @@ class BibleReaderViewModel extends BaseViewModel {
       'time': DateFormat('dd/MM/yyyy').format(DateTime.now())
     }); // Add new content
 
-    try {
-      setBusy(true);
-      await _firestoreService.saveNote(
-        userId: 'user-id', // Replace with actual user ID
-        bibleId: BibleID,
-        bookId: BookInitialID,
-        chapterId: ChapterID,
-        id: note['id'],
-        note: note['note'],
-      );
-    } catch (e) {
-      print('Error saving note: $e');
-    } finally {
-      setBusy(false);
-    }
+    // try {
+    //   setBusy(true);
+    //   await _firestoreService.saveNote(
+    //     userId: 'user-id', // Replace with actual user ID
+    //     bibleId: BibleID,
+    //     bookId: BookInitialID,
+    //     chapterId: ChapterID,
+    //     id: note['id'],
+    //     note: note['note'],
+    //   );
+    // } catch (e) {
+    //   print('Error saving note: $e');
+    // } finally {
+    //   setBusy(false);
+    // }
   }
 
   void selectedHighlighterColor(Color color) {
@@ -269,26 +267,85 @@ class BibleReaderViewModel extends BaseViewModel {
         'color': highlight,
       });
 
-      try {
-        setBusy(true);
-        await _firestoreService.saveHighlight(
-          userId: 'user-id', // Replace with actual user ID
-          bibleId: BibleID,
-          bookId: BookInitialID,
-          chapterId: ChapterID,
-          verse: verse,
-          color: highlight,
-        );
-      } catch (e) {
-        print('Error saving highlight: $e');
-      } finally {
-        setBusy(false);
-      }
+      //   try {
+      //     setBusy(true);
+      //     await _firestoreService.saveHighlight(
+      //       userId: 'user-id', // Replace with actual user ID
+      //       bibleId: BibleID,
+      //       bookId: BookInitialID,
+      //       chapterId: ChapterID,
+      //       verse: verse,
+      //       color: highlight,
+      //     );
+      //   } catch (e) {
+      //     print('Error saving highlight: $e');
+      //   } finally {
+      //     setBusy(false);
+      //   }
     }
 
     print(highlightedVerses);
     notifyListeners();
   }
+
+  //=====================================================================
+  //=====================================================================
+  //===============================Get====================================
+  //=====================================================================
+  //=====================================================================
+  // Fetch notes from Firestore
+  // Future<void> fetchNotes() async {
+  //   try {
+  //     // setBusy(true);
+  //     noteList = await _firestoreService.fetchNotes(
+  //       userId: 'userId',
+  //       bibleId: BibleID,
+  //       bookId: BookInitialID,
+  //       chapterId: ChapterID,
+  //     );
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print('Error fetching notes: $e');
+  //   } finally {
+  //     // setBusy(false);
+  //   }
+  // }
+
+  // // Fetch favorites from Firestore
+  // Future<void> fetchFavorites() async {
+  //   try {
+  //     // setBusy(true);
+  //     chapters = await _firestoreService.fetchFavorites(
+  //       userId: 'userId',
+  //       bibleId: BibleID,
+  //       bookId: BookInitialID,
+  //       chapterId: ChapterID,
+  //     );
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print('Error fetching favorites: $e');
+  //   } finally {
+  //     // setBusy(false);
+  //   }
+  // }
+
+  // // Fetch highlights from Firestore
+  // Future<void> fetchHighlights() async {
+  //   try {
+  //     setBusy(true);
+  //     highlightedVerses = await _firestoreService.fetchHighlights(
+  //       userId: 'userId',
+  //       bibleId: BibleID,
+  //       bookId: BookInitialID,
+  //       chapterId: ChapterID,
+  //     );
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print('Error fetching highlights: $e');
+  //   } finally {
+  //     setBusy(false);
+  //   }
+  // }
 
   bool isPlaying = false;
   bool showVerses = false;
