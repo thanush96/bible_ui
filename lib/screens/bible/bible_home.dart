@@ -173,23 +173,7 @@ class BibleHomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: ButtonNav(
-        onHomePressed: () {
-          // Handle Home button press
-        },
-        onMapPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const BookHistoryView(),
-            ),
-          );
-        },
-        onFavoritePressed: () {
-          // Handle Favorite button press
-        },
-        onProfilePressed: () {
-          // Handle Profile button press
-        },
+        selectedIndex: 0,
       ),
     );
   }
