@@ -1,45 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constants.dart';
+import 'package:flutter_app/screens/bible/bible_home.dart';
+import 'package:flutter_app/screens/book_history/book_history_view.dart';
 
 class ButtonNav extends StatefulWidget {
-  final VoidCallback onHomePressed;
-  final VoidCallback onMapPressed;
-  final VoidCallback onFavoritePressed;
-  final VoidCallback onProfilePressed;
-
-  const ButtonNav({
-    required this.onHomePressed,
-    required this.onMapPressed,
-    required this.onFavoritePressed,
-    required this.onProfilePressed,
-    super.key,
-  });
+  int selectedIndex;
+  ButtonNav({super.key, this.selectedIndex = 0});
 
   @override
   _ButtonNavState createState() => _ButtonNavState();
 }
 
 class _ButtonNavState extends State<ButtonNav> {
-  int _selectedIndex = 0; // Track the selected index
-
   void _onItemTapped(int index) {
+    if (widget.selectedIndex == index) {
+      return;
+    }
+
     setState(() {
-      _selectedIndex = index;
+      widget.selectedIndex = index;
     });
 
     // Call the corresponding callback based on the selected index
     switch (index) {
       case 0:
-        widget.onHomePressed();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BibleHomePage(),
+          ),
+        );
+
         break;
       case 1:
-        widget.onMapPressed();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BookHistoryView(),
+          ),
+        );
         break;
       case 2:
-        widget.onFavoritePressed();
+        () {};
         break;
       case 3:
-        widget.onProfilePressed();
+        () {};
         break;
       default:
         break;
@@ -68,7 +73,8 @@ class _ButtonNavState extends State<ButtonNav> {
   }
 
   Widget _buildNavIcon(IconData icon, int index) {
-    bool isActive = _selectedIndex == index; // Check if this index is active
+    bool isActive =
+        widget.selectedIndex == index; // Check if this index is active
     return Container(
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Colors.transparent,

@@ -316,20 +316,7 @@ class BookListView extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ButtonNav(
-        onHomePressed: () {
-          // Handle Home button press
-        },
-        onMapPressed: () {
-          // Handle Map button press
-        },
-        onFavoritePressed: () {
-          // Handle Favorite button press
-        },
-        onProfilePressed: () {
-          // Handle Profile button press
-        },
-      ),
+      bottomNavigationBar: ButtonNav(),
     );
   }
 }
