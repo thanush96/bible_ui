@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/constants/constants.dart';
 import 'package:flutter_app/screens/bible/bible_home.dart';
 import 'package:flutter_app/screens/book_history/book_history_view.dart';
+import 'package:flutter_app/screens/favourite_book/favourite_book_view.dart';
 
 class ButtonNav extends StatefulWidget {
   int selectedIndex;
@@ -41,7 +42,12 @@ class _ButtonNavState extends State<ButtonNav> {
         );
         break;
       case 2:
-        () {};
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const FavouriteBookView(),
+          ),
+        );
         break;
       case 3:
         () {};
