@@ -6,8 +6,12 @@ import 'package:flutter_app/values/values.dart';
 import 'package:flutter_app/widgets/custom_header.dart';
 
 class SeeAllBooks extends StatelessWidget {
+  final List<Map<String, String>> books;
   static const routeName = "SeeAllBooks";
-  const SeeAllBooks({super.key});
+  const SeeAllBooks({
+    super.key,
+    required this.books,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class SeeAllBooks extends StatelessWidget {
 
             Center(
               child: Text(
-                "Old Testament",
+                "New Testament",
                 style: TextStyle(
                   fontSize: AppFont.textSize18,
                   fontWeight: AppFont.fw400,
@@ -63,29 +67,31 @@ class SeeAllBooks extends StatelessWidget {
                     mainAxisSpacing: 10,
                     childAspectRatio: 0.7,
                   ),
-                  itemCount: 12,
+                  itemCount: books.length,
                   itemBuilder: (context, index) {
+                    final book = books[index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BookFullView(
-                              abbreviation: "a",
-                              bibleId: "s",
-                              imageUrl: "s",
-                              subTitle: "",
-                              summary: "",
-                              title: "",
-                              id: "",
+                            builder: (context) => BookFullView(
+                              abbreviation: book['abbreviation'] ?? "",
+                              bibleId: book['bibleId'] ?? "",
+                              imageUrl: book['imageUrl'] ?? "",
+                              subTitle: book['nameLong'] ?? "",
+                              summary: book['summary'] ?? "",
+                              title: book['name'] ?? "",
+                              id: book['id'] ?? "",
                             ),
                           ),
                         );
                       },
-                      child: const BookCard(
-                        title: "Bible Study",
-                        subTitle: "Exodux",
+                      child: BookCard(
+                        title: book['name'] ?? "",
+                        subTitle: book['nameLong'] ?? "",
                         actionText: "30 Days Online Lesson",
+                        imageUrl: book['imageUrl'] ?? "",
                       ),
                     );
                   },
@@ -103,11 +109,13 @@ class BookCard extends StatelessWidget {
   final String title;
   final String subTitle;
   final String actionText;
+  final String imageUrl;
   const BookCard({
     super.key,
     required this.title,
     required this.subTitle,
     required this.actionText,
+    required this.imageUrl,
   });
 
   @override
@@ -120,8 +128,10 @@ class BookCard extends StatelessWidget {
             width: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              image: const DecorationImage(
-                image: AssetImage('assets/exodus.webp'),
+              image: DecorationImage(
+                image: NetworkImage(imageUrl != ""
+                    ? imageUrl
+                    : "https://i.ibb.co/hMLKdqL/john.webp"),
                 fit: BoxFit.cover,
               ),
             ),
