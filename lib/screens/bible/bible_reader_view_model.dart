@@ -1,15 +1,22 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/book_detail_model.dart';
 import 'package:flutter_app/model/chapter_model.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/services/chapter_service.dart';
+import 'package:flutter_app/services/http_service.dart';
 import 'package:intl/intl.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:stacked/stacked.dart';
 import '../../model/chapter_list_model.dart';
 import '../../services/firestore_service.dart';
+import 'package:path/path.dart' as p;
+import 'package:http/http.dart' as http;
 
 class BibleReaderViewModel extends BaseViewModel {
-  final FirestoreService _firestoreService = FirestoreService();
+  // final FirestoreService _firestoreService = FirestoreService();
   List<Map<String, dynamic>> chapters = [];
   List<Map<String, dynamic>> noteList = [];
   Map<String, dynamic> fontStyle = {
@@ -57,6 +64,92 @@ class BibleReaderViewModel extends BaseViewModel {
   String get PrevChapter => _prevChapter;
   set setPrevChapter(String value) => _prevChapter = value;
 
+  String _language = "";
+  String get language => _language;
+  set setLanguage(String value) => _language = value;
+
+  bool _playerLoad = false;
+  bool get playerLoad => _playerLoad;
+  set setPlayerLoad(bool value) => _playerLoad = value;
+  void setPlayerLoads() {
+    setPlayerLoad = true;
+    notifyListeners();
+  }
+
+  void setPlayerLoadsEnd() {
+    setPlayerLoad = false;
+    notifyListeners();
+  }
+
+  final String _apiUrl =
+      "https://multilingual-tts-979650137903.us-central1.run.app/generate-audio";
+  late final AudioPlayer _audioPlayer = AudioPlayer();
+  String? _audioFilePath;
+  String? get audioFilePath => _audioFilePath;
+
+  String? _extractContent;
+  String? get extractContent => _extractContent;
+
+  void getFirst10Words(String content) {
+    List<String> words = content.split(RegExp(r'\s+'));
+    List<String> first10Words = words.take(5).toList();
+    _extractContent = first10Words.take(5).join(' ');
+  }
+
+  Future<void> generateAndSaveAudio(BuildContext context) async {
+    try {
+      final response = await http.post(
+        Uri.parse(_apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "language": language,
+          "text": "${chapterViewModel.data.content.toString()}.",
+          // "text":
+          //     "To ensure that the audio restarts from the beginning when the play button is touched after the audio finishes, you need to reset the audio player’s position to the start. You can achieve this by seeking to the start of the audio when the play button is pressed again."
+        }),
+        // body:
+        //     '{"language": "$language", "text": "தேவன், தம்முடைய ஒரேபேறான குமாரனை."}',
+      );
+
+      if (response.statusCode == 200) {
+        const directoryPath = "/data/data/com.example.flutter_app/files";
+        final filePath = p.join(directoryPath, "tts_audio1.wav");
+
+        final directory = Directory(directoryPath);
+        if (!directory.existsSync()) {
+          directory.createSync(recursive: true);
+        }
+
+        final file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+        _audioFilePath = filePath;
+        setPlayerLoadsEnd();
+      } else {
+        throw Exception("Failed to generate audio: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      printStatement(e);
+    }
+  }
+
+  Future<void> playAudio(BuildContext context) async {
+    if (_audioFilePath != null) {
+      try {
+        await _audioPlayer.setFilePath(_audioFilePath!);
+
+        _audioPlayer.play();
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error playing audio: $e")),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No audio file to play")),
+      );
+    }
+  }
+
   void updateInitialParams(String bibleID, String chapterID, String bookID) {
     setBibleID = bibleID;
     setChapterID = chapterID;
@@ -89,9 +182,12 @@ class BibleReaderViewModel extends BaseViewModel {
       setNextBookID = chapterViewModel.data.next?.bookId ?? "";
       setPreBookID = chapterViewModel.data.previous?.bookId ?? "";
       if (chapterViewModel.data.content != "") {
+        setPlayerLoads();
+        generateAndSaveAudio(context);
         chapterViewModel.data.content =
             formatContent(chapterViewModel.data.content);
       }
+      getFirst10Words(chapterViewModel.data.content);
       _chapterListViewModel.add(chapterViewModel);
       notifyListeners();
     } catch (error) {
@@ -300,12 +396,12 @@ class BibleReaderViewModel extends BaseViewModel {
   Future<void> fetchNotes() async {
     try {
       // setBusy(true);
-      noteList = await _firestoreService.fetchNotes(
-        userId: 'userId',
-        bibleId: BibleID,
-        bookId: BookInitialID,
-        chapterId: ChapterID,
-      );
+      // noteList = await _firestoreService.fetchNotes(
+      //   userId: 'userId',
+      //   bibleId: BibleID,
+      //   bookId: BookInitialID,
+      //   chapterId: ChapterID,
+      // );
       notifyListeners();
     } catch (e) {
       print('Error fetching notes: $e');
@@ -318,12 +414,12 @@ class BibleReaderViewModel extends BaseViewModel {
   Future<void> fetchFavorites() async {
     try {
       // setBusy(true);
-      chapters = await _firestoreService.fetchFavorites(
-        userId: 'userId',
-        bibleId: BibleID,
-        bookId: BookInitialID,
-        chapterId: ChapterID,
-      );
+      // chapters = await _firestoreService.fetchFavorites(
+      //   userId: 'userId',
+      //   bibleId: BibleID,
+      //   bookId: BookInitialID,
+      //   chapterId: ChapterID,
+      // );
       notifyListeners();
     } catch (e) {
       print('Error fetching favorites: $e');
@@ -336,12 +432,12 @@ class BibleReaderViewModel extends BaseViewModel {
   Future<void> fetchHighlights() async {
     try {
       setBusy(true);
-      highlightedVerses = await _firestoreService.fetchHighlights(
-        userId: 'userId',
-        bibleId: BibleID,
-        bookId: BookInitialID,
-        chapterId: ChapterID,
-      );
+      // highlightedVerses = await _firestoreService.fetchHighlights(
+      //   userId: 'userId',
+      //   bibleId: BibleID,
+      //   bookId: BookInitialID,
+      //   chapterId: ChapterID,
+      // );
       notifyListeners();
     } catch (e) {
       print('Error fetching highlights: $e');

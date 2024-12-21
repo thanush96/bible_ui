@@ -6,7 +6,7 @@ import 'package:stacked/stacked.dart';
 import '../../services/firestore_service.dart';
 
 class BookFullViewModel extends BaseViewModel {
-  final FirestoreService _firestoreService = FirestoreService();
+//  final FirestoreService _firestoreService = FirestoreService();
 
   String _bibleID = "";
   String get bibleID => _bibleID;
@@ -63,20 +63,20 @@ class BookFullViewModel extends BaseViewModel {
     // print(title);
     try {
       setBusy(true);
-      await _firestoreService.addToFavouriteBookService(
-        // userId: 'user-id', // Replace with actual user ID
-        // bibleId: BibleID,
-        // bookId: bookId,
-        // title: title,
-        userId: 'user-id', // Replace with actual user ID
-        abbreviation: abbreviation,
-        bibleId: bibleId,
-        imageUrl: imageUrl,
-        subTitle: subTitle,
-        summary: summary,
-        title: title,
-        id: id,
-      );
+      // await _firestoreService.addToFavouriteBookService(
+      //   // userId: 'user-id', // Replace with actual user ID
+      //   // bibleId: BibleID,
+      //   // bookId: bookId,
+      //   // title: title,
+      //   userId: 'user-id', // Replace with actual user ID
+      //   abbreviation: abbreviation,
+      //   bibleId: bibleId,
+      //   imageUrl: imageUrl,
+      //   subTitle: subTitle,
+      //   summary: summary,
+      //   title: title,
+      //   id: id,
+      // );
     } catch (e) {
       print('Error adding to favorites: $e');
     } finally {
