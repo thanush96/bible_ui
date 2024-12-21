@@ -47,6 +47,18 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     final String selectedLanguage =
         Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
 
+    //FLUTTER SHARE ARRAY
+    // List<Map<String, dynamic>> shareableContent = [
+    // {
+    //   'type': 'link',
+    //   'content': model.chapterListViewModel[0].data.content,
+    //   'bibleId': widget.bibleId,
+    //   'bookName': widget.bookId,
+    //   'chapterNumber': widget.chapterId,
+    //   'userName': 'Bob',
+    // }
+    // ];
+
     return ViewModelBuilder<BibleReaderViewModel>.reactive(
         viewModelBuilder: () => BibleReaderViewModel(),
         onViewModelReady: (model) {
