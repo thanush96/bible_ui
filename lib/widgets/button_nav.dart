@@ -4,6 +4,8 @@ import 'package:flutter_app/screens/bible/bible_home.dart';
 import 'package:flutter_app/screens/book_history/book_history_view.dart';
 import 'package:flutter_app/screens/favourite_book/favourite_book_view.dart';
 
+import '../screens/calendar/Calendar_Event_Page.dart';
+
 class ButtonNav extends StatefulWidget {
   int selectedIndex;
   ButtonNav({super.key, this.selectedIndex = 0});
@@ -50,7 +52,13 @@ class _ButtonNavState extends State<ButtonNav> {
         );
         break;
       case 3:
-        () {};
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CalendarEventPage(),
+          ),
+        );
+
         break;
       default:
         break;
