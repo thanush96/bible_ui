@@ -295,18 +295,20 @@ class BookListView extends StatelessWidget {
                 onBackPressed: () => Navigator.pop(context),
               ),
               AppSpaces.verticalSpace10,
-              const HeaderDivider(
-                headerCount: "65",
+              HeaderDivider(
+                headerCount: books.length.toString(),
                 headerText: "New Testament",
+                books: books,
               ),
               AppSpaces.verticalSpace20,
               BookList(
                 books: books,
               ),
               AppSpaces.verticalSpace20,
-              const HeaderDivider(
-                headerCount: "69",
-                headerText: "New Testament",
+              HeaderDivider(
+                headerCount: books.length.toString(),
+                headerText: "Old Testament",
+                books: books,
               ),
               AppSpaces.verticalSpace10,
               BookList(

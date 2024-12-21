@@ -8,10 +8,13 @@ class HeaderDivider extends StatelessWidget {
   final String headerText;
   final String headerCount;
   final String actionText;
+  final List<Map<String, String>> books;
+
   const HeaderDivider({
     super.key,
     required this.headerText,
     required this.headerCount,
+    required this.books,
     this.actionText = "See All",
   });
 
@@ -38,7 +41,9 @@ class HeaderDivider extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SeeAllBooks(),
+                      builder: (context) => SeeAllBooks(
+                        books: books,
+                      ),
                     ),
                   );
                 },

@@ -71,6 +71,7 @@ class BibleReaderViewModel extends BaseViewModel {
   bool _playerLoad = false;
   bool get playerLoad => _playerLoad;
   set setPlayerLoad(bool value) => _playerLoad = value;
+
   void setPlayerLoads() {
     setPlayerLoad = true;
     notifyListeners();
@@ -110,6 +111,7 @@ class BibleReaderViewModel extends BaseViewModel {
         // body:
         //     '{"language": "$language", "text": "தேவன், தம்முடைய ஒரேபேறான குமாரனை."}',
       );
+      printStatement("run");
 
       if (response.statusCode == 200) {
         const directoryPath = "/data/data/com.example.flutter_app/files";
