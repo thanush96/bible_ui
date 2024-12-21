@@ -3,7 +3,15 @@ import 'package:flutter_app/constants/constants.dart';
 import 'package:just_audio/just_audio.dart';
 
 class PopupMusicPlayer extends StatefulWidget {
-  const PopupMusicPlayer({super.key});
+  final String? audioFilePath;
+  final String? chapterID;
+  final String? content;
+  const PopupMusicPlayer({
+    super.key,
+    this.audioFilePath,
+    this.chapterID,
+    this.content,
+  });
 
   @override
   _PopupMusicPlayerState createState() => _PopupMusicPlayerState();
@@ -65,18 +73,33 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
   }
 
   void _playPauseAudio() async {
-    if (mounted) {
-      setState(() {
-        isPlaying = !isPlaying;
-      });
-    }
     if (isPlaying) {
-      await _audioPlayer.setAsset('assets/audio/bible.mp3');
-      _playPauseController.forward();
-      await _audioPlayer.play();
-    } else {
+      // Pause the audio
       _playPauseController.reverse();
       await _audioPlayer.pause();
+      setState(() {
+        isPlaying = false;
+      });
+    } else {
+      // Reset to the beginning if audio is completed
+      if (_audioPlayer.processingState == ProcessingState.completed) {
+        await _audioPlayer.seek(Duration.zero); // Reset to the start
+      }
+
+      // Play the audio
+      try {
+        if (_audioPlayer.processingState == ProcessingState.idle) {
+          await _audioPlayer
+              .setFilePath(widget.audioFilePath ?? "assets/audio/bible.mp3");
+        }
+        _playPauseController.forward();
+        setState(() {
+          isPlaying = true;
+        });
+        await _audioPlayer.play();
+      } catch (e) {
+        debugPrint("Error playing audio: $e");
+      }
     }
   }
 
@@ -120,20 +143,20 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Chapter 1',
-                  style: TextStyle(
+                Text(
+                  'Chapter ${widget.chapterID}',
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 5),
-                const Text(
-                  '"Still waters. He restores my ..."',
-                  style: TextStyle(
+                Text(
+                  '"${widget.content} ..."',
+                  style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -141,18 +164,18 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.skip_previous,
-                          color: Colors.white, size: 32),
-                      onPressed:
-                          isLoading ? null : () {}, // Implement skip logic
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_rounded,
-                          color: Colors.white, size: 22),
-                      onPressed:
-                          isLoading ? null : () {}, // Implement rewind logic
-                    ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.skip_previous,
+                    //       color: Colors.white, size: 32),
+                    //   onPressed:
+                    //       isLoading ? null : () {}, // Implement skip logic
+                    // ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.arrow_back_ios_rounded,
+                    //       color: Colors.white, size: 22),
+                    //   onPressed:
+                    //       isLoading ? null : () {}, // Implement rewind logic
+                    // ),
                     GestureDetector(
                       onTap: _playPauseAudio,
                       child: AnimatedIcon(
@@ -162,20 +185,57 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
                         size: 32,
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward_ios_rounded,
-                          color: Colors.white, size: 22),
-                      onPressed: isLoading
-                          ? null
-                          : () {}, // Implement fast-forward logic
+                    // IconButton(
+                    //   icon: const Icon(Icons.arrow_forward_ios_rounded,
+                    //       color: Colors.white, size: 22),
+                    //   onPressed: isLoading
+                    //       ? null
+                    //       : () {}, // Implement fast-forward logic
+                    // ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.skip_next,
+                    //       color: Colors.white, size: 32),
+                    //   onPressed:
+                    //       isLoading ? null : () {}, // Implement skip logic
+                    // ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                // Time Progress
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _formatDuration(_currentPosition),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.skip_next,
-                          color: Colors.white, size: 32),
-                      onPressed:
-                          isLoading ? null : () {}, // Implement skip logic
+                    Text(
+                      _formatDuration(_totalDuration),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    activeTrackColor: Colors.white,
+                    inactiveTrackColor: Colors.white.withOpacity(0.3),
+                    thumbColor: Colors.white,
+                    trackHeight: 2.0,
+                    thumbShape:
+                        const RoundSliderThumbShape(enabledThumbRadius: 8.0),
+                  ),
+                  child: Slider(
+                    value: _currentPosition.inMilliseconds >
+                            _totalDuration.inMilliseconds
+                        ? _totalDuration.inMilliseconds.toDouble()
+                        : _currentPosition.inMilliseconds.toDouble(),
+                    min: 0,
+                    max: _totalDuration.inMilliseconds.toDouble(),
+                    onChanged: (value) async {
+                      final newPosition = Duration(milliseconds: value.toInt());
+                      await _audioPlayer.seek(newPosition);
+                    },
+                  ),
                 ),
                 // const SizedBox(height: 10),
                 // Time Progress

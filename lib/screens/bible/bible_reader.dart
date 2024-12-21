@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_app/screens/bible/bible_reader_view_model.dart';
 import 'package:flutter_app/screens/chapter_verse_view/chapter_verse_view.dart';
 import 'package:flutter_app/screens/share_screen_view/share_screen_view.dart';
+import 'package:flutter_app/services/http_service.dart';
 import 'package:flutter_app/values/app-font.dart';
 import 'package:flutter_app/values/values.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 import 'package:stacked/stacked.dart';
 import '../../constants/constants.dart';
 import '../../widgets/app_bar_icons.dart';
@@ -39,10 +44,14 @@ class BibleReaderPage extends StatefulWidget {
 class _BibleReaderPageState extends State<BibleReaderPage> {
   @override
   Widget build(BuildContext context) {
+    final String selectedLanguage =
+        Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
+
     return ViewModelBuilder<BibleReaderViewModel>.reactive(
         viewModelBuilder: () => BibleReaderViewModel(),
         onViewModelReady: (model) {
           model.setBusyForLoad();
+          model.setLanguage = selectedLanguage == "ta" ? "tamil" : "english";
           model.updateInitialParams(
               widget.bibleId, widget.chapterId, widget.bookId);
           model.bookDetailFetch(widget.bibleId, widget.bookId);
@@ -50,6 +59,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
           model.chapterListFetch(widget.bibleId, widget.bookId);
         },
         builder: (context, model, _) {
+          Timer? timer;
           return Scaffold(
             backgroundColor: const Color(0xFFECECFF),
             body: SafeArea(
@@ -60,17 +70,135 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                       ReaderHeader(
                         onBackPressed: () => Navigator.pop(context),
                         isPlaying: model.isPlaying,
-                        onPlayOpen: () {
-                          showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            builder: (context) => const PopupMusicPlayer(),
-                          );
+                        onPlayOpen: model.playerLoad
+                            ? () {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          StateSetter setModalState) {
+                                        timer = Timer.periodic(
+                                            const Duration(seconds: 2),
+                                            (timer) {
+                                          if (!model.playerLoad) {
+                                            Navigator.pop(context);
+                                            timer.cancel();
+                                          }
+                                        });
+                                        return Center(
+                                          child: Container(
+                                            height: 230,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                30,
+                                            margin: const EdgeInsets.all(20),
+                                            decoration: BoxDecoration(
+                                              gradient: globalGradient,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.2),
+                                                  offset: const Offset(0, 5),
+                                                  blurRadius: 10,
+                                                ),
+                                              ],
+                                            ),
+                                            child: const Center(
+                                              child: Stack(
+                                                children: [
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      // Circular Progress Indicator
+                                                      SizedBox(
+                                                        width: 50,
+                                                        height: 50,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  Colors.white),
+                                                          strokeWidth: 4.0,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      // Downloading Text
+                                                      Text(
+                                                        'Downloading...',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ).whenComplete(() {
+                                  timer?.cancel();
+                                  if (!model.playerLoad) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        elevation: 0,
+                                        backgroundColor: Colors.transparent,
+                                        content: Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              30,
+                                          decoration: BoxDecoration(
+                                            gradient: globalGradient,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 20),
+                                          child: const Text(
+                                            "Downloaded.... You can play",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
+                            : () {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(
+                                      builder: (BuildContext context,
+                                          StateSetter setModalState) {
+                                        return PopupMusicPlayer(
+                                          audioFilePath: model.audioFilePath,
+                                          chapterID: model.ChapterID,
+                                          content: model.extractContent,
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
 
-                          // setState(() {
-                          //   isPlaying = !isPlaying;
-                          // });
-                        },
+                                // setState(() {
+                                //   isPlaying = !isPlaying;
+                                // });
+                              },
                       ),
                       Center(
                         child: Container(
