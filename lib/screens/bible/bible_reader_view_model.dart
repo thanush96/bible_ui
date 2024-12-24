@@ -97,14 +97,29 @@ class BibleReaderViewModel extends BaseViewModel {
     _extractContent = first10Words.take(5).join(' ');
   }
 
+  String _lyrics = "";
+  String get lyrics => _lyrics;
+  set setLyrics(String value) => _lyrics = value;
+
   Future<void> generateAndSaveAudio(BuildContext context) async {
     try {
+      final content = chapterViewModel.data.content.toString();
+      final int length = content.length;
+
+      // Calculate the range for the selected quarter
+      final int startIndex = (length / 4).round();
+      final int endIndex = (length / 4).round();
+
+      // Get the specific quarter data
+      final String quarterData = content.substring(1, endIndex);
+      setLyrics = quarterData;
+
       final response = await http.post(
         Uri.parse(_apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "language": language,
-          "text": "${chapterViewModel.data.content.toString()}.",
+          "text": "$quarterData.",
           // "text":
           //     "To ensure that the audio restarts from the beginning when the play button is touched after the audio finishes, you need to reset the audio player’s position to the start. You can achieve this by seeking to the start of the audio when the play button is pressed again."
         }),

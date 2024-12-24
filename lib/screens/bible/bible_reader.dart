@@ -69,6 +69,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
           model.bookDetailFetch(widget.bibleId, widget.bookId);
           model.chapterFetch(widget.bibleId, widget.chapterId, context);
           model.chapterListFetch(widget.bibleId, widget.bookId);
+          model.setPlayerLoads();
         },
         builder: (context, model, _) {
           Timer? timer;
@@ -77,86 +78,67 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
             body: SafeArea(
               child: Stack(
                 children: [
+                  Visibility(
+                      visible: model.playerLoad,
+                      child: const LinearProgressIndicator()),
+                  if (!model.playerLoad)
+                    FutureBuilder(
+                      future: Future.delayed(Duration.zero, () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
+                            content: Container(
+                              width: MediaQuery.of(context).size.width - 30,
+                              decoration: BoxDecoration(
+                                gradient: globalGradient,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: const Text(
+                                "Track Downloaded.... ",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                      builder: (context, snapshot) {
+                        return const SizedBox.shrink();
+                      },
+                    ),
                   Column(
                     children: [
-                      ReaderHeader(
-                        onBackPressed: () => Navigator.pop(context),
-                        isPlaying: model.isPlaying,
-                        onPlayOpen: model.playerLoad
-                            ? () {
-                                showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.97, // 90% of screen height
-                                      child: StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            StateSetter setModalState) {
-                                          return PopupMusicPlayer(
-                                            audioFilePath: model.audioFilePath,
-                                            chapterID: model.ChapterID,
-                                            content: model.extractContent,
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ).whenComplete(() {
-                                  timer?.cancel();
-                                  if (!model.playerLoad) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        elevation: 0,
-                                        backgroundColor: Colors.transparent,
-                                        content: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              30,
-                                          decoration: BoxDecoration(
-                                            gradient: globalGradient,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 20),
-                                          child: const Text(
-                                            "Downloaded.... You can play",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                });
-                              }
-                            : () {
-                                showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (context) {
-                                    return StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setModalState) {
-                                        return PopupMusicPlayer(
-                                          audioFilePath: model.audioFilePath,
-                                          chapterID: model.ChapterID,
-                                          content: model.extractContent,
-                                        );
-                                      },
+                      AbsorbPointer(
+                        absorbing: model.playerLoad,
+                        child: ReaderHeader(
+                          onBackPressed: () => Navigator.pop(context),
+                          isPlaying: model.isPlaying,
+                          onPlayOpen: () {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setModalState) {
+                                    return PopupMusicPlayer(
+                                      lyrics: model.lyrics,
+                                      audioFilePath: model.audioFilePath,
+                                      chapterID: model.ChapterID,
+                                      content: model.extractContent,
                                     );
                                   },
                                 );
-
-                                // setState(() {
-                                //   isPlaying = !isPlaying;
-                                // });
                               },
+                            );
+
+                            // setState(() {
+                            //   isPlaying = !isPlaying;
+                            // });
+                          },
+                        ),
                       ),
                       Center(
                         child: Container(
