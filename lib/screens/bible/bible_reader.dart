@@ -47,6 +47,18 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
     final String selectedLanguage =
         Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
 
+    //FLUTTER SHARE ARRAY
+    // List<Map<String, dynamic>> shareableContent = [
+    // {
+    //   'type': 'link',
+    //   'content': model.chapterListViewModel[0].data.content,
+    //   'bibleId': widget.bibleId,
+    //   'bookName': widget.bookId,
+    //   'chapterNumber': widget.chapterId,
+    //   'userName': 'Bob',
+    // }
+    // ];
+
     return ViewModelBuilder<BibleReaderViewModel>.reactive(
         viewModelBuilder: () => BibleReaderViewModel(),
         onViewModelReady: (model) {
@@ -74,77 +86,23 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             ? () {
                                 showModalBottomSheet(
                                   backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
                                   context: context,
                                   builder: (context) {
-                                    return StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setModalState) {
-                                        timer = Timer.periodic(
-                                            const Duration(seconds: 2),
-                                            (timer) {
-                                          if (!model.playerLoad) {
-                                            Navigator.pop(context);
-                                            timer.cancel();
-                                          }
-                                        });
-                                        return Center(
-                                          child: Container(
-                                            height: 230,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                30,
-                                            margin: const EdgeInsets.all(20),
-                                            decoration: BoxDecoration(
-                                              gradient: globalGradient,
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.2),
-                                                  offset: const Offset(0, 5),
-                                                  blurRadius: 10,
-                                                ),
-                                              ],
-                                            ),
-                                            child: const Center(
-                                              child: Stack(
-                                                children: [
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      // Circular Progress Indicator
-                                                      SizedBox(
-                                                        width: 50,
-                                                        height: 50,
-                                                        child:
-                                                            CircularProgressIndicator(
-                                                          valueColor:
-                                                              AlwaysStoppedAnimation<
-                                                                      Color>(
-                                                                  Colors.white),
-                                                          strokeWidth: 4.0,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 10),
-                                                      // Downloading Text
-                                                      Text(
-                                                        'Downloading...',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                    return SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.97, // 90% of screen height
+                                      child: StatefulBuilder(
+                                        builder: (BuildContext context,
+                                            StateSetter setModalState) {
+                                          return PopupMusicPlayer(
+                                            audioFilePath: model.audioFilePath,
+                                            chapterID: model.ChapterID,
+                                            content: model.extractContent,
+                                          );
+                                        },
+                                      ),
                                     );
                                   },
                                 ).whenComplete(() {
