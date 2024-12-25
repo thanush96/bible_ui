@@ -30,10 +30,10 @@ class _LyricsWidgetState extends State<LyricsWidget>
   @override
   void initState() {
     super.initState();
-    lyrics = _splitText(widget.text); // Use text from the widget
+    lyrics = splitByVerseNumbers(widget.text); // Use text from the widget
     _scrollController = ScrollController();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 850),
+      duration: const Duration(milliseconds: 200),
       vsync: this,
     );
 
@@ -74,13 +74,31 @@ class _LyricsWidgetState extends State<LyricsWidget>
     super.dispose();
   }
 
-  List<String> _splitText(String text) {
-    // Split text by periods (.) and commas (,), then trim extra spaces
-    return text
-        .split(RegExp(r'[.,?]'))
-        .map((line) => line.trim())
-        .where((line) => line.isNotEmpty)
-        .toList();
+  List<String> splitByVerseNumbers(String text) {
+    // Regular expression to match verse numbers like [1], [2], etc.
+    RegExp verseRegex = RegExp(r'\[\d+\]');
+
+    // Split text by verse numbers while keeping the numbers as part of each segment
+    Iterable<Match> matches = verseRegex.allMatches(text);
+
+    List<String> verses = [];
+    int previousIndex = 0;
+
+    for (final match in matches) {
+      if (match.start > previousIndex) {
+        // Add the text before the current verse number
+        verses.add(text.substring(previousIndex, match.start).trim());
+      }
+      previousIndex = match.start;
+    }
+
+    // Add the last section of text
+    if (previousIndex < text.length) {
+      verses.add(text.substring(previousIndex).trim());
+    }
+
+    // Return the cleaned-up list of verses
+    return verses.where((verse) => verse.isNotEmpty).toList();
   }
 
   void _startLyricPlayback() {
@@ -100,18 +118,25 @@ class _LyricsWidgetState extends State<LyricsWidget>
         _animationController.forward(from: 0.0);
 
         // Calculate the offset for centering the current line
-        final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
-        final containerHeight = renderBox?.size.height ?? 0;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final RenderBox renderBox = context.findRenderObject() as RenderBox;
+          final viewportHeight = renderBox.size.height;
 
-        final offset = (currentLineIndex * 60.0) -
-            (containerHeight / 2) + // Adjust for container height
-            30;
+          const lineHeight = 80.0; // Approximate height of a single line
+          final centerOffset = (currentLineIndex * lineHeight) -
+              (viewportHeight / 2) +
+              (lineHeight / 2);
 
-        _scrollController.animateTo(
-          offset < 0 ? 0 : offset, // Prevent negative offset
-          duration: const Duration(milliseconds: 850),
-          curve: Curves.easeOut,
-        );
+          // Ensure the offset remains within scrollable bounds
+          final maxScrollOffset = _scrollController.position.maxScrollExtent;
+          final safeOffset = centerOffset.clamp(0, maxScrollOffset);
+
+          _scrollController.animateTo(
+            safeOffset.toDouble(), // Adjust to safe offset
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        });
       } else {
         _timer?.cancel();
       }
@@ -120,8 +145,8 @@ class _LyricsWidgetState extends State<LyricsWidget>
 
 // Helper function to set animation duration dynamically
   void _setAnimationDurationBasedOnLetters(String line) {
-    const int timePerLetterMs = 100; // Define time per letter in milliseconds
-    const int timePerLineMs = 500; // Extra time per visual line
+    const int timePerLetterMs = 20; // Define time per letter in milliseconds
+    const int timePerLineMs = 20; // Extra time per visual line
 
     // Calculate visual lines
     int visualLines = _calculateVisualLines(line);
@@ -139,7 +164,7 @@ class _LyricsWidgetState extends State<LyricsWidget>
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: text,
-        style: const TextStyle(fontSize: 20), // Use the current font size
+        style: const TextStyle(fontSize: 12), // Use the current font size
       ),
       maxLines: null, // Allow text to wrap
       textDirection: TextDirection.ltr,
@@ -162,7 +187,7 @@ class _LyricsWidgetState extends State<LyricsWidget>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 14),
+      padding: const EdgeInsets.only(left: 14, right: 10),
       child: Center(
         child: Column(
           children: [
@@ -189,7 +214,7 @@ class _LyricsWidgetState extends State<LyricsWidget>
                               lyrics[index],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: isCurrentLine ? 20 : 16,
+                                fontSize: isCurrentLine ? 16 : 12,
                                 fontWeight: isCurrentLine
                                     ? FontWeight.bold
                                     : FontWeight.normal,

@@ -234,7 +234,7 @@ class _PopupMusicPlayerState extends State<PopupMusicPlayer>
           Padding(
             padding: const EdgeInsets.only(top: 140),
             child: SizedBox(
-              height: 400,
+              height: 600,
               child: _totalDuration != Duration.zero
                   ? LyricsWidget(
                       text: widget.lyrics ?? "",

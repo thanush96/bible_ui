@@ -81,33 +81,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                   Visibility(
                       visible: model.playerLoad,
                       child: const LinearProgressIndicator()),
-                  if (!model.playerLoad)
-                    FutureBuilder(
-                      future: Future.delayed(Duration.zero, () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            content: Container(
-                              width: MediaQuery.of(context).size.width - 30,
-                              decoration: BoxDecoration(
-                                gradient: globalGradient,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 20),
-                              child: const Text(
-                                "Track Downloaded.... ",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                      builder: (context, snapshot) {
-                        return const SizedBox.shrink();
-                      },
-                    ),
+                  // wh
                   Column(
                     children: [
                       AbsorbPointer(
@@ -119,15 +93,40 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             showModalBottomSheet(
                               backgroundColor: Colors.transparent,
                               context: context,
+                              isScrollControlled:
+                                  true, // Allows full-screen and draggable behavior
                               builder: (context) {
-                                return StatefulBuilder(
+                                return DraggableScrollableSheet(
+                                  initialChildSize:
+                                      0.8, // Start height as a fraction of the screen
+                                  minChildSize:
+                                      0.3, // Minimum height as a fraction of the screen
+                                  maxChildSize:
+                                      1.0, // Maximum height as a fraction of the screen
+                                  expand:
+                                      false, // Prevents expanding to full screen initially
                                   builder: (BuildContext context,
-                                      StateSetter setModalState) {
-                                    return PopupMusicPlayer(
-                                      lyrics: model.lyrics,
-                                      audioFilePath: model.audioFilePath,
-                                      chapterID: model.ChapterID,
-                                      content: model.extractContent,
+                                      ScrollController scrollController) {
+                                    return Container(
+                                      decoration: const BoxDecoration(
+                                        color: Colors
+                                            .transparent, // Background color of the sheet
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(
+                                              20), // Rounded top corners
+                                        ),
+                                      ),
+                                      child: StatefulBuilder(
+                                        builder: (BuildContext context,
+                                            StateSetter setModalState) {
+                                          return PopupMusicPlayer(
+                                            lyrics: model.lyrics,
+                                            audioFilePath: model.audioFilePath,
+                                            chapterID: model.ChapterID,
+                                            content: model.extractContent,
+                                          );
+                                        },
+                                      ),
                                     );
                                   },
                                 );

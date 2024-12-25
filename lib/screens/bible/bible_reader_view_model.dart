@@ -68,9 +68,17 @@ class BibleReaderViewModel extends BaseViewModel {
   String get language => _language;
   set setLanguage(String value) => _language = value;
 
+  String _lyrics = "";
+  String get lyrics => _lyrics;
+  set setLyrics(String value) => _lyrics = value;
+
   bool _playerLoad = false;
   bool get playerLoad => _playerLoad;
   set setPlayerLoad(bool value) => _playerLoad = value;
+
+  bool _animate = false;
+  bool get animate => _animate;
+  set setAnimate(bool value) => _animate = value;
 
   void setPlayerLoads() {
     setPlayerLoad = true;
@@ -97,10 +105,6 @@ class BibleReaderViewModel extends BaseViewModel {
     _extractContent = first10Words.take(5).join(' ');
   }
 
-  String _lyrics = "";
-  String get lyrics => _lyrics;
-  set setLyrics(String value) => _lyrics = value;
-
   Future<void> generateAndSaveAudio(BuildContext context) async {
     try {
       final content = chapterViewModel.data.content.toString();
@@ -113,7 +117,6 @@ class BibleReaderViewModel extends BaseViewModel {
       // Get the specific quarter data
       final String quarterData = content.substring(1, endIndex);
       setLyrics = quarterData;
-
       final response = await http.post(
         Uri.parse(_apiUrl),
         headers: {'Content-Type': 'application/json'},
