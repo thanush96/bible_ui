@@ -68,9 +68,18 @@ class BibleReaderViewModel extends BaseViewModel {
   String get language => _language;
   set setLanguage(String value) => _language = value;
 
+  String _lyrics = "";
+  String get lyrics => _lyrics;
+  set setLyrics(String value) => _lyrics = value;
+
   bool _playerLoad = false;
   bool get playerLoad => _playerLoad;
   set setPlayerLoad(bool value) => _playerLoad = value;
+
+  bool _animate = false;
+  bool get animate => _animate;
+  set setAnimate(bool value) => _animate = value;
+
   void setPlayerLoads() {
     setPlayerLoad = true;
     notifyListeners();
@@ -98,18 +107,29 @@ class BibleReaderViewModel extends BaseViewModel {
 
   Future<void> generateAndSaveAudio(BuildContext context) async {
     try {
+      final content = chapterViewModel.data.content.toString();
+      final int length = content.length;
+
+      // Calculate the range for the selected quarter
+      final int startIndex = (length / 4).round();
+      final int endIndex = (length / 4).round();
+
+      // Get the specific quarter data
+      final String quarterData = content.substring(1, endIndex);
+      setLyrics = quarterData;
       final response = await http.post(
         Uri.parse(_apiUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "language": language,
-          "text": "${chapterViewModel.data.content.toString()}.",
+          "text": "$quarterData.",
           // "text":
           //     "To ensure that the audio restarts from the beginning when the play button is touched after the audio finishes, you need to reset the audio player’s position to the start. You can achieve this by seeking to the start of the audio when the play button is pressed again."
         }),
         // body:
         //     '{"language": "$language", "text": "தேவன், தம்முடைய ஒரேபேறான குமாரனை."}',
       );
+      printStatement("run");
 
       if (response.statusCode == 200) {
         const directoryPath = "/data/data/com.example.flutter_app/files";

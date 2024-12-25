@@ -90,6 +90,7 @@ TextSpan buildHighlightedText(
         color: Colors.black,
         fontFamily: fontStyle["_selectedFont"],
         fontSize: double.parse(fontStyle["_fontSize"].toString()),
+        height: 0.9,
       ),
     ));
   }
@@ -162,6 +163,7 @@ TextSpan buildHighlightedText(
           color: Colors.black,
           fontFamily: fontStyle["_selectedFont"],
           fontSize: double.parse(fontStyle["_fontSize"].toString()),
+          height: 0.9,
         ),
       ));
     }
@@ -174,6 +176,7 @@ TextSpan buildHighlightedText(
         backgroundColor: item['type'] == 'highlight' ? color : null,
         fontFamily: fontStyle["_selectedFont"],
         fontSize: double.parse(fontStyle["_fontSize"].toString()),
+        height: 0.9,
       ),
     ));
 
@@ -189,6 +192,7 @@ TextSpan buildHighlightedText(
         color: Colors.black,
         fontFamily: fontStyle["_selectedFont"],
         fontSize: double.parse(fontStyle["_fontSize"].toString()),
+        height: 0.9,
       ),
     ));
   }

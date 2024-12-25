@@ -69,6 +69,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
           model.bookDetailFetch(widget.bibleId, widget.bookId);
           model.chapterFetch(widget.bibleId, widget.chapterId, context);
           model.chapterListFetch(widget.bibleId, widget.bookId);
+          model.setPlayerLoads();
         },
         builder: (context, model, _) {
           Timer? timer;
@@ -77,26 +78,49 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
             body: SafeArea(
               child: Stack(
                 children: [
+                  Visibility(
+                      visible: model.playerLoad,
+                      child: const LinearProgressIndicator()),
+                  // wh
                   Column(
                     children: [
-                      ReaderHeader(
-                        onBackPressed: () => Navigator.pop(context),
-                        isPlaying: model.isPlaying,
-                        onPlayOpen: model.playerLoad
-                            ? () {
-                                showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) {
-                                    return SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.97, // 90% of screen height
+                      AbsorbPointer(
+                        absorbing: model.playerLoad,
+                        child: ReaderHeader(
+                          onBackPressed: () => Navigator.pop(context),
+                          isPlaying: model.isPlaying,
+                          onPlayOpen: () {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              isScrollControlled:
+                                  true, // Allows full-screen and draggable behavior
+                              builder: (context) {
+                                return DraggableScrollableSheet(
+                                  initialChildSize:
+                                      0.8, // Start height as a fraction of the screen
+                                  minChildSize:
+                                      0.3, // Minimum height as a fraction of the screen
+                                  maxChildSize:
+                                      1.0, // Maximum height as a fraction of the screen
+                                  expand:
+                                      false, // Prevents expanding to full screen initially
+                                  builder: (BuildContext context,
+                                      ScrollController scrollController) {
+                                    return Container(
+                                      decoration: const BoxDecoration(
+                                        color: Colors
+                                            .transparent, // Background color of the sheet
+                                        borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(
+                                              20), // Rounded top corners
+                                        ),
+                                      ),
                                       child: StatefulBuilder(
                                         builder: (BuildContext context,
                                             StateSetter setModalState) {
                                           return PopupMusicPlayer(
+                                            lyrics: model.lyrics,
                                             audioFilePath: model.audioFilePath,
                                             chapterID: model.ChapterID,
                                             content: model.extractContent,
@@ -105,58 +129,15 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                                       ),
                                     );
                                   },
-                                ).whenComplete(() {
-                                  timer?.cancel();
-                                  if (!model.playerLoad) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        elevation: 0,
-                                        backgroundColor: Colors.transparent,
-                                        content: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              30,
-                                          decoration: BoxDecoration(
-                                            gradient: globalGradient,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 20),
-                                          child: const Text(
-                                            "Downloaded.... You can play",
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                });
-                              }
-                            : () {
-                                showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (context) {
-                                    return StatefulBuilder(
-                                      builder: (BuildContext context,
-                                          StateSetter setModalState) {
-                                        return PopupMusicPlayer(
-                                          audioFilePath: model.audioFilePath,
-                                          chapterID: model.ChapterID,
-                                          content: model.extractContent,
-                                        );
-                                      },
-                                    );
-                                  },
                                 );
-
-                                // setState(() {
-                                //   isPlaying = !isPlaying;
-                                // });
                               },
+                            );
+
+                            // setState(() {
+                            //   isPlaying = !isPlaying;
+                            // });
+                          },
+                        ),
                       ),
                       Center(
                         child: Container(
