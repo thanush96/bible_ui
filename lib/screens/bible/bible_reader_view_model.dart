@@ -129,7 +129,6 @@ class BibleReaderViewModel extends BaseViewModel {
         // body:
         //     '{"language": "$language", "text": "தேவன், தம்முடைய ஒரேபேறான குமாரனை."}',
       );
-      printStatement("run");
 
       if (response.statusCode == 200) {
         const directoryPath = "/data/data/com.example.flutter_app/files";
