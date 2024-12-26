@@ -56,13 +56,13 @@ class BibleReaderViewModel extends BaseViewModel {
   String get ChapterID => _chapterID;
   set setChapterID(String value) => _chapterID = value;
 
-  String _nextChapter = "";
-  String get NextChapter => _nextChapter;
-  set setNextChapter(String value) => _nextChapter = value;
+  String? _nextChapter = "";
+  String? get NextChapter => _nextChapter;
+  set setNextChapter(String? value) => _nextChapter = value;
 
-  String _prevChapter = "";
-  String get PrevChapter => _prevChapter;
-  set setPrevChapter(String value) => _prevChapter = value;
+  String? _prevChapter = "";
+  String? get PrevChapter => _prevChapter;
+  set setPrevChapter(String? value) => _prevChapter = value;
 
   String _language = "";
   String get language => _language;
@@ -260,8 +260,8 @@ class BibleReaderViewModel extends BaseViewModel {
 
   void changeChapterNext(BuildContext context) {
     setBusy(true);
-    chapterFetch(BibleID, NextChapter, context);
-    setChapterID = NextChapter;
+    chapterFetch(BibleID, NextChapter!, context);
+    setChapterID = NextChapter!;
     chapterListViewModel.clear();
     if (BookInitialID != NextBookID) {
       setBookInitialID = NextBookID;
@@ -289,8 +289,8 @@ class BibleReaderViewModel extends BaseViewModel {
 
   void changeChapterPrev(BuildContext context) {
     setBusy(true);
-    chapterFetch(BibleID, PrevChapter, context);
-    setChapterID = PrevChapter;
+    chapterFetch(BibleID, PrevChapter!, context);
+    setChapterID = PrevChapter!;
     chapterListViewModel.clear();
     if (BookInitialID != PreBookID) {
       setBookInitialID = PreBookID;

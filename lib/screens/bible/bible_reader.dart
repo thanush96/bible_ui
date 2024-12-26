@@ -329,7 +329,17 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             IconButton(
                               icon: const Icon(Icons.chevron_left),
                               onPressed: () {
-                                model.changeChapterPrev(context);
+                                if (model.PrevChapter != "") {
+                                  model.changeChapterPrev(context);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'No previous chapter available!'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                             Text(
@@ -343,7 +353,17 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                             IconButton(
                               icon: const Icon(Icons.chevron_right),
                               onPressed: () {
-                                model.changeChapterNext(context);
+                                if (model.NextChapter != "") {
+                                  model.changeChapterNext(context);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('No next chapter available!'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           ],

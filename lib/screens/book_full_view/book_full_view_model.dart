@@ -42,7 +42,7 @@ class BookFullViewModel extends BaseViewModel {
       // Fetch chapter content
       chapterViewModel = await ChapterService.chapterContentFetch(
         bibleID: bibleID,
-        chapterID: "$chapterID.intro",
+        chapterID: "$chapterID.1",
         context: context,
       );
 
