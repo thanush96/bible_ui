@@ -514,19 +514,32 @@ class BookFullView extends StatelessWidget {
                                                     ],
                                                   ),
                                                   //  AppSpaces.verticalSpace10,
-                                                  Text(
-                                                    viewModel
-                                                        .chapterListViewModel[0]
-                                                        .data
-                                                        .content,
-                                                    maxLines: 3,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          AppFont.textSize14,
-                                                      color: AppColors.black,
-                                                      fontWeight: AppFont.fw400,
+                                                  SizedBox(
+                                                    height: 150,
+                                                    child: Scrollbar(
+                                                      controller: viewModel
+                                                          .contentScrollController,
+                                                      thumbVisibility: true,
+                                                      radius:
+                                                          const Radius.circular(
+                                                              8),
+                                                      thickness: 4,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        controller: viewModel
+                                                            .contentScrollController,
+                                                        child: Text(
+                                                          viewModel.content,
+                                                          style: TextStyle(
+                                                            fontSize: AppFont
+                                                                .textSize14,
+                                                            color:
+                                                                AppColors.black,
+                                                            fontWeight:
+                                                                AppFont.fw400,
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ],

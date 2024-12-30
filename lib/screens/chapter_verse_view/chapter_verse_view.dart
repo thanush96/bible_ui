@@ -529,9 +529,9 @@ class _buildTabContent extends ViewModelWidget<ChapterVerseViewModel> {
               printStatement(chapterDetails?[index].id);
             },
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [
                     Color(
                       0xFF000000,
@@ -549,13 +549,6 @@ class _buildTabContent extends ViewModelWidget<ChapterVerseViewModel> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Center(
                 child: Text(
@@ -646,24 +639,23 @@ class _buildTabContentForVerses extends ViewModelWidget<ChapterVerseViewModel> {
                       Container(
                         width: 60,
                         height: 60,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          gradient: const LinearGradient(
+                          gradient: LinearGradient(
                             colors: [
-                              Color(0xFF000000),
-                              Color(0xFF3533CD),
-                              Color.fromRGBO(53, 51, 205, 0.68),
+                              Color(0xFFC0CEFE), // Light blue
+                              Color(
+                                  0xFFA4B9FF), // Slightly darker blue for better transition
+                              Color.fromRGBO(
+                                140, // Red
+                                158, // Green
+                                255, // Blue
+                                0.85, // Higher opacity for richer gradient
+                              ),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
                         ),
                         child: Center(
                           child: Text(
@@ -766,13 +758,6 @@ class _buildTabContentBooks extends ViewModelWidget<ChapterVerseViewModel> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

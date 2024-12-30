@@ -85,7 +85,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                   Column(
                     children: [
                       AbsorbPointer(
-                        absorbing: model.playerLoad,
+                        absorbing: false,
                         child: ReaderHeader(
                           onBackPressed: () => Navigator.pop(context),
                           isPlaying: model.isPlaying,

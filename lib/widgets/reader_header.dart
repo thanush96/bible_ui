@@ -55,40 +55,54 @@ class _ReaderHeaderState extends State<ReaderHeader> {
                 height: 30,
                 child: Image.asset('assets/waw.png'),
               ),
+              const SizedBox(
+                width: 05,
+              ),
               // Animated Search Box
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 145, 189, 223),
+                      Color(0xFFE0E0E0)
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
                 curve: Curves.easeInOut,
                 width: isSearchVisible
-                    ? MediaQuery.of(context).size.width * 0.55
+                    ? MediaQuery.of(context).size.width - 200
                     : 0,
-                child: isSearchVisible
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0.0, horizontal: 15.0),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxHeight: 30,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 0.0, horizontal: 15.0),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 30,
+                    ),
+                    child: Opacity(
+                      opacity: isSearchVisible ? 1.0 : 0.0,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Search...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor:
-                                  const Color.fromARGB(255, 255, 255, 255),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                            ),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
                         ),
-                      )
-                    : null,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               const Spacer(),
               IconButton(
