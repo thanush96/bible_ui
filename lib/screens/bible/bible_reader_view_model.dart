@@ -243,7 +243,7 @@ class BibleReaderViewModel extends BaseViewModel {
     content = content.replaceAll('\n', '');
     final regex = RegExp(r'\[(.*?)\]');
     return content.replaceAllMapped(regex, (match) {
-      return '\n\n${match.group(0)}';
+      return '\n${match.group(0)}';
     });
   }
 

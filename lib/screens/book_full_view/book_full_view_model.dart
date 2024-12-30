@@ -8,6 +8,7 @@ import '../../services/firestore_service.dart';
 class BookFullViewModel extends BaseViewModel {
 //  final FirestoreService _firestoreService = FirestoreService();
 
+  final ScrollController contentScrollController = ScrollController();
   String _bibleID = "";
   String get bibleID => _bibleID;
   set setBibleID(String value) => _bibleID = value;
@@ -15,6 +16,10 @@ class BookFullViewModel extends BaseViewModel {
   String _chapterID = "";
   String get chapterID => _chapterID;
   set setChapterID(String value) => _chapterID = value;
+
+  String _content = "";
+  String get content => _content;
+  set setContent(String value) => _content = value;
 
   void updateInitialParams(String bibleID, String chapterID) {
     setBibleID = bibleID;
@@ -47,6 +52,7 @@ class BookFullViewModel extends BaseViewModel {
       );
 
       _chapterListViewModel.add(chapterViewModel);
+      setContent = formatContent(chapterListViewModel[0].data.content);
       notifyListeners();
     } catch (error) {
       debugPrint('Error fetching chapter: $error');
@@ -54,6 +60,14 @@ class BookFullViewModel extends BaseViewModel {
     } finally {
       setBusy(false);
     }
+  }
+
+  String formatContent(String content) {
+    content = content.replaceAll('\n', '');
+    final regex = RegExp(r'\[(.*?)\]');
+    return content.replaceAllMapped(regex, (match) {
+      return '\n${match.group(0)}';
+    });
   }
 
   void addToFavouriteBook(String abbreviation, String bibleId, String imageUrl,

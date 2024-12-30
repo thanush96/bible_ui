@@ -56,13 +56,23 @@ class _CustomHeaderState extends State<CustomHeader> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: widget.onBackPressed,
               ),
-
               // Animated Search Box
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 145, 189, 223),
+                      Color(0xFFE0E0E0)
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
                 curve: Curves.easeInOut,
                 width: isSearchVisible
-                    ? MediaQuery.of(context).size.width * 0.6
+                    ? MediaQuery.of(context).size.width - 130
                     : 0,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -81,7 +91,7 @@ class _CustomHeaderState extends State<CustomHeader> {
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(255, 255, 255, 255),
+                          fillColor: Colors.transparent,
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 8,
