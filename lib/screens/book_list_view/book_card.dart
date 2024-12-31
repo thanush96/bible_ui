@@ -63,7 +63,7 @@ class BookCard extends StatelessWidget {
                         snapshot.data is String &&
                         snapshot.data!.isNotEmpty) {
                       return Container(
-                        width: 200,
+                        width: 150,
                         height: 250,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -95,7 +95,7 @@ class BookCard extends StatelessWidget {
   Widget _buildSkeletonLoader() {
     return ShimmerEffect(
       child: Container(
-        width: 200,
+        width: 150,
         height: 250,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -164,7 +164,7 @@ class BookCard extends StatelessWidget {
                       child: Text(
                         title,
                         style: TextStyle(
-                          fontSize: AppFont.textSize12,
+                          fontSize: AppFont.textSize10,
                           color: AppColors.white,
                           fontWeight: AppFont.fw400,
                         ),
@@ -174,8 +174,9 @@ class BookCard extends StatelessWidget {
                   AppSpaces.verticalSpace06,
                   Text(
                     subTitle,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: AppFont.textSize12,
+                      fontSize: AppFont.textSize10,
                       fontWeight: AppFont.fw400,
                       color: AppColors.white,
                     ),

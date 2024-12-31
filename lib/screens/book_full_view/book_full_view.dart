@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/provider/language_provider.dart';
 import 'package:flutter_app/screens/bible/bible_reader.dart';
 import 'package:flutter_app/screens/book_full_view/book_full_view_model.dart';
 import 'package:flutter_app/tools/skeleton_loader_books.dart';
@@ -34,6 +35,8 @@ class BookFullView extends StatelessWidget {
   Widget build(BuildContext context) {
     String globalBibleID =
         Provider.of<BibleIDProvider>(context, listen: false).selectedBible;
+    final String selectedLanguage =
+        Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
 
     return ViewModelBuilder<BookFullViewModel>.reactive(
         viewModelBuilder: () => BookFullViewModel(),
@@ -336,9 +339,11 @@ class BookFullView extends StatelessWidget {
                                   //crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Chapters",
+                                      selectedLanguage == "ta"
+                                          ? "அத்தியாயம்"
+                                          : "Chapters",
                                       style: TextStyle(
-                                        fontSize: AppFont.textSize20,
+                                        fontSize: AppFont.textSize18,
                                         color: AppColors.greyTitle,
                                         fontWeight: AppFont.fw400,
                                       ),

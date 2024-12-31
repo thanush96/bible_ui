@@ -8,7 +8,7 @@ import '../provider/language_provider.dart';
 import '../screens/bible/bible_reader.dart';
 
 class VerseSlider extends StatefulWidget {
-  const VerseSlider({Key? key}) : super(key: key);
+  const VerseSlider({super.key});
 
   @override
   State<VerseSlider> createState() => _VerseSliderState();
@@ -62,14 +62,17 @@ class _VerseSliderState extends State<VerseSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final String selectedLanguage =
+        Provider.of<LanguageProvider>(context, listen: false).selectedLanguage;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 30),
+        Padding(
+          padding: const EdgeInsets.only(left: 30),
           child: Text(
-            'Today\'s Verses:',
-            style: TextStyle(
+            selectedLanguage == "ta" ? "இன்றைய வசனம் " : 'Today\'s Verses:',
+            style: const TextStyle(
               color: Color(0xFF3533CD),
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -91,16 +94,16 @@ class _VerseSliderState extends State<VerseSlider> {
               final verse = randomVerses[index];
               return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BibleReaderPage(
-                          bibleId: verse['bibleId']!,
-                          chapterId: verse['chapterId']!,
-                          bookId: verse['bookId']!,
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => BibleReaderPage(
+                    //       bibleId: verse['bibleId']!,
+                    //       chapterId: verse['chapterId']!,
+                    //       bookId: verse['bookId']!,
+                    //     ),
+                    //   ),
+                    // );
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(

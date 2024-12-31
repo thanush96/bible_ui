@@ -137,11 +137,11 @@ class BuildResultsList extends ViewModelWidget<SearchViewModel> {
         return GestureDetector(
           onTap: () {
             viewModel.handleNavigationSearchToChapReading(
-              context,
-              result.bibleId,
-              result.chapterId,
-              result.bookId,
-            );
+                context,
+                result.bibleId,
+                result.chapterId,
+                result.bookId,
+                viewModel.queryController.text);
           },
           child: Card(
             color: const Color(0xFFECECFF),

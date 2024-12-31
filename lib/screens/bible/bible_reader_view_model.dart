@@ -80,6 +80,10 @@ class BibleReaderViewModel extends BaseViewModel {
   bool get animate => _animate;
   set setAnimate(bool value) => _animate = value;
 
+  bool _chapListLoads = false;
+  bool get chapListLoads => _chapListLoads;
+  set setChapListLoads(bool value) => _chapListLoads = value;
+
   void setPlayerLoads() {
     setPlayerLoad = true;
     notifyListeners();
@@ -178,6 +182,7 @@ class BibleReaderViewModel extends BaseViewModel {
 
   void setBusyForLoad() {
     setBusy(true);
+    setChapListLoads = true;
   }
 
   //dart fetch spec chapter
@@ -236,7 +241,9 @@ class BibleReaderViewModel extends BaseViewModel {
       notifyListeners();
     } catch (error) {
       throw Exception('Error fetching chapter list data: $error');
-    } finally {}
+    } finally {
+      setChapListLoads = false;
+    }
   }
 
   String formatContent(String content) {

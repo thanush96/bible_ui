@@ -343,7 +343,9 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                               },
                             ),
                             Text(
-                              'Chapters ${model.ChapterID} ',
+                              selectedLanguage == "ta"
+                                  ? "அத்தியாயம் ${model.ChapterID}"
+                                  : 'Chapters ${model.ChapterID}',
                               style: const TextStyle(
                                   fontFamily: 'Times',
                                   color: Colors.black,
@@ -435,7 +437,7 @@ class _BibleReaderPageState extends State<BibleReaderPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: AbsorbPointer(
-                          absorbing: model.isBusy,
+                          absorbing: model.chapListLoads,
                           child: InkWell(
                             onTap: () {
                               setState(() {
