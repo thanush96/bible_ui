@@ -214,14 +214,14 @@ class _LyricsWidgetState extends State<LyricsWidget>
                               lyrics[index],
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: isCurrentLine ? 16 : 12,
-                                fontWeight: isCurrentLine
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                color: isCurrentLine
-                                    ? const Color.fromARGB(255, 255, 255, 255)
-                                    : Colors.grey.withOpacity(0.8),
-                              ),
+                                  fontSize: isCurrentLine ? 16 : 12,
+                                  fontWeight: isCurrentLine
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: isCurrentLine
+                                      ? const Color.fromARGB(255, 255, 255, 255)
+                                      : const Color.fromARGB(
+                                          255, 218, 212, 212)),
                             ),
                           ),
                         ),

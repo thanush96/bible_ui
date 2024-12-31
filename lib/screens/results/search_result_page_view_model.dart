@@ -66,6 +66,7 @@ class SearchViewModel extends BaseViewModel {
     String bibleId,
     String chapterId,
     String bookId,
+    String searchQuery,
   ) {
     Navigator.push(
       context,
@@ -74,6 +75,7 @@ class SearchViewModel extends BaseViewModel {
           bibleId: bibleId,
           chapterId: chapterId,
           bookId: bookId,
+          verseFind: searchQuery,
         ),
       ),
     );
